@@ -3,740 +3,815 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gang Unit - Tactical Operations Center</title>
+    <title>LOS SANTOS SWAT | Official External RP Management System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Share Tech Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        swatDark: '#0a0d14',
+                        swatPanel: '#121824',
+                        swatBorder: '#1e293b',
+                        swatBlue: '#0284c7',
+                        swatRed: '#dc2626',
+                        swatGray: '#64748b'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d1117; color: #c9d1d9; height: 100vh; overflow: hidden; }
-
-        /* Login Screen */
-        #login-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #05070a 0%, #161b22 100%);
-            position: relative;
-        }
-        .login-box {
-            background: #1f242d;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-            width: 400px;
-            border: 1px solid #30363d;
-            text-align: center;
-        }
-        .login-box h1 { color: #58a6ff; margin-bottom: 25px; font-size: 24px; letter-spacing: 1px; }
-        .login-box input {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            transition: border 0.3s;
-        }
-        .login-box input:focus { border-color: #58a6ff; }
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: #238636;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .login-box button:hover { background: #2ea043; }
-        .signature {
-            position: absolute;
-            bottom: 20px;
-            color: #8b949e;
-            font-size: 14px;
-            letter-spacing: 2px;
-            font-weight: bold;
-        }
-
-        /* Desktop Interface */
-        #desktop-screen {
-            display: none;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: #0d1117;
-        }
-        .topbar {
-            height: 50px;
-            background: #161b22;
-            border-bottom: 1px solid #30363d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .topbar .title { font-weight: bold; color: #58a6ff; font-size: 18px; }
-        .topbar .user-info { display: flex; align-items: center; gap: 15px; }
-        .topbar button {
-            background: #da3633;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .main-container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        .sidebar-left {
-            width: 260px;
-            background: #161b22;
-            border-left: 1px solid #30363d;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 10px;
-            gap: 10px;
-        }
-        .nav-btn {
-            background: transparent;
-            border: none;
-            color: #c9d1d9;
-            padding: 12px 15px;
-            text-align: right;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s, color 0.2s;
-        }
-        .nav-btn:hover { background: #21262d; color: #58a6ff; }
-        .nav-btn.active { background: #1f6feb; color: white; font-weight: bold; }
-        .nav-btn .lock-icon { font-size: 12px; color: #f85149; }
-
-        .content-area {
-            flex: 1;
-            background: #0d1117;
-            padding: 25px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .sidebar-right {
-            width: 240px;
-            background: #161b22;
-            border-right: 1px solid #30363d;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar-right h3 { font-size: 14px; color: #8b949e; margin-bottom: 15px; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
-        .online-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .online-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            background: #21262d;
-            padding: 8px 10px;
-            border-radius: 6px;
-        }
-        .status-dot { width: 8px; height: 8px; background: #3fb950; border-radius: 50%; box-shadow: 0 0 6px #3fb950; }
-
-        /* Panels & Cards */
-        .panel { display: none; }
-        .panel.active { display: block; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .panel-header h2 { color: #58a6ff; }
-        .btn-primary { background: #238636; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-primary:hover { background: #2ea043; }
-
-        /* Tables & Lists */
-        table { width: 100%; border-collapse: collapse; background: #161b22; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; margin-top: 15px; }
-        th, td { padding: 12px 15px; text-align: right; border-bottom: 1px solid #30363d; font-size: 14px; }
-        th { background: #21262d; color: #58a6ff; }
-        tr:hover { background: #1f242d; }
-
-        /* Modals */
-        .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal-content {
-            background: #161b22; padding: 30px; border-radius: 10px; width: 600px;
-            border: 1px solid #30363d; max-height: 90vh; overflow-y: auto;
-        }
-        .modal-content h3 { margin-bottom: 20px; color: #58a6ff; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #8b949e; }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #fff; font-size: 14px;
-        }
-        .form-group textarea { resize: vertical; height: 100px; }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
-        .btn-secondary { background: #30363d; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-
-        /* Report Cards Grid */
-        .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 15px; }
-        .report-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .report-card h4 { color: #58a6ff; font-size: 16px; }
-        .report-card p { font-size: 13px; color: #8b949e; }
-        .media-preview { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
-        .media-preview img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #30363d; }
-        .video-container { margin-top: 10px; width: 100%; }
-        .video-container iframe, .video-container video { width: 100%; height: 160px; border-radius: 4px; border: none; }
-
-        /* Threat badges */
-        .badge-normal { background: #1f6feb; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-        .badge-medium { background: #d29922; color: #000; font-weight: bold; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-        .badge-high { background: #da3633; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        body { font-family: 'Cairo', sans-serif; background-color: #0a0d14; color: #f8fafc; }
+        .font-mono { font-family: 'Share Tech Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0d14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        .glow-effect { text-shadow: 0 0 10px rgba(2, 132, 199, 0.5); }
+        .tactical-border { border: 1px solid #1e293b; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5); }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
 
-    <!-- Login Screen -->
-    <div id="login-screen">
-        <div class="login-box">
-            <h1>GANG UNIT PORTAL</h1>
-            <input type="text" id="username-input" placeholder="اسمك في اللعبة (أو SYSTEM للأدمن)">
-            <input type="password" id="password-input" placeholder="كلمة المرور (000000 للأدمن)">
-            <button onclick="handleLogin()">تسجيل الدخول / إنشاء حساب</button>
+    <!-- TOP SYSTEM STATUS BAR -->
+    <header class="bg-swatPanel border-b border-swatBorder px-4 py-2 text-xs font-mono flex flex-wrap justify-between items-center z-50">
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <span class="flex items-center text-green-400">
+                <span class="h-2 w-2 bg-green-500 rounded-full animate-ping ml-2"></span>
+                UNIT STATUS: <strong class="text-white ml-1">OPERATIONAL</strong>
+            </span>
+            <span class="hidden md:inline text-swatGray">|</span>
+            <span class="hidden md:inline text-sky-400">SYSTEM: ONLINE</span>
         </div>
-        <div class="signature">BY KARLOS SEIFEDDINE</div>
-    </div>
-
-    <!-- Desktop Screen -->
-    <div id="desktop-screen">
-        <div class="topbar">
-            <div class="title">GANG UNIT • TACTICAL COMMAND</div>
-            <div class="user-info">
-                <span id="current-user-badge">مرحباً: زائر</span>
-                <button onclick="logout()">خروج</button>
-            </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <span id="system-clock" class="text-swatGray"></span>
+            <span id="user-session-badge" class="hidden bg-sky-900/50 text-sky-400 border border-sky-700 px-2 py-0.5 rounded text-[10px]"></span>
+            <button id="logout-btn" onclick="logoutSystem()" class="hidden text-red-400 hover:text-red-300 transition"><i class="fa-solid fa-power-off ml-1"></i> خروج</button>
         </div>
+    </header>
 
-        <div class="main-container">
-            <!-- Left Navigation Sidebar -->
-            <div class="sidebar-left">
-                <button class="nav-btn active" onclick="switchTab('raids', this)">
-                    <span>المداهمات (Raids)</span>
-                </button>
-                <button class="nav-btn" onclick="switchTab('reports', this)">
-                    <span>التقارير والأدلة</span>
-                </button>
-                <button class="nav-btn" onclick="switchTab('covert', this)">
-                    <span id="lock-covert">Under Covert</span>
-                    <span class="lock-icon" id="icon-covert">🔒</span>
-                </button>
-                <button class="nav-btn" onclick="switchTab('detective', this)">
-                    <span id="lock-detective">Detective</span>
-                    <span class="lock-icon" id="icon-detective">🔒</span>
-                </button>
-                <button class="nav-btn" onclick="switchTab('wanted', this)">
-                    <span>قائمة المطلوبين</span>
-                </button>
-                <button class="nav-btn" id="admin-nav-btn" style="display:none; color: #58a6ff;" onclick="switchTab('admin', this)">
-                    <span>لوحة الأدمن (Admin)</span>
-                </button>
-            </div>
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow flex flex-col">
 
-            <!-- Central Content Area -->
-            <div class="content-area">
-                
-                <!-- Raids Panel -->
-                <div id="panel-raids" class="panel active">
-                    <div class="panel-header">
-                        <h2>سجل المداهمات</h2>
-                        <button class="btn-primary" onclick="openReportModal('raids')">+ إضافة تقرير مداهمة</button>
+        <!-- VIEW 1: HOME & COMMAND CENTER LANDING -->
+        <section id="view-home" class="flex-grow flex flex-col justify-center items-center p-6 text-center">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div class="inline-block p-4 rounded-full bg-slate-900/80 border border-swatBorder shadow-2xl mb-2">
+                    <i class="fa-solid fa-shield-halved text-6xl text-sky-500 glow-effect"></i>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-wider uppercase text-white">
+                    LOS SANTOS <span class="text-sky-500">SWAT</span>
+                </h1>
+                <p class="font-mono text-swatGray tracking-widest text-sm md:text-base uppercase">
+                    SPECIAL WEAPONS & TACTICS — OFFICIAL EXTERNAL RP MANAGEMENT SYSTEM
+                </p>
+                <div class="bg-swatPanel tactical-border p-6 rounded-xl max-w-xl mx-auto grid grid-cols-3 gap-4 text-center my-6">
+                    <div class="border-l border-swatBorder">
+                        <div class="text-xs font-mono text-swatGray">ALPHA TEAM</div>
+                        <div id="home-alpha-count" class="text-xl font-bold text-red-500 font-mono">0 Online</div>
                     </div>
-                    <div id="reports-raids" class="reports-grid"></div>
-                </div>
-
-                <!-- Reports & Evidence Panel -->
-                <div id="panel-reports" class="panel">
-                    <div class="panel-header">
-                        <h2>التقارير والأدلة الشاملة</h2>
-                        <button class="btn-primary" onclick="openReportModal('reports')">+ إضافة تقرير أو دليل</button>
+                    <div class="border-l border-swatBorder">
+                        <div class="text-xs font-mono text-swatGray">BRAVO TEAM</div>
+                        <div id="home-bravo-count" class="text-xl font-bold text-blue-500 font-mono">0 Online</div>
                     </div>
-                    <div id="reports-reports" class="reports-grid"></div>
-                </div>
-
-                <!-- Under Covert Panel -->
-                <div id="panel-covert" class="panel">
-                    <div class="panel-header">
-                        <h2>قسم Under Covert</h2>
-                        <button class="btn-primary" onclick="openReportModal('covert')">+ إضافة تقرير سري</button>
+                    <div>
+                        <div class="text-xs font-mono text-swatGray">CHARLIE TEAM</div>
+                        <div id="home-charlie-count" class="text-xl font-bold text-slate-300 font-mono">0 Online</div>
                     </div>
-                    <div id="reports-covert" class="reports-grid"></div>
                 </div>
+                <div class="flex justify-center gap-4">
+                    <button onclick="switchView('view-login')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition flex items-center">
+                        <i class="fa-solid fa-right-to-bracket ml-2"></i> تسجيل الدخول (LOGIN)
+                    </button>
+                    <button onclick="switchView('view-command-center')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-6 py-3 rounded-lg border border-swatBorder transition flex items-center">
+                        <i class="fa-solid fa-desktop ml-2"></i> Command Center
+                    </button>
+                </div>
+                <div class="pt-8 text-xs font-mono text-swatGray italic">
+                    "READY. DISCIPLINED. UNITED."
+                </div>
+            </div>
+        </section>
 
-                <!-- Detective Panel -->
-                <div id="panel-detective" class="panel">
-                    <div class="panel-header">
-                        <h2>قسم التحقيقات (Detective)</h2>
-                        <button class="btn-primary" onclick="openReportModal('detective')">+ إضافة تقرير تحقيقي</button>
+        <!-- VIEW 2: LOGIN PORTAL -->
+        <section id="view-login" class="hidden flex-grow flex justify-center items-center p-6">
+            <div class="bg-swatPanel tactical-border w-full max-w-md p-8 rounded-xl shadow-2xl space-y-6">
+                <div class="text-center space-y-2">
+                    <i class="fa-solid fa-fingerprint text-4xl text-sky-500"></i>
+                    <h2 class="text-2xl font-bold tracking-wide">تسجيل دخول الأعضاء</h2>
+                    <p class="text-xs font-mono text-swatGray">أدخل بيانات الاعتماد الخاصة بنظام الـ SWAT MDT</p>
+                </div>
+                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-mono text-swatGray mb-1">اسم المستخدم (Username)</label>
+                        <input type="text" id="login-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="مثال: james.murphy">
                     </div>
-                    <div id="reports-detective" class="reports-grid"></div>
-                </div>
-
-                <!-- Wanted List Panel -->
-                <div id="panel-wanted" class="panel">
-                    <div class="panel-header">
-                        <h2>قائمة المطلوبين أمنياً</h2>
-                        <button class="btn-primary" onclick="openWantedModal()">+ إضافة مطلوب</button>
+                    <div>
+                        <label class="block text-xs font-mono text-swatGray mb-1">كلمة المرور (Password)</label>
+                        <input type="password" id="login-password" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="••••••••">
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم المطلوب</th>
-                                <th>سبب الطلب</th>
-                                <th>درجة الخطورة</th>
-                                <th>أضيف بواسطة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="wanted-table-body"></tbody>
-                    </table>
-                </div>
-
-                <!-- Admin Panel -->
-                <div id="panel-admin" class="panel">
-                    <div class="panel-header">
-                        <h2>لوحة تحكم الأدمن (SYSTEM)</h2>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم المستخدم (اللاعب)</th>
-                                <th>الرتب الصلاحيات</th>
-                                <th>إجراءات الإدارة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-users-table"></tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <!-- Right Sidebar: Online Users -->
-            <div class="sidebar-right">
-                <h3>المتصلون حالياً (<span id="online-count">1</span>)</h3>
-                <ul class="online-list" id="online-users-list">
-                    <li class="online-user"><div class="status-dot"></div><span id="current-username-display">زائر</span></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Report Modal -->
-    <div id="report-modal" class="modal">
-        <div class="modal-content">
-            <h3 id="modal-report-title">إضافة تقرير جديد</h3>
-            <input type="hidden" id="report-category">
-            <div class="form-group">
-                <label>عنوان التقرير</label>
-                <input type="text" id="rep-title" placeholder="عنوان موجز وواضح...">
-            </div>
-            <div class="form-group">
-                <label>تفاصيل التقرير</label>
-                <textarea id="rep-details" placeholder="اكتب تفاصيل العملية أو الأدلة هنا..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>روابط الصور (ضع كل رابط في سطر أو افصل بينها بفاصلة - تدعم أكثر من 10 صور)</label>
-                <textarea id="rep-images" placeholder="https://image1.com/img.png
-https://image2.com/img.png" style="height: 60px;"></textarea>
-            </div>
-            <div class="form-group">
-                <label>رابط الفيديو (يوتيوب أو فيديو مباشر)</label>
-                <input type="text" id="rep-video" placeholder="https://www.youtube.com/embed/...">
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('report-modal')">إلغاء</button>
-                <button class="btn-primary" onclick="saveReport()">حفظ ونشر</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wanted Modal -->
-    <div id="wanted-modal" class="modal">
-        <div class="modal-content">
-            <h3>إضافة مطلوب جديد</h3>
-            <div class="form-group">
-                <label>اسم المطلوب</label>
-                <input type="text" id="wan-name" placeholder="اسم الشخص...">
-            </div>
-            <div class="form-group">
-                <label>سبب الطلب والتفاصيل</label>
-                <input type="text" id="wan-reason" placeholder="التهمة أو التمرد...">
-            </div>
-            <div class="form-group">
-                <label>درجة الخطورة</label>
-                <select id="wan-level">
-                    <option value="عادي">عادي</option>
-                    <option value="متوسط">متوسط</option>
-                    <option value="خطير جداً">خطير جداً</option>
-                </select>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('wanted-modal')">إلغاء</button>
-                <button class="btn-primary" onclick="saveWanted()">إضافة للقائمة</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit User Modal (Admin) -->
-    <div id="edit-user-modal" class="modal">
-        <div class="modal-content">
-            <h3>تعديل بيانات المستخدم والصلاحيات</h3>
-            <input type="hidden" id="edit-username-orig">
-            <div class="form-group">
-                <label>اسم المستخدم الجديد</label>
-                <input type="text" id="edit-username">
-            </div>
-            <div class="form-group">
-                <label>كلمة المرور الجديدة</label>
-                <input type="text" id="edit-password" placeholder="اتركه فارغاً إن لم ترغب بتغييره">
-            </div>
-            <div class="form-group">
-                <label>الرتب والصلاحيات (اختر الرتب الممنوحة)</label>
-                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
-                    <label><input type="checkbox" value="raids-leader" class="role-chk"> قائد المداهمات (Raids Leader)</label>
-                    <label><input type="checkbox" value="reports-leader" class="role-chk"> قائد التقارير والأدلة (Reports Leader - صلاحية رؤية الكل)</label>
-                    <label><input type="checkbox" value="covert-leader" class="role-chk"> قائد Under Covert</label>
-                    <label><input type="checkbox" value="detective-leader" class="role-chk"> قائد Detective</label>
+                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded transition shadow-lg mt-2">
+                        الدخول إلى النظام (MDT)
+                    </button>
+                </form>
+                <div class="text-center">
+                    <button onclick="switchView('view-home')" class="text-xs text-swatGray hover:text-white transition">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                    </button>
                 </div>
             </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal('edit-user-modal')">إلغاء</button>
-                <button class="btn-primary" onclick="saveUserEdits()">حفظ التعديلات</button>
-            </div>
-        </div>
-    </div>
+        </section>
 
-    <script>
-        // Initial LocalStorage Data setup
-        if (!localStorage.getItem('gu_users')) {
-            const initialUsers = {
-                'SYSTEM': { password: '000000', roles: ['admin', 'reports-leader', 'raids-leader', 'covert-leader', 'detective-leader'] }
-            };
-            localStorage.setItem('gu_users', JSON.stringify(initialUsers));
-        }
-        if (!localStorage.getItem('gu_reports')) {
-            localStorage.setItem('gu_reports', JSON.stringify([]));
-        }
-        if (!localStorage.getItem('gu_wanted')) {
-            localStorage.setItem('gu_wanted', JSON.stringify([]));
-        }
-
-        let currentUser = null;
-
-        function handleLogin() {
-            const u = document.getElementById('username-input').value.trim();
-            const p = document.getElementById('password-input').value.trim();
-            if(!u || !p) { alert('الرجاء إدخال اسم المستخدم وكلمة المرور'); return; }
-
-            let users = JSON.parse(localStorage.getItem('gu_users'));
-
-            if(users[u]) {
-                if(users[u].password !== p) { alert('كلمة المرور غير صحيحة!'); return; }
-            } else {
-                // Register new user with default member role
-                users[u] = { password: p, roles: [] };
-                localStorage.setItem('gu_users', JSON.stringify(users));
-            }
-
-            currentUser = u;
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('desktop-screen').style.display = 'flex';
-            document.getElementById('current-user-badge').innerText = 'مرحباً: ' + currentUser;
-            document.getElementById('current-username-display').innerText = currentUser;
-
-            updateUI();
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('desktop-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('username-input').value = '';
-            document.getElementById('password-input').value = '';
-        }
-
-        function checkUserRoles() {
-            let users = JSON.parse(localStorage.getItem('gu_users'));
-            if(!users[currentUser]) return [];
-            return users[currentUser].roles || [];
-        }
-
-        function updateUI() {
-            let roles = checkUserRoles();
-            let isAdmin = currentUser === 'SYSTEM' || roles.includes('admin');
-            let isReportsLeader = roles.includes('reports-leader') || isAdmin;
-
-            // Admin panel visibility
-            document.getElementById('admin-nav-btn').style.display = isAdmin ? 'block' : 'none';
-
-            // Access locks
-            // Reports leader can view ALL sections without editing/deleting others unless they have specific section permission.
-            let canViewCovert = isReportsLeader || roles.includes('covert-leader') || isAdmin;
-            let canViewDetective = isReportsLeader || roles.includes('detective-leader') || isAdmin;
-
-            document.getElementById('icon-covert').style.display = canViewCovert ? 'none' : 'inline';
-            document.getElementById('icon-detective').style.display = canViewDetective ? 'none' : 'inline';
-
-            renderReports();
-            renderWanted();
-            if(isAdmin) renderAdminUsers();
-        }
-
-        function switchTab(tabName, btnEl) {
-            let roles = checkUserRoles();
-            let isAdmin = currentUser === 'SYSTEM' || roles.includes('admin');
-            let isReportsLeader = roles.includes('reports-leader') || isAdmin;
-
-            if (tabName === 'covert' && !(isReportsLeader || roles.includes('covert-leader') || isAdmin)) {
-                alert('عذراً، هذا القسم مقفل! لا تملك صلاحية الوصول.');
-                return;
-            }
-            if (tabName === 'detective' && !(isReportsLeader || roles.includes('detective-leader') || isAdmin)) {
-                alert('عذراً، هذا القسم مقفل! لا تملك صلاحية الوصول.');
-                return;
-            }
-
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById('panel-' + tabName).classList.add('active');
-
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            if(btnEl) btnEl.classList.add('active');
-        }
-
-        function openReportModal(category) {
-            let roles = checkUserRoles();
-            let isAdmin = currentUser === 'SYSTEM' || roles.includes('admin');
-            let isLeader = false;
-
-            if(category === 'raids' && (roles.includes('raids-leader') || isAdmin)) isLeader = true;
-            if(category === 'reports' && (roles.includes('reports-leader') || isAdmin)) isLeader = true;
-            if(category === 'covert' && (roles.includes('covert-leader') || isAdmin)) isLeader = true;
-            if(category === 'detective' && (roles.includes('detective-leader') || isAdmin)) isLeader = true;
-
-            // Allow normal members or leaders to create reports in their respective categories
-            document.getElementById('report-category').value = category;
-            document.getElementById('rep-title').value = '';
-            document.getElementById('rep-details').value = '';
-            document.getElementById('rep-images').value = '';
-            document.getElementById('rep-video').value = '';
-            document.getElementById('report-modal').style.display = 'flex';
-        }
-
-        function openWantedModal() {
-            document.getElementById('wan-name').value = '';
-            document.getElementById('wan-reason').value = '';
-            document.getElementById('wanted-modal').style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function saveReport() {
-            const cat = document.getElementById('report-category').value;
-            const title = document.getElementById('rep-title').value.trim();
-            const details = document.getElementById('rep-details').value.trim();
-            const imagesRaw = document.getElementById('rep-images').value.trim();
-            const video = document.getElementById('rep-video').value.trim();
-
-            if(!title || !details) { alert('الرجاء إدخال العنوان والتفاصيل على الأقل'); return; }
-
-            let images = imagesRaw ? imagesRaw.split(/[
-,]+/).map(s => s.trim()).filter(s => s.length > 0) : [];
-
-            let reports = JSON.parse(localStorage.getItem('gu_reports'));
-            reports.push({
-                id: Date.now(),
-                category: cat,
-                title: title,
-                details: details,
-                images: images,
-                video: video,
-                author: currentUser,
-                date: new Date().toLocaleDateString()
-            });
-
-            localStorage.setItem('gu_reports', JSON.stringify(reports));
-            closeModal('report-modal');
-            renderReports();
-        }
-
-        function saveWanted() {
-            const name = document.getElementById('wan-name').value.trim();
-            const reason = document.getElementById('wan-reason').value.trim();
-            const level = document.getElementById('wan-level').value;
-
-            if(!name) { alert('الرجاء إدخال اسم المطلوب'); return; }
-
-            let wanted = JSON.parse(localStorage.getItem('gu_wanted'));
-            wanted.push({ name, reason, level, author: currentUser });
-            localStorage.setItem('gu_wanted', JSON.stringify(wanted));
-            closeModal('wanted-modal');
-            renderWanted();
-        }
-
-        function renderReports() {
-            let reports = JSON.parse(localStorage.getItem('gu_reports'));
-            ['raids', 'reports', 'covert', 'detective'].forEach(cat => {
-                const container = document.getElementById('reports-' + cat);
-                container.innerHTML = '';
-                const filtered = reports.filter(r => r.category === cat);
-
-                if(filtered.length === 0) {
-                    container.innerHTML = '<p style="color: #8b949e;">لا توجد تقارير مسجلة في هذا القسم بعد.</p>';
-                    return;
-                }
-
-                filtered.forEach(r => {
-                    let card = document.createElement('div');
-                    card.className = 'report-card';
-
-                    let imgHtml = '';
-                    if(r.images && r.images.length > 0) {
-                        imgHtml += '<div class="media-preview">';
-                        r.images.forEach(img => {
-                            imgHtml += `<img src="${img}" alt="Evidence" onerror="this.src='https://via.placeholder.com/60?text=IMG'">`;
-                        });
-                        imgHtml += '</div>';
-                    }
-
-                    let vidHtml = '';
-                    if(r.video) {
-                        vidHtml = `<div class="video-container">
-                            <iframe src="${r.video}" allowfullscreen></iframe>
-                        </div>`;
-                    }
-
-                    card.innerHTML = `
-                        <h4>${r.title}</h4>
-                        <p>${r.details}</p>
-                        ${imgHtml}
-                        ${vidHtml}
-                        <div style="font-size: 11px; color: #8b949e; margin-top: auto; display: flex; justify-content: space-between;">
-                            <span>بواسطة: ${r.author}</span>
-                            <span>${r.date}</span>
+        <!-- VIEW 3: DASHBOARD / MDT INTERFACE -->
+        <section id="view-dashboard" class="hidden flex-grow flex flex-col md:flex-row h-full">
+            <!-- SIDEBAR NAVIGATION -->
+            <aside class="w-full md:w-64 bg-swatPanel border-l border-swatBorder flex flex-col justify-between">
+                <div>
+                    <div class="p-4 border-b border-swatBorder flex items-center space-x-3 space-x-reverse">
+                        <div class="bg-sky-600/20 p-2 rounded border border-sky-600/40 text-sky-400">
+                            <i class="fa-solid fa-shield text-xl"></i>
                         </div>
-                    `;
-                    container.appendChild(card);
-                });
+                        <div>
+                            <div class="font-bold text-sm tracking-wide">LS-SWAT MDT</div>
+                            <div class="text-[10px] font-mono text-sky-400" id="dash-user-rank">SWAT OPERATOR</div>
+                        </div>
+                    </div>
+                    <nav class="p-2 space-y-1 font-mono text-xs">
+                        <button onclick="openTab('tab-overview')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn active-tab" data-tab="tab-overview">
+                            <i class="fa-solid fa-chart-pie ml-3 w-4 text-sky-500"></i> نظرة عامة (Overview)
+                        </button>
+                        <button onclick="openTab('tab-personnel')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-personnel">
+                            <i class="fa-solid fa-users ml-3 w-4 text-sky-500"></i> طاقم العمل (Personnel)
+                        </button>
+                        <button onclick="openTab('tab-operations')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-operations">
+                            <i class="fa-solid fa-triangle-exclamation ml-3 w-4 text-sky-500"></i> العمليات (Operations)
+                        </button>
+                        <button onclick="openTab('tab-reports')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-reports">
+                            <i class="fa-solid fa-clipboard-list ml-3 w-4 text-sky-500"></i> التقارير (Reports)
+                        </button>
+                        <button onclick="openTab('tab-announcements')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-announcements">
+                            <i class="fa-solid fa-bullhorn ml-3 w-4 text-sky-500"></i> الإعلانات (Announcements)
+                        </button>
+                        <button onclick="openTab('tab-training')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-training">
+                            <i class="fa-solid fa-dumbbell ml-3 w-4 text-sky-500"></i> التدريبات (Training)
+                        </button>
+                        <button onclick="openTab('tab-chat')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-chat">
+                            <i class="fa-solid fa-comments ml-3 w-4 text-sky-500"></i> الشات الداخلي (Chat)
+                        </button>
+                        <button onclick="openTab('tab-documents')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-documents">
+                            <i class="fa-solid fa-folder-open ml-3 w-4 text-sky-500"></i> المستندات (Documents)
+                        </button>
+                        <button onclick="openTab('tab-logs')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-logs">
+                            <i class="fa-solid fa-clock-rotate-left ml-3 w-4 text-sky-500"></i> سجل النشاطات (Activity Logs)
+                        </button>
+                        <button id="admin-menu-btn" onclick="openTab('tab-admin')" class="hidden w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-red-400 flex items-center transition tab-btn" data-tab="tab-admin">
+                            <i class="fa-solid fa-gears ml-3 w-4 text-red-500"></i> لوحة الإدارة (Admin Panel)
+                        </button>
+                    </nav>
+                </div>
+                <div class="p-4 border-t border-swatBorder text-[11px] font-mono text-swatGray">
+                    <div>المستخدم: <span id="dash-username" class="text-white">---</span></div>
+                    <div>النداء: <span id="dash-callsign" class="text-sky-400">---</span></div>
+                </div>
+            </aside>
+
+            <!-- MAIN CONTENT WORKSPACE -->
+            <div class="flex-grow bg-[#0f131c] p-6 overflow-y-auto">
+
+                <!-- TAB 1: OVERVIEW -->
+                <div id="tab-overview" class="tab-content space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
+                            <div class="text-xs font-mono text-swatGray">إجمالي الأعضاء</div>
+                            <div id="stat-total-members" class="text-2xl font-bold font-mono mt-1">0</div>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
+                            <div class="text-xs font-mono text-swatGray">الأعضاء النشطون (Online)</div>
+                            <div id="stat-online-members" class="text-2xl font-bold font-mono text-green-400 mt-1">0</div>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
+                            <div class="text-xs font-mono text-swatGray">العمليات النشطة</div>
+                            <div id="stat-active-ops" class="text-2xl font-bold font-mono text-amber-400 mt-1">0</div>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
+                            <div class="text-xs font-mono text-swatGray">التقارير المقدمة</div>
+                            <div id="stat-total-reports" class="text-2xl font-bold font-mono text-sky-400 mt-1">0</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-swatPanel tactical-border p-5 rounded-xl space-y-4">
+                            <h3 class="font-bold text-sm border-b border-swatBorder pb-2 flex items-center">
+                                <i class="fa-solid fa-bullhorn text-sky-500 ml-2"></i> آخر الإعلانات الرسمية
+                            </h3>
+                            <div id="overview-announcements" class="space-y-3 font-mono text-xs">
+                                <div class="text-swatGray">لا توجد إعلانات حالياً.</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-swatPanel tactical-border p-5 rounded-xl space-y-4">
+                            <h3 class="font-bold text-sm border-b border-swatBorder pb-2 flex items-center">
+                                <i class="fa-solid fa-shield-cat text-sky-500 ml-2"></i> حالة الفرق الميدانية
+                            </h3>
+                            <div class="space-y-3 font-mono text-xs">
+                                <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-red-900/40">
+                                    <span class="text-red-400 font-bold">🔴 ALPHA TEAM (Tactical Response)</span>
+                                    <span id="overview-alpha-status" class="bg-red-950 text-red-300 px-2 py-1 rounded">جاهز</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-blue-900/40">
+                                    <span class="text-blue-400 font-bold">🔵 BRAVO TEAM (Special Ops)</span>
+                                    <span id="overview-bravo-status" class="bg-blue-950 text-blue-300 px-2 py-1 rounded">جاهز</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-slate-700/40">
+                                    <span class="text-slate-300 font-bold">⚫ CHARLIE TEAM (Crisis Response)</span>
+                                    <span id="overview-charlie-status" class="bg-slate-800 text-slate-300 px-2 py-1 rounded">جاهز</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: PERSONNEL -->
+                <div id="tab-personnel" class="tab-content hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-users text-sky-500 ml-2"></i> سجل أفراد الوحدة</h3>
+                        <div class="text-xs font-mono text-swatGray">سلسلة القيادة والفرق الميدانية</div>
+                    </div>
+                    <div class="bg-swatPanel tactical-border rounded-xl overflow-hidden">
+                        <table class="w-full text-right text-sm">
+                            <thead class="bg-slate-900 text-swatGray font-mono text-xs border-b border-swatBorder">
+                                <tr>
+                                    <th class="p-3">الاسم الكامل</th>
+                                    <th class="p-3">الرتبة</th>
+                                    <th class="p-3">الفريق</th>
+                                    <th class="p-3">النداء (Callsign)</th>
+                                    <th class="p-3">الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="personnel-table-body" class="divide-y divide-swatBorder font-mono text-xs">
+                                <tr><td colspan="5" class="p-4 text-center text-swatGray">جاري تحميل بيانات الأفراد...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: OPERATIONS -->
+                <div id="tab-operations" class="tab-content hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-triangle-exclamation text-sky-500 ml-2"></i> إدارة العمليات الميدانية</h3>
+                        <button onclick="openNewOperationModal()" id="btn-new-op" class="hidden bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
+                            <i class="fa-solid fa-plus ml-1"></i> عملية جديدة
+                        </button>
+                    </div>
+                    <div id="operations-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Operations injected via JS -->
+                    </div>
+                </div>
+
+                <!-- TAB 4: REPORTS -->
+                <div id="tab-reports" class="tab-content hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-clipboard-list text-sky-500 ml-2"></i> نظام التقارير الرسمية</h3>
+                        <button onclick="openNewReportModal()" class="bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
+                            <i class="fa-solid fa-plus ml-1"></i> كتابة تقرير
+                        </button>
+                    </div>
+                    <div id="reports-container" class="space-y-3">
+                        <!-- Reports injected via JS -->
+                    </div>
+                </div>
+
+                <!-- TAB 5: ANNOUNCEMENTS -->
+                <div id="tab-announcements" class="tab-content hidden space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-bullhorn text-sky-500 ml-2"></i> الإعلانات الرسمية للوحدة</h3>
+                        <button onclick="openNewAnnouncementModal()" id="btn-new-ann" class="hidden bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
+                            <i class="fa-solid fa-plus ml-1"></i> نشر إعلان
+                        </button>
+                    </div>
+                    <div id="announcements-container" class="space-y-4">
+                        <!-- Announcements injected via JS -->
+                    </div>
+                </div>
+
+                <!-- TAB 6: TRAINING -->
+                <div id="tab-training" class="tab-content hidden space-y-4">
+                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-dumbbell text-sky-500 ml-2"></i> نظام التدريبات والاختبارات التكتيكية</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-sky-400 text-sm">Basic SWAT Training</div>
+                            <p class="text-swatGray">التدريب الأساسي لاجتياز اختبارات الاقتحام والتعامل السلاح الفردي.</p>
+                            <div class="pt-2"><span class="bg-green-950 text-green-400 px-2 py-1 rounded">الحالة: متاح</span></div>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-sky-400 text-sm">Radio & Callsign Training</div>
+                            <p class="text-swatGray">تدريب على بروتوكولات الاتصال الراديوي والنداءات التكتيكية.</p>
+                            <div class="pt-2"><span class="bg-green-950 text-green-400 px-2 py-1 rounded">الحالة: متاح</span></div>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-sky-400 text-sm">Crisis Scenario Training</div>
+                            <p class="text-swatGray">محاكاة فض الشغب، تحرير الرهائن وإدارة الأزمات الكبرى.</p>
+                            <div class="pt-2"><span class="bg-amber-950 text-amber-400 px-2 py-1 rounded">الحالة: مجدول</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 7: CHAT -->
+                <div id="tab-chat" class="tab-content hidden flex flex-col h-[calc(100vh-140px)]">
+                    <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-comments text-sky-500 ml-2"></i> الشات التكتيكي الداخلي</h3>
+                    <div id="chat-messages" class="flex-grow bg-swatPanel tactical-border rounded-xl p-4 overflow-y-auto space-y-3 font-mono text-xs">
+                        <!-- Messages injected via JS -->
+                    </div>
+                    <form onsubmit="sendChatMessage(event)" class="mt-3 flex gap-2">
+                        <input type="text" id="chat-input" required placeholder="اكتب رسالتك التكتيكية هنا..." class="flex-grow bg-swatPanel border border-swatBorder rounded px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-sky-500">
+                        <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-2 rounded transition font-mono text-xs">إرسال</button>
+                    </form>
+                </div>
+
+                <!-- TAB 8: DOCUMENTS -->
+                <div id="tab-documents" class="tab-content hidden space-y-4">
+                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-folder-open text-sky-500 ml-2"></i> مكتبة الملفات والكتيبات الداخلية</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-white text-sm">SOP — Standard Operating Procedures</div>
+                            <p class="text-swatGray">الإجراءات التشغيلية القياسية لعمليات التدخل السريع.</p>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-white text-sm">SWAT Chain of Command</div>
+                            <p class="text-swatGray">سلسلة القيادة الرسمية والاحترام العسكري داخل الوحدة.</p>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-white text-sm">Radio Procedures Manual</div>
+                            <p class="text-swatGray">دليل الرموز الراديوية واستخدام النداءات (SWAT-00 إلى SWAT-3).</p>
+                        </div>
+                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
+                            <div class="font-bold text-white text-sm">Uniform & Gear Standards</div>
+                            <p class="text-swatGray">المواصفات الرسمية للزي العسكري والتجهيزات الميدانية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 9: ACTIVITY LOGS -->
+                <div id="tab-logs" class="tab-content hidden space-y-4">
+                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-clock-rotate-left text-sky-500 ml-2"></i> سجل النشاطات الحية (Activity Logs)</h3>
+                    <div class="bg-swatPanel tactical-border rounded-xl p-4 font-mono text-xs space-y-3" id="logs-container">
+                        <div class="text-swatGray">جاري التحميل...</div>
+                    </div>
+                </div>
+
+                <!-- TAB 10: ADMIN PANEL -->
+                <div id="tab-admin" class="tab-content hidden space-y-4">
+                    <h3 class="font-bold text-lg text-red-400 flex items-center"><i class="fa-solid fa-gears text-red-500 ml-2"></i> لوحة التحكم الإدارية (Command Admin Panel)</h3>
+                    <div class="bg-swatPanel tactical-border p-6 rounded-xl space-y-6">
+                        <div>
+                            <h4 class="font-bold text-sm mb-2 text-sky-400">إضافة عضو جديد للنظام</h4>
+                            <form onsubmit="addNewMember(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                                <input type="text" id="new-username" placeholder="اسم المستخدم (Username)" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <input type="password" id="new-password" placeholder="كلمة المرور" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <input type="text" id="new-fullname" placeholder="الاسم الكامل" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <select id="new-rank" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                    <option value="SWAT Commander">SWAT Commander</option>
+                                    <option value="Deputy Commander">Deputy Commander</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Team Leader">Team Leader</option>
+                                    <option value="Deputy Team Leader">Deputy Team Leader</option>
+                                    <option value="SWAT Operator" selected>SWAT Operator</option>
+                                </select>
+                                <select id="new-team" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                    <option value="Alpha">Alpha Team</option>
+                                    <option value="Bravo">Bravo Team</option>
+                                    <option value="Charlie">Charlie Team</option>
+                                    <option value="Command">Command</option>
+                                </select>
+                                <input type="text" id="new-callsign" placeholder="النداء (مثال: SWAT-1A)" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <button type="submit" class="md:col-span-3 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded transition">حفظ وإضافة العضو للسحابة</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW 4: COMMAND CENTER (STANDALONE SCREEN) -->
+        <section id="view-command-center" class="hidden flex-grow flex flex-col justify-center items-center p-6">
+            <div class="bg-swatPanel tactical-border w-full max-w-3xl p-8 rounded-xl shadow-2xl space-y-6 font-mono">
+                <div class="text-center border-b border-swatBorder pb-4">
+                    <h2 class="text-2xl font-black text-white tracking-widest">LOS SANTOS SWAT</h2>
+                    <p class="text-xs text-sky-400 mt-1">SWAT COMMAND CENTER — LIVE MONITOR</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
+                        <div class="text-xs text-swatGray">UNIT STATUS</div>
+                        <div class="text-green-400 font-bold mt-1">🟢 OPERATIONAL</div>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
+                        <div class="text-xs text-swatGray">ALPHA ONLINE</div>
+                        <div id="cc-alpha" class="text-red-400 font-bold mt-1">0</div>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
+                        <div class="text-xs text-swatGray">BRAVO ONLINE</div>
+                        <div id="cc-bravo" class="text-blue-400 font-bold mt-1">0</div>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
+                        <div class="text-xs text-swatGray">CHARLIE ONLINE</div>
+                        <div id="cc-charlie" class="text-slate-300 font-bold mt-1">0</div>
+                    </div>
+                </div>
+                <div class="text-center pt-4">
+                    <button onclick="switchView('view-home')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-6 py-2 rounded text-xs transition">
+                        العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-swatPanel border-t border-swatBorder py-2 px-4 text-center text-xs font-mono text-swatGray">
+        LOS SANTOS SWAT OFFICIAL SYSTEM © 2026 — ALL RIGHTS RESERVED
+    </footer>
+
+    <!-- FIREBASE APP SDK (Real-time Cloud Database Integration) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateData, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات Firebase الخاصة بك (استبدل القيم أدناه بمعلومات مشروعك المجاني في Firebase)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-YOUR-API-KEY",
+            authDomain: "your-app.firebaseapp.com",
+            projectId: "your-app",
+            storageBucket: "your-app.appspot.com",
+            messagingSenderId: "000000000",
+            appId: "1:000:web:000"
+        };
+
+        // ملاحظة: إذا أردت تشغيل تجريبي محلي فوري بدون إعداد Firebase مسبقاً، يعمل النظام بنظام LocalStorage المؤقت.
+        // وسنقوم بربط الـ Firebase المباشر هنا لضمان التزامن اللحظي الكامل بين كل المستخدمين في أي شبكة.
+    </script>
+
+    <!-- SYSTEM JAVASCRIPT CONTROLLER -->
+    <script>
+        // Clock
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('system-clock').innerText = now.toLocaleTimeString('en-US', {hour12: false});
+        }, 1000);
+
+        // View Management
+        function switchView(viewId) {
+            ['view-home', 'view-login', 'view-dashboard', 'view-command-center'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
             });
+            document.getElementById(viewId).classList.remove('hidden');
         }
 
-        function renderWanted() {
-            let wanted = JSON.parse(localStorage.getItem('gu_wanted'));
-            const tbody = document.getElementById('wanted-table-body');
+        // Tabs Management inside Dashboard
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('bg-slate-800', 'text-sky-400'));
+            
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            if(activeBtn) activeBtn.classList.add('bg-slate-800', 'text-sky-400');
+        }
+
+        // Default Mock Database for immediate testing & GitHub deployment without complex setup
+        let currentUser = JSON.parse(localStorage.getItem('swat_user')) || null;
+
+        let mockMembers = JSON.parse(localStorage.getItem('swat_members')) || [
+            { id: '1', username: 'commander', password: '123', fullname: 'Alexander Vance', rank: 'SWAT Commander', team: 'Command', callsign: 'SWAT-00', status: 'ONLINE' },
+            { id: '2', username: 'alpha1', password: '123', fullname: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', status: 'ONLINE' },
+            { id: '3', username: 'operator', password: '123', fullname: 'John Doe', rank: 'SWAT Operator', team: 'Alpha', callsign: 'SWAT-1A', status: 'OFFLINE' }
+        ];
+
+        let mockChat = JSON.parse(localStorage.getItem('swat_chat')) || [
+            { sender: 'SWAT-00 | SWAT Commander', time: '22:41', text: 'Alpha ready for deployment.' },
+            { sender: 'SWAT-1 | Team Leader', time: '22:42', text: 'Copy Commander, moving to sector 4.' }
+        ];
+
+        let mockLogs = JSON.parse(localStorage.getItem('swat_logs')) || [
+            { time: '22:40', text: 'Commander initialized system session.' }
+        ];
+
+        let mockReports = JSON.parse(localStorage.getItem('swat_reports')) || [
+            { id: 'REP-001', author: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', date: '2026-09-24', time: '22:50', operation: 'Bank Raid Sector 4', description: 'تم تأمين المبنى بنجاح واعتقال المشتبه بهم دون إصابات.', status: 'APPROVED' }
+        ];
+
+        let mockOperations = JSON.parse(localStorage.getItem('swat_operations')) || [
+            { id: 'OP-042', name: 'Bank Raid Sector 4', date: '2026-09-24', time: '22:30', team: 'Alpha', leader: 'SWAT-1', status: 'ACTIVE', desc: 'سطو مسلح على البنك المركزي وسط المدينة.' }
+        ];
+
+        let mockAnnouncements = JSON.parse(localStorage.getItem('swat_announcements')) || [
+            { title: 'SWAT TRAINING', content: 'تدريب مشترك لفرقتي Alpha و Bravo الليلة الساعة 23:00.', author: 'SWAT-00', rank: 'Commander', date: '2026-09-24' }
+        ];
+
+        // Initialize state on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (currentUser) {
+                activateDashboard(currentUser);
+            }
+            renderHomeStats();
+            renderPersonnel();
+            renderChat();
+            renderLogs();
+            renderReports();
+            renderOperations();
+            renderAnnouncements();
+        });
+
+        // Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('login-username').value.trim();
+            const p = document.getElementById('login-password').value.trim();
+
+            const found = mockMembers.find(m => m.username === u && m.password === p);
+            if (found) {
+                currentUser = found;
+                localStorage.setItem('swat_user', JSON.stringify(currentUser));
+                addLog(`تسجيل دخول العضو: ${currentUser.fullname} (${currentUser.callsign})`);
+                activateDashboard(currentUser);
+            } else {
+                alert('خطأ في اسم المستخدم أو كلمة المرور!');
+            }
+        }
+
+        function logoutSystem() {
+            if(currentUser) {
+                addLog(`تسجيل خروج العضو: ${currentUser.fullname}`);
+            }
+            localStorage.removeItem('swat_user');
+            currentUser = null;
+            location.reload();
+        }
+
+        function activateDashboard(user) {
+            switchView('view-dashboard');
+            document.getElementById('dash-username').innerText = user.fullname;
+            document.getElementById('dash-user-rank').innerText = user.rank;
+            document.getElementById('dash-callsign').innerText = user.callsign;
+            document.getElementById('user-session-badge').innerText = `${user.callsign} | ${user.rank}`;
+            document.getElementById('user-session-badge').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+
+            // Permissions Check
+            if (['SWAT Commander', 'Deputy Commander', 'Supervisor'].includes(user.rank)) {
+                document.getElementById('admin-menu-btn').classList.remove('hidden');
+                document.getElementById('btn-new-op').classList.remove('hidden');
+                document.getElementById('btn-new-ann').classList.remove('hidden');
+            }
+            openTab('tab-overview');
+        }
+
+        // Render Home Stats
+        function renderHomeStats() {
+            const alphaCount = mockMembers.filter(m => m.team === 'Alpha' && m.status === 'ONLINE').length;
+            const bravoCount = mockMembers.filter(m => m.team === 'Bravo' && m.status === 'ONLINE').length;
+            const charlieCount = mockMembers.filter(m => m.team === 'Charlie' && m.status === 'ONLINE').length;
+
+            document.getElementById('home-alpha-count').innerText = `${alphaCount} Online`;
+            document.getElementById('home-bravo-count').innerText = `${bravoCount} Online`;
+            document.getElementById('home-charlie-count').innerText = `${charlieCount} Online`;
+
+            document.getElementById('cc-alpha').innerText = alphaCount;
+            document.getElementById('cc-bravo').innerText = bravoCount;
+            document.getElementById('cc-charlie').innerText = charlieCount;
+
+            document.getElementById('stat-total-members').innerText = mockMembers.length;
+            document.getElementById('stat-online-members').innerText = mockMembers.filter(m => m.status === 'ONLINE').length;
+            document.getElementById('stat-active-ops').innerText = mockOperations.filter(o => o.status === 'ACTIVE').length;
+            document.getElementById('stat-total-reports').innerText = mockReports.length;
+        }
+
+        // Render Personnel
+        function renderPersonnel() {
+            const tbody = document.getElementById('personnel-table-body');
             tbody.innerHTML = '';
-
-            if(wanted.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #8b949e;">لا يوجد مطلوبون حالياً.</td></tr>';
-                return;
-            }
-
-            wanted.forEach(w => {
-                let badgeClass = 'badge-normal';
-                if(w.level === 'متوسط') badgeClass = 'badge-medium';
-                if(w.level === 'خطير جداً') badgeClass = 'badge-high';
-
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><b>${w.name}</b></td>
-                    <td>${w.reason}</td>
-                    <td><span class="${badgeClass}">${w.level}</span></td>
-                    <td>${w.author}</td>
+            mockMembers.forEach(m => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-900/50">
+                        <td class="p-3 text-white font-bold">${m.fullname}</td>
+                        <td class="p-3">${m.rank}</td>
+                        <td class="p-3">${m.team}</td>
+                        <td class="p-3 text-sky-400 font-mono">${m.callsign}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${m.status === 'ONLINE' ? 'bg-green-950 text-green-400 border border-green-800' : 'bg-slate-800 text-swatGray'}">${m.status}</span></td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
         }
 
-        function renderAdminUsers() {
-            let users = JSON.parse(localStorage.getItem('gu_users'));
-            const tbody = document.getElementById('admin-users-table');
-            tbody.innerHTML = '';
+        // Chat
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text || !currentUser) return;
 
-            for(let username in users) {
-                let uData = users[username];
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><b>${username}</b></td>
-                    <td>${(uData.roles || []).join(', ') || 'عضو عادي'}</td>
-                    <td>
-                        <button class="btn-primary" style="padding: 4px 8px; font-size: 12px;" onclick="openEditUser('${username}')">تعديل وصلاحيات</button>
-                        ${username !== 'SYSTEM' ? `<button style="background:#da3633; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px; margin-right:5px;" onclick="deleteUser('${username}')">حذف</button>` : ''}
-                    </td>
+            const time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
+            mockChat.push({
+                sender: `${currentUser.callsign} | ${currentUser.rank}`,
+                time: time,
+                text: text
+            });
+            localStorage.setItem('swat_chat', JSON.stringify(mockChat));
+            input.value = '';
+            renderChat();
+        }
+
+        function renderChat() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+            mockChat.forEach(c => {
+                container.innerHTML += `
+                    <div class="border-b border-swatBorder/50 pb-2">
+                        <div class="flex justify-between text-[10px] text-swatGray">
+                            <span class="text-sky-400 font-bold">${c.sender}</span>
+                            <span>[${c.time}]</span>
+                        </div>
+                        <div class="text-white mt-1">${c.text}</div>
+                    </div>
                 `;
-                tbody.appendChild(tr);
-            }
-        }
-
-        function openEditUser(username) {
-            let users = JSON.parse(localStorage.getItem('gu_users'));
-            let uData = users[username];
-
-            document.getElementById('edit-username-orig').value = username;
-            document.getElementById('edit-username').value = username;
-            document.getElementById('edit-password').value = '';
-
-            let checkboxes = document.querySelectorAll('.role-chk');
-            checkboxes.forEach(chk => {
-                chk.checked = uData.roles && uData.roles.includes(chk.value);
             });
-
-            document.getElementById('edit-user-modal').style.display = 'flex';
+            container.scrollTop = container.scrollHeight;
         }
 
-        function saveUserEdits() {
-            let origName = document.getElementById('edit-username-orig').value;
-            let newName = document.getElementById('edit-username').value.trim();
-            let newPass = document.getElementById('edit-password').value.trim();
-
-            if(!newName) { alert('اسم المستخدم لا يمكن أن يكون فارغاً'); return; }
-
-            let users = JSON.parse(localStorage.getItem('gu_users'));
-
-            let selectedRoles = [];
-            document.querySelectorAll('.role-chk:checked').forEach(chk => {
-                selectedRoles.push(chk.value);
+        // Reports
+        function renderReports() {
+            const container = document.getElementById('reports-container');
+            container.innerHTML = '';
+            mockReports.forEach(r => {
+                container.innerHTML += `
+                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
+                        <div class="flex justify-between items-center text-swatGray border-b border-swatBorder pb-2">
+                            <span class="text-sky-400 font-bold">${r.id} — ${r.operation}</span>
+                            <span>${r.date} [${r.time}]</span>
+                        </div>
+                        <div class="text-white font-bold">${r.author} (${r.callsign} - ${r.rank})</div>
+                        <p class="text-slate-300 font-sans">${r.description}</p>
+                    </div>
+                `;
             });
-
-            if(origName !== newName) {
-                if(users[newName]) { alert('اسم المستخدم موجود مسبقاً!'); return; }
-                users[newName] = users[origName];
-                delete users[origName];
-            }
-
-            users[newName].roles = selectedRoles;
-            if(newPass) {
-                users[newName].password = newPass;
-            }
-
-            localStorage.setItem('gu_users', JSON.stringify(users));
-            closeModal('edit-user-modal');
-            renderAdminUsers();
         }
 
-        function deleteUser(username) {
-            if(confirm('هل أنت متأكد من حذف هذا المستخدم؟')) {
-                let users = JSON.parse(localStorage.getItem('gu_users'));
-                delete users[username];
-                localStorage.setItem('gu_users', JSON.stringify(users));
-                renderAdminUsers();
-            }
+        function openNewReportModal() {
+            const op = prompt('اسم العملية المتعلقة بالتقرير:');
+            if(!op) return;
+            const desc = prompt('اكتب تفاصيل التقرير الميداني:');
+            if(!desc) return;
+
+            const newRep = {
+                id: `REP-00${mockReports.length + 1}`,
+                author: currentUser.fullname,
+                rank: currentUser.rank,
+                team: currentUser.team,
+                callsign: currentUser.callsign,
+                date: new Date().toISOString().split('T')[0],
+                time: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}),
+                operation: op,
+                description: desc,
+                status: 'SUBMITTED'
+            };
+            mockReports.push(newRep);
+            localStorage.setItem('swat_reports', JSON.stringify(mockReports));
+            addLog(`${currentUser.callsign} قام بتقديم تقرير ميداني جديد.`);
+            renderReports();
+            renderHomeStats();
+        }
+
+        // Operations
+        function renderOperations() {
+            const container = document.getElementById('operations-container');
+            container.innerHTML = '';
+            mockOperations.forEach(o => {
+                container.innerHTML += `
+                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
+                        <div class="flex justify-between items-center text-swatGray border-b border-swatBorder pb-2">
+                            <span class="text-amber-400 font-bold">${o.id} — ${o.name}</span>
+                            <span class="bg-amber-950 text-amber-400 px-2 py-0.5 rounded">${o.status}</span>
+                        </div>
+                        <div>الفريق المكلف: <span class="text-white">${o.team} Team</span> (قائد العملية: ${o.leader})</div>
+                        <p class="text-slate-300 font-sans">${o.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function openNewOperationModal() {
+            const name = prompt('اسم العملية (Operation Name):');
+            if(!name) return;
+            const desc = prompt('وصف موجز للعملية:');
+            if(!desc) return;
+
+            const newOp = {
+                id: `OP-0${mockOperations.length + 10}`,
+                name: name,
+                date: new Date().toISOString().split('T')[0],
+                time: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}),
+                team: 'Alpha',
+                leader: currentUser.callsign,
+                status: 'ACTIVE',
+                desc: desc
+            };
+            mockOperations.push(newOp);
+            localStorage.setItem('swat_operations', JSON.stringify(mockOperations));
+            addLog(`${currentUser.callsign} أنشأ عملية ميدانية جديدة: ${name}`);
+            renderOperations();
+            renderHomeStats();
+        }
+
+        // Announcements
+        function renderAnnouncements() {
+            const container = document.getElementById('announcements-container');
+            const overviewContainer = document.getElementById('overview-announcements');
+            container.innerHTML = '';
+            overviewContainer.innerHTML = '';
+
+            mockAnnouncements.forEach(a => {
+                const html = `
+                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
+                        <div class="flex justify-between items-center text-sky-400 font-bold border-b border-swatBorder pb-2">
+                            <span><i class="fa-solid fa-bullhorn ml-1"></i> ${a.title}</span>
+                            <span class="text-swatGray">${a.date}</span>
+                        </div>
+                        <p class="text-slate-200 font-sans">${a.content}</p>
+                        <div class="text-[10px] text-swatGray pt-1">الناشر: ${a.author} (${a.rank})</div>
+                    </div>
+                `;
+                container.innerHTML += html;
+                overviewContainer.innerHTML += html;
+            });
+        }
+
+        function openNewAnnouncementModal() {
+            const title = prompt('عنوان الإعلان:');
+            if(!title) return;
+            const content = prompt('محتوى الإعلان الرسمي:');
+            if(!content) return;
+
+            mockAnnouncements.unshift({
+                title: title,
+                content: content,
+                author: currentUser.fullname,
+                rank: currentUser.rank,
+                date: new Date().toISOString().split('T')[0]
+            });
+            localStorage.setItem('swat_announcements', JSON.stringify(mockAnnouncements));
+            addLog(`${currentUser.callsign} نشر إعلاناً رسمياً جديداً.`);
+            renderAnnouncements();
+        }
+
+        // Logs
+        function addLog(text) {
+            const time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
+            mockLogs.unshift({ time: time, text: text });
+            localStorage.setItem('swat_logs', JSON.stringify(mockLogs));
+            renderLogs();
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('logs-container');
+            container.innerHTML = '';
+            mockLogs.forEach(l => {
+                container.innerHTML += `<div class="border-b border-swatBorder/40 pb-1 text-slate-300"><span class="text-sky-400">[${l.time}]</span> ${l.text}</div>`;
+            });
+        }
+
+        // Admin: Add Member
+        function addNewMember(e) {
+            e.preventDefault();
+            const username = document.getElementById('new-username').value.trim();
+            const password = document.getElementById('new-password').value.trim();
+            const fullname = document.getElementById('new-fullname').value.trim();
+            const rank = document.getElementById('new-rank').value;
+            const team = document.getElementById('new-team').value;
+            const callsign = document.getElementById('new-callsign').value.trim();
+
+            mockMembers.push({
+                id: String(mockMembers.length + 1),
+                username, password, fullname, rank, team, callsign, status: 'OFFLINE'
+            });
+            localStorage.setItem('swat_members', JSON.stringify(mockMembers));
+            addLog(`${currentUser.callsign} أضاف العضو الجديد: ${fullname} برتبة ${rank}`);
+            alert('تمت إضافة العضو بنجاح!');
+            document.getElementById('new-username').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('new-fullname').value = '';
+            document.getElementById('new-callsign').value = '';
+            renderPersonnel();
+            renderHomeStats();
         }
     </script>
 </body>
