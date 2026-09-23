@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Cairo & Share Tech Mono -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -89,9 +89,12 @@
                         <div id="home-charlie-count" class="text-xl font-bold text-slate-300 font-mono">0 Online</div>
                     </div>
                 </div>
-                <div class="flex justify-center gap-4">
+                <div class="flex justify-center gap-4 flex-wrap">
                     <button onclick="switchView('view-login')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition flex items-center">
                         <i class="fa-solid fa-right-to-bracket ml-2"></i> تسجيل الدخول (LOGIN)
+                    </button>
+                    <button onclick="switchView('view-register')" class="bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold px-6 py-3 rounded-lg border border-sky-600/40 transition flex items-center">
+                        <i class="fa-solid fa-user-plus ml-2"></i> إنشاء حساب جديد (REGISTER)
                     </button>
                     <button onclick="switchView('view-command-center')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-6 py-3 rounded-lg border border-swatBorder transition flex items-center">
                         <i class="fa-solid fa-desktop ml-2"></i> Command Center
@@ -109,12 +112,12 @@
                 <div class="text-center space-y-2">
                     <i class="fa-solid fa-fingerprint text-4xl text-sky-500"></i>
                     <h2 class="text-2xl font-bold tracking-wide">تسجيل دخول الأعضاء</h2>
-                    <p class="text-xs font-mono text-swatGray">أدخل بيانات الاعتماد الخاصة بنظام الـ SWAT MDT</p>
+                    <p class="text-xs font-mono text-swatGray">أدخل اسم المستخدم وكلمة المرور الخاصة بك</p>
                 </div>
                 <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-mono text-swatGray mb-1">اسم المستخدم (Username)</label>
-                        <input type="text" id="login-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="مثال: james.murphy">
+                        <input type="text" id="login-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="مثال: KARLOS SEIFEDDINE">
                     </div>
                     <div>
                         <label class="block text-xs font-mono text-swatGray mb-1">كلمة المرور (Password)</label>
@@ -122,6 +125,55 @@
                     </div>
                     <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded transition shadow-lg mt-2">
                         الدخول إلى النظام (MDT)
+                    </button>
+                </form>
+                <div class="text-center flex justify-between items-center text-xs">
+                    <button onclick="switchView('view-home')" class="text-swatGray hover:text-white transition">
+                        <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                    </button>
+                    <button onclick="switchView('view-register')" class="text-sky-400 hover:underline">إنشاء حساب جديد؟</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2.5: REGISTER PORTAL -->
+        <section id="view-register" class="hidden flex-grow flex justify-center items-center p-6">
+            <div class="bg-swatPanel tactical-border w-full max-w-md p-8 rounded-xl shadow-2xl space-y-6">
+                <div class="text-center space-y-2">
+                    <i class="fa-solid fa-user-plus text-4xl text-sky-500"></i>
+                    <h2 class="text-2xl font-bold tracking-wide">تسجيل حساب عضو جديد</h2>
+                    <p class="text-xs font-mono text-swatGray">انضم إلى طاقم العمل وتأكد من بياناتك</p>
+                </div>
+                <form id="register-form" onsubmit="handleRegister(event)" class="space-y-3 font-mono text-xs">
+                    <div>
+                        <label class="block text-swatGray mb-1">اسم المستخدم للدخول (Username)</label>
+                        <input type="text" id="reg-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="مثال: karlos">
+                    </div>
+                    <div>
+                        <label class="block text-swatGray mb-1">كلمة المرور (Password)</label>
+                        <input type="password" id="reg-password" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="••••••••">
+                    </div>
+                    <div>
+                        <label class="block text-swatGray mb-1">الاسم الكامل (Full Name)</label>
+                        <input type="text" id="reg-fullname" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="Karloss Seifeddine">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-swatGray mb-1">الفريق</label>
+                            <select id="reg-team" class="w-full bg-slate-900 border border-swatBorder rounded px-2 py-2 text-white">
+                                <option value="Alpha">Alpha Team</option>
+                                <option value="Bravo">Bravo Team</option>
+                                <option value="Charlie">Charlie Team</option>
+                                <option value="Command">Command</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-swatGray mb-1">النداء (Callsign)</label>
+                            <input type="text" id="reg-callsign" required class="w-full bg-slate-900 border border-swatBorder rounded px-2 py-2 text-white" placeholder="SWAT-1A">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded transition shadow-lg mt-2 font-cairo">
+                        إنشاء الحساب والتسجيل
                     </button>
                 </form>
                 <div class="text-center">
@@ -226,15 +278,15 @@
                             <div class="space-y-3 font-mono text-xs">
                                 <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-red-900/40">
                                     <span class="text-red-400 font-bold">🔴 ALPHA TEAM (Tactical Response)</span>
-                                    <span id="overview-alpha-status" class="bg-red-950 text-red-300 px-2 py-1 rounded">جاهز</span>
+                                    <span class="bg-red-950 text-red-300 px-2 py-1 rounded">جاهز</span>
                                 </div>
                                 <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-blue-900/40">
                                     <span class="text-blue-400 font-bold">🔵 BRAVO TEAM (Special Ops)</span>
-                                    <span id="overview-bravo-status" class="bg-blue-950 text-blue-300 px-2 py-1 rounded">جاهز</span>
+                                    <span class="bg-blue-950 text-blue-300 px-2 py-1 rounded">جاهز</span>
                                 </div>
                                 <div class="flex justify-between items-center bg-slate-900 p-3 rounded border border-slate-700/40">
                                     <span class="text-slate-300 font-bold">⚫ CHARLIE TEAM (Crisis Response)</span>
-                                    <span id="overview-charlie-status" class="bg-slate-800 text-slate-300 px-2 py-1 rounded">جاهز</span>
+                                    <span class="bg-slate-800 text-slate-300 px-2 py-1 rounded">جاهز</span>
                                 </div>
                             </div>
                         </div>
@@ -259,7 +311,7 @@
                                 </tr>
                             </thead>
                             <tbody id="personnel-table-body" class="divide-y divide-swatBorder font-mono text-xs">
-                                <tr><td colspan="5" class="p-4 text-center text-swatGray">جاري تحميل بيانات الأفراد...</td></tr>
+                                <tr><td colspan="5" class="p-4 text-center text-swatGray">جاري التحميل...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -273,9 +325,7 @@
                             <i class="fa-solid fa-plus ml-1"></i> عملية جديدة
                         </button>
                     </div>
-                    <div id="operations-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Operations injected via JS -->
-                    </div>
+                    <div id="operations-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
 
                 <!-- TAB 4: REPORTS -->
@@ -286,9 +336,7 @@
                             <i class="fa-solid fa-plus ml-1"></i> كتابة تقرير
                         </button>
                     </div>
-                    <div id="reports-container" class="space-y-3">
-                        <!-- Reports injected via JS -->
-                    </div>
+                    <div id="reports-container" class="space-y-3"></div>
                 </div>
 
                 <!-- TAB 5: ANNOUNCEMENTS -->
@@ -299,9 +347,7 @@
                             <i class="fa-solid fa-plus ml-1"></i> نشر إعلان
                         </button>
                     </div>
-                    <div id="announcements-container" class="space-y-4">
-                        <!-- Announcements injected via JS -->
-                    </div>
+                    <div id="announcements-container" class="space-y-4"></div>
                 </div>
 
                 <!-- TAB 6: TRAINING -->
@@ -310,17 +356,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
                         <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
                             <div class="font-bold text-sky-400 text-sm">Basic SWAT Training</div>
-                            <p class="text-swatGray">التدريب الأساسي لاجتياز اختبارات الاقتحام والتعامل السلاح الفردي.</p>
+                            <p class="text-swatGray">التدريب الأساسي لاجتياز اختبارات الاقتحام السريع.</p>
                             <div class="pt-2"><span class="bg-green-950 text-green-400 px-2 py-1 rounded">الحالة: متاح</span></div>
                         </div>
                         <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
                             <div class="font-bold text-sky-400 text-sm">Radio & Callsign Training</div>
-                            <p class="text-swatGray">تدريب على بروتوكولات الاتصال الراديوي والنداءات التكتيكية.</p>
+                            <p class="text-swatGray">تدريب على بروتوكولات الاتصال الراديوي والنداءات.</p>
                             <div class="pt-2"><span class="bg-green-950 text-green-400 px-2 py-1 rounded">الحالة: متاح</span></div>
                         </div>
                         <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
                             <div class="font-bold text-sky-400 text-sm">Crisis Scenario Training</div>
-                            <p class="text-swatGray">محاكاة فض الشغب، تحرير الرهائن وإدارة الأزمات الكبرى.</p>
+                            <p class="text-swatGray">محاكاة فض الشغب، تحرير الرهائن وإدارة الأزمات.</p>
                             <div class="pt-2"><span class="bg-amber-950 text-amber-400 px-2 py-1 rounded">الحالة: مجدول</span></div>
                         </div>
                     </div>
@@ -329,9 +375,7 @@
                 <!-- TAB 7: CHAT -->
                 <div id="tab-chat" class="tab-content hidden flex flex-col h-[calc(100vh-140px)]">
                     <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-comments text-sky-500 ml-2"></i> الشات التكتيكي الداخلي</h3>
-                    <div id="chat-messages" class="flex-grow bg-swatPanel tactical-border rounded-xl p-4 overflow-y-auto space-y-3 font-mono text-xs">
-                        <!-- Messages injected via JS -->
-                    </div>
+                    <div id="chat-messages" class="flex-grow bg-swatPanel tactical-border rounded-xl p-4 overflow-y-auto space-y-3 font-mono text-xs"></div>
                     <form onsubmit="sendChatMessage(event)" class="mt-3 flex gap-2">
                         <input type="text" id="chat-input" required placeholder="اكتب رسالتك التكتيكية هنا..." class="flex-grow bg-swatPanel border border-swatBorder rounded px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-sky-500">
                         <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-2 rounded transition font-mono text-xs">إرسال</button>
@@ -344,19 +388,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
                         <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
                             <div class="font-bold text-white text-sm">SOP — Standard Operating Procedures</div>
-                            <p class="text-swatGray">الإجراءات التشغيلية القياسية لعمليات التدخل السريع.</p>
+                            <p class="text-swatGray">الإجراءات التشغيلية القياسية لعمليات التدخل.</p>
                         </div>
                         <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
                             <div class="font-bold text-white text-sm">SWAT Chain of Command</div>
-                            <p class="text-swatGray">سلسلة القيادة الرسمية والاحترام العسكري داخل الوحدة.</p>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
-                            <div class="font-bold text-white text-sm">Radio Procedures Manual</div>
-                            <p class="text-swatGray">دليل الرموز الراديوية واستخدام النداءات (SWAT-00 إلى SWAT-3).</p>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
-                            <div class="font-bold text-white text-sm">Uniform & Gear Standards</div>
-                            <p class="text-swatGray">المواصفات الرسمية للزي العسكري والتجهيزات الميدانية.</p>
+                            <p class="text-swatGray">سلسلة القيادة الرسمية والاحترام العسكري.</p>
                         </div>
                     </div>
                 </div>
@@ -364,9 +400,7 @@
                 <!-- TAB 9: ACTIVITY LOGS -->
                 <div id="tab-logs" class="tab-content hidden space-y-4">
                     <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-clock-rotate-left text-sky-500 ml-2"></i> سجل النشاطات الحية (Activity Logs)</h3>
-                    <div class="bg-swatPanel tactical-border rounded-xl p-4 font-mono text-xs space-y-3" id="logs-container">
-                        <div class="text-swatGray">جاري التحميل...</div>
-                    </div>
+                    <div class="bg-swatPanel tactical-border rounded-xl p-4 font-mono text-xs space-y-3" id="logs-container"></div>
                 </div>
 
                 <!-- TAB 10: ADMIN PANEL -->
@@ -376,7 +410,7 @@
                         <div>
                             <h4 class="font-bold text-sm mb-2 text-sky-400">إضافة عضو جديد للنظام</h4>
                             <form onsubmit="addNewMember(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                                <input type="text" id="new-username" placeholder="اسم المستخدم (Username)" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <input type="text" id="new-username" placeholder="اسم المستخدم" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
                                 <input type="password" id="new-password" placeholder="كلمة المرور" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
                                 <input type="text" id="new-fullname" placeholder="الاسم الكامل" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
                                 <select id="new-rank" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
@@ -384,7 +418,6 @@
                                     <option value="Deputy Commander">Deputy Commander</option>
                                     <option value="Supervisor">Supervisor</option>
                                     <option value="Team Leader">Team Leader</option>
-                                    <option value="Deputy Team Leader">Deputy Team Leader</option>
                                     <option value="SWAT Operator" selected>SWAT Operator</option>
                                 </select>
                                 <select id="new-team" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
@@ -393,8 +426,8 @@
                                     <option value="Charlie">Charlie Team</option>
                                     <option value="Command">Command</option>
                                 </select>
-                                <input type="text" id="new-callsign" placeholder="النداء (مثال: SWAT-1A)" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
-                                <button type="submit" class="md:col-span-3 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded transition">حفظ وإضافة العضو للسحابة</button>
+                                <input type="text" id="new-callsign" placeholder="النداء (مثال: SWAT-00)" required class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
+                                <button type="submit" class="md:col-span-3 bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded transition">حفظ وإضافة العضو</button>
                             </form>
                         </div>
                     </div>
@@ -403,7 +436,7 @@
             </div>
         </section>
 
-        <!-- VIEW 4: COMMAND CENTER (STANDALONE SCREEN) -->
+        <!-- VIEW 4: COMMAND CENTER -->
         <section id="view-command-center" class="hidden flex-grow flex flex-col justify-center items-center p-6">
             <div class="bg-swatPanel tactical-border w-full max-w-3xl p-8 rounded-xl shadow-2xl space-y-6 font-mono">
                 <div class="text-center border-b border-swatBorder pb-4">
@@ -443,26 +476,7 @@
         LOS SANTOS SWAT OFFICIAL SYSTEM © 2026 — ALL RIGHTS RESERVED
     </footer>
 
-    <!-- FIREBASE APP SDK (Real-time Cloud Database Integration) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateData, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // إعدادات Firebase الخاصة بك (استبدل القيم أدناه بمعلومات مشروعك المجاني في Firebase)
-        const firebaseConfig = {
-            apiKey: "AIzaSyD-YOUR-API-KEY",
-            authDomain: "your-app.firebaseapp.com",
-            projectId: "your-app",
-            storageBucket: "your-app.appspot.com",
-            messagingSenderId: "000000000",
-            appId: "1:000:web:000"
-        };
-
-        // ملاحظة: إذا أردت تشغيل تجريبي محلي فوري بدون إعداد Firebase مسبقاً، يعمل النظام بنظام LocalStorage المؤقت.
-        // وسنقوم بربط الـ Firebase المباشر هنا لضمان التزامن اللحظي الكامل بين كل المستخدمين في أي شبكة.
-    </script>
-
-    <!-- SYSTEM JAVASCRIPT CONTROLLER -->
+    <!-- SYSTEM JAVASCRIPT -->
     <script>
         // Clock
         setInterval(() => {
@@ -470,15 +484,15 @@
             document.getElementById('system-clock').innerText = now.toLocaleTimeString('en-US', {hour12: false});
         }, 1000);
 
-        // View Management
+        // View Switcher
         function switchView(viewId) {
-            ['view-home', 'view-login', 'view-dashboard', 'view-command-center'].forEach(id => {
+            ['view-home', 'view-login', 'view-register', 'view-dashboard', 'view-command-center'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(viewId).classList.remove('hidden');
         }
 
-        // Tabs Management inside Dashboard
+        // Dashboard Tabs
         function openTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('bg-slate-800', 'text-sky-400'));
@@ -488,18 +502,17 @@
             if(activeBtn) activeBtn.classList.add('bg-slate-800', 'text-sky-400');
         }
 
-        // Default Mock Database for immediate testing & GitHub deployment without complex setup
+        // Default Data Initialization with Commander Karlos Seifeddine
         let currentUser = JSON.parse(localStorage.getItem('swat_user')) || null;
 
         let mockMembers = JSON.parse(localStorage.getItem('swat_members')) || [
-            { id: '1', username: 'commander', password: '123', fullname: 'Alexander Vance', rank: 'SWAT Commander', team: 'Command', callsign: 'SWAT-00', status: 'ONLINE' },
+            { id: '1', username: 'KARLOS SEIFEDDINE', password: 'OUSSAMA2010', fullname: 'Karlos Seifeddine', rank: 'SWAT Commander', team: 'Command', callsign: 'SWAT-00', status: 'ONLINE' },
             { id: '2', username: 'alpha1', password: '123', fullname: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', status: 'ONLINE' },
             { id: '3', username: 'operator', password: '123', fullname: 'John Doe', rank: 'SWAT Operator', team: 'Alpha', callsign: 'SWAT-1A', status: 'OFFLINE' }
         ];
 
         let mockChat = JSON.parse(localStorage.getItem('swat_chat')) || [
-            { sender: 'SWAT-00 | SWAT Commander', time: '22:41', text: 'Alpha ready for deployment.' },
-            { sender: 'SWAT-1 | Team Leader', time: '22:42', text: 'Copy Commander, moving to sector 4.' }
+            { sender: 'SWAT-00 | SWAT Commander', time: '22:41', text: 'Alpha ready for deployment.' }
         ];
 
         let mockLogs = JSON.parse(localStorage.getItem('swat_logs')) || [
@@ -507,18 +520,17 @@
         ];
 
         let mockReports = JSON.parse(localStorage.getItem('swat_reports')) || [
-            { id: 'REP-001', author: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', date: '2026-09-24', time: '22:50', operation: 'Bank Raid Sector 4', description: 'تم تأمين المبنى بنجاح واعتقال المشتبه بهم دون إصابات.', status: 'APPROVED' }
+            { id: 'REP-001', author: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', date: '2026-09-24', time: '22:50', operation: 'Bank Raid Sector 4', description: 'تم تأمين المبنى بنجاح.', status: 'APPROVED' }
         ];
 
         let mockOperations = JSON.parse(localStorage.getItem('swat_operations')) || [
-            { id: 'OP-042', name: 'Bank Raid Sector 4', date: '2026-09-24', time: '22:30', team: 'Alpha', leader: 'SWAT-1', status: 'ACTIVE', desc: 'سطو مسلح على البنك المركزي وسط المدينة.' }
+            { id: 'OP-042', name: 'Bank Raid Sector 4', date: '2026-09-24', time: '22:30', team: 'Alpha', leader: 'SWAT-1', status: 'ACTIVE', desc: 'سطو مسلح على البنك المركزي.' }
         ];
 
         let mockAnnouncements = JSON.parse(localStorage.getItem('swat_announcements')) || [
-            { title: 'SWAT TRAINING', content: 'تدريب مشترك لفرقتي Alpha و Bravo الليلة الساعة 23:00.', author: 'SWAT-00', rank: 'Commander', date: '2026-09-24' }
+            { title: 'SWAT TRAINING', content: 'تدريب مشترك الليلة الساعة 23:00.', author: 'SWAT-00', rank: 'Commander', date: '2026-09-24' }
         ];
 
-        // Initialize state on load
         window.addEventListener('DOMContentLoaded', () => {
             if (currentUser) {
                 activateDashboard(currentUser);
@@ -538,20 +550,61 @@
             const u = document.getElementById('login-username').value.trim();
             const p = document.getElementById('login-password').value.trim();
 
-            const found = mockMembers.find(m => m.username === u && m.password === p);
+            const found = mockMembers.find(m => m.username.toLowerCase() === u.toLowerCase() && m.password === p);
             if (found) {
+                found.status = 'ONLINE';
                 currentUser = found;
                 localStorage.setItem('swat_user', JSON.stringify(currentUser));
-                addLog(`تسجيل دخول العضو: ${currentUser.fullname} (${currentUser.callsign})`);
+                localStorage.setItem('swat_members', JSON.stringify(mockMembers));
+                addLog(`تسجيل دخول: ${currentUser.fullname} (${currentUser.callsign})`);
                 activateDashboard(currentUser);
             } else {
                 alert('خطأ في اسم المستخدم أو كلمة المرور!');
             }
         }
 
+        // Register Handler (إنشاء حساب جديد)
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+            const fullname = document.getElementById('reg-fullname').value.trim();
+            const team = document.getElementById('reg-team').value;
+            const callsign = document.getElementById('reg-callsign').value.trim();
+
+            // Check if username exists
+            if(mockMembers.some(m => m.username.toLowerCase() === username.toLowerCase())) {
+                alert('اسم المستخدم مستخدم مسبقاً، اختر اسم آخر!');
+                return;
+            }
+
+            const newMember = {
+                id: String(mockMembers.length + 1),
+                username: username,
+                password: password,
+                fullname: fullname,
+                rank: 'SWAT Operator',
+                team: team,
+                callsign: callsign,
+                status: 'ONLINE'
+            };
+
+            mockMembers.push(newMember);
+            localStorage.setItem('swat_members', JSON.stringify(mockMembers));
+            
+            currentUser = newMember;
+            localStorage.setItem('swat_user', JSON.stringify(currentUser));
+            addLog(`عضو جديد أنشأ حساباً وانضم للنظام: ${fullname} (${callsign})`);
+            
+            alert('تم إنشاء الحساب بنجاح وتم تسجيل دخولك تلقائياً!');
+            activateDashboard(currentUser);
+        }
+
         function logoutSystem() {
             if(currentUser) {
-                addLog(`تسجيل خروج العضو: ${currentUser.fullname}`);
+                currentUser.status = 'OFFLINE';
+                localStorage.setItem('swat_members', JSON.stringify(mockMembers));
+                addLog(`تسجيل خروج: ${currentUser.fullname}`);
             }
             localStorage.removeItem('swat_user');
             currentUser = null;
@@ -567,7 +620,6 @@
             document.getElementById('user-session-badge').classList.remove('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
 
-            // Permissions Check
             if (['SWAT Commander', 'Deputy Commander', 'Supervisor'].includes(user.rank)) {
                 document.getElementById('admin-menu-btn').classList.remove('hidden');
                 document.getElementById('btn-new-op').classList.remove('hidden');
@@ -576,7 +628,6 @@
             openTab('tab-overview');
         }
 
-        // Render Home Stats
         function renderHomeStats() {
             const alphaCount = mockMembers.filter(m => m.team === 'Alpha' && m.status === 'ONLINE').length;
             const bravoCount = mockMembers.filter(m => m.team === 'Bravo' && m.status === 'ONLINE').length;
@@ -596,7 +647,6 @@
             document.getElementById('stat-total-reports').innerText = mockReports.length;
         }
 
-        // Render Personnel
         function renderPersonnel() {
             const tbody = document.getElementById('personnel-table-body');
             tbody.innerHTML = '';
@@ -613,7 +663,6 @@
             });
         }
 
-        // Chat
         function sendChatMessage(e) {
             e.preventDefault();
             const input = document.getElementById('chat-input');
@@ -648,7 +697,6 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // Reports
         function renderReports() {
             const container = document.getElementById('reports-container');
             container.innerHTML = '';
@@ -672,7 +720,7 @@
             const desc = prompt('اكتب تفاصيل التقرير الميداني:');
             if(!desc) return;
 
-            const newRep = {
+            mockReports.push({
                 id: `REP-00${mockReports.length + 1}`,
                 author: currentUser.fullname,
                 rank: currentUser.rank,
@@ -683,15 +731,13 @@
                 operation: op,
                 description: desc,
                 status: 'SUBMITTED'
-            };
-            mockReports.push(newRep);
+            });
             localStorage.setItem('swat_reports', JSON.stringify(mockReports));
-            addLog(`${currentUser.callsign} قام بتقديم تقرير ميداني جديد.`);
+            addLog(`${currentUser.callsign} قدم تقريراً ميدانياً.`);
             renderReports();
             renderHomeStats();
         }
 
-        // Operations
         function renderOperations() {
             const container = document.getElementById('operations-container');
             container.innerHTML = '';
@@ -715,7 +761,7 @@
             const desc = prompt('وصف موجز للعملية:');
             if(!desc) return;
 
-            const newOp = {
+            mockOperations.push({
                 id: `OP-0${mockOperations.length + 10}`,
                 name: name,
                 date: new Date().toISOString().split('T')[0],
@@ -724,15 +770,13 @@
                 leader: currentUser.callsign,
                 status: 'ACTIVE',
                 desc: desc
-            };
-            mockOperations.push(newOp);
+            });
             localStorage.setItem('swat_operations', JSON.stringify(mockOperations));
-            addLog(`${currentUser.callsign} أنشأ عملية ميدانية جديدة: ${name}`);
+            addLog(`${currentUser.callsign} أنشأ عملية ميدانية: ${name}`);
             renderOperations();
             renderHomeStats();
         }
 
-        // Announcements
         function renderAnnouncements() {
             const container = document.getElementById('announcements-container');
             const overviewContainer = document.getElementById('overview-announcements');
@@ -769,11 +813,10 @@
                 date: new Date().toISOString().split('T')[0]
             });
             localStorage.setItem('swat_announcements', JSON.stringify(mockAnnouncements));
-            addLog(`${currentUser.callsign} نشر إعلاناً رسمياً جديداً.`);
+            addLog(`${currentUser.callsign} نشر إعلاناً رسمياً.`);
             renderAnnouncements();
         }
 
-        // Logs
         function addLog(text) {
             const time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
             mockLogs.unshift({ time: time, text: text });
@@ -789,7 +832,6 @@
             });
         }
 
-        // Admin: Add Member
         function addNewMember(e) {
             e.preventDefault();
             const username = document.getElementById('new-username').value.trim();
@@ -804,7 +846,7 @@
                 username, password, fullname, rank, team, callsign, status: 'OFFLINE'
             });
             localStorage.setItem('swat_members', JSON.stringify(mockMembers));
-            addLog(`${currentUser.callsign} أضاف العضو الجديد: ${fullname} برتبة ${rank}`);
+            addLog(`${currentUser.callsign} أضاف العضو: ${fullname}`);
             alert('تمت إضافة العضو بنجاح!');
             document.getElementById('new-username').value = '';
             document.getElementById('new-password').value = '';
