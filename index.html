@@ -960,7 +960,7 @@ import {
   EmailAuthProvider
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import {
-  getFirestore,
+  initializeFirestore,
   collection,
   doc,
   getDoc,
@@ -992,7 +992,10 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+const db = initializeFirestore(firebaseApp, {
+  experimentalAutoDetectLongPolling: true,
+  useFetchStreams: false
+});
 
 /* =========================================================
    CORE CONFIG
