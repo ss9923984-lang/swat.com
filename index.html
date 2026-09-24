@@ -139,9 +139,29 @@ function closeModal(){$("modal").classList.remove("show")}
 window.closeModal=closeModal;
 
 $("loginBtn").onclick=async()=>{
-  $("loginMsg").textContent="";
-  try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}
-  catch(e){$("loginMsg").textContent="Login failed: "+(e.code||e.message)}
+  $("loginMsg").textContent="Signing in...";
+  $("loginBtn").disabled=true;
+  try{
+    const email=$("email").value.trim();
+    const password=$("password").value;
+    if(!email||!password) throw new Error("Enter your email and password.");
+    await signInWithEmailAndPassword(auth,email,password);
+  }catch(e){
+    const code=e?.code||"";
+    const messages={
+      "auth/invalid-credential":"Incorrect email or password.",
+      "auth/wrong-password":"Incorrect email or password.",
+      "auth/user-not-found":"No Firebase account exists with this email.",
+      "auth/invalid-email":"The email address is invalid.",
+      "auth/user-disabled":"This Firebase account is disabled.",
+      "auth/too-many-requests":"Too many attempts. Try again later.",
+      "auth/operation-not-allowed":"Email/Password sign-in is not enabled in Firebase Authentication.",
+      "auth/network-request-failed":"Network error. Check your internet connection."
+    };
+    $("loginMsg").textContent=messages[code]||("Login failed: "+(code||e.message||"Unknown error"));
+  }finally{
+    $("loginBtn").disabled=false;
+  }
 };
 $("logoutBtn").onclick=()=>signOut(auth);
 $("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
@@ -234,13 +254,29 @@ window.saveUser=async id=>{await updateDoc(doc(db,"users",id),{name:$("eName").v
 window.removeUser=async id=>{if(!isCommander()||id===COMMANDER_UID)return;if(confirm("Delete this member profile?")){await deleteDoc(doc(db,"users",id));await log("deleted member",{target:id})}}
 
 onAuthStateChanged(auth,async user=>{
- if(!user){$("login").classList.remove("hidden");$("app").classList.add("hidden");unsub.forEach(f=>f());return}
- await ensureProfile(user);
- const snap=await getDoc(doc(db,"users",user.uid));me={uid:user.uid,...snap.data()};
- await setPresence("ONLINE");
- $("login").classList.add("hidden");$("app").classList.remove("hidden");
- $("who").textContent=`${me.name} · ${me.rank}`;
- buildNav();listenAll();renderAll();
+ if(!user){
+   $("login").classList.remove("hidden");
+   $("app").classList.add("hidden");
+   unsub.forEach(f=>f());
+   return;
+ }
+ try{
+   await ensureProfile(user);
+   const snap=await getDoc(doc(db,"users",user.uid));
+   if(!snap.exists()) throw new Error("Your Firebase account exists, but its SWAT profile could not be loaded. Check Firestore rules.");
+   me={uid:user.uid,...snap.data()};
+   await setPresence("ONLINE");
+   $("login").classList.add("hidden");
+   $("app").classList.remove("hidden");
+   $("who").textContent=`${me.name} · ${me.rank}`;
+   buildNav();listenAll();renderAll();
+ }catch(e){
+   console.error(e);
+   $("login").classList.remove("hidden");
+   $("app").classList.add("hidden");
+   $("loginMsg").textContent="Authentication succeeded, but Firestore setup failed: "+(e.code||e.message||"Unknown error");
+   await signOut(auth).catch(()=>{});
+ }
 });
 window.addEventListener("beforeunload",()=>{if(auth.currentUser)setPresence("OFFLINE")});
 document.addEventListener("visibilitychange",()=>{if(document.hidden)setPresence("OFFLINE");else setPresence("ONLINE")});
