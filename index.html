@@ -964,6 +964,7 @@ import {
   collection,
   doc,
   getDoc,
+  getDocFromServer,
   getDocs,
   setDoc,
   updateDoc,
@@ -993,7 +994,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = initializeFirestore(firebaseApp, {
-  experimentalAutoDetectLongPolling: true,
+  // GitHub Pages + some mobile networks/proxies can interfere with
+  // Firestore's normal streaming transport. Force HTTP long-polling.
+  experimentalForceLongPolling: true,
   useFetchStreams: false
 });
 
@@ -1408,7 +1411,8 @@ async function ensureUserProfile(user){
 }
 
 async function loadCurrentProfile(){
-  const snapshot = await getDoc(doc(db,"users",currentUser.uid));
+  // Force a server read so we do not wait on a potentially stale/local cache.
+  const snapshot = await getDocFromServer(doc(db,"users",currentUser.uid));
 
   if(!snapshot.exists()){
     throw new Error("SWAT_PROFILE_NOT_FOUND");
