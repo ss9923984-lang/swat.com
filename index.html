@@ -4,426 +4,179 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#070b11">
-<meta name="description" content="Los Santos SWAT Command Portal">
-<title>LOS SANTOS SWAT — Command Portal</title>
+<title>LOS SANTOS SWAT — Command Portal (Ghost Karlos Edition)</title>
 
 <style>
-/* =========================================================
-   LOS SANTOS SWAT — COMPLETE SINGLE FILE UI
-   ========================================================= */
 :root{
-  --bg:#05080d;
-  --bg2:#080d14;
-  --panel:#0c121a;
-  --panel2:#101823;
-  --panel3:#151f2b;
-  --line:#22303e;
-  --line2:#2d3c4c;
-  --text:#edf3f8;
-  --muted:#8795a4;
-  --muted2:#637182;
-  --white:#fff;
-  --accent:#cbd8e4;
-  --green:#4ddd91;
-  --yellow:#e4bd62;
-  --red:#ff626f;
-  --blue:#5b9be8;
-  --cyan:#55c9e9;
-  --shadow:0 20px 60px rgba(0,0,0,.45);
-  --radius:13px;
-  --sidebar:272px;
+  --bg:#05080d;--bg2:#080d14;--panel:#0c121a;--panel2:#101823;
+  --line:#22303e;--text:#edf3f8;--muted:#8795a4;--white:#fff;
+  --green:#4ddd91;--yellow:#e4bd62;--red:#ff626f;--blue:#5b9be8;
+  --shadow:0 20px 60px rgba(0,0,0,.45);--radius:13px;--sidebar:272px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+html,body{margin:0;padding:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
 body{overflow-x:hidden}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 a{color:inherit}
 .hidden{display:none!important}
-.no-scroll{overflow:hidden}
-::selection{background:#90a6ba33}
-
-/* ---------- utility ---------- */
 .muted{color:var(--muted)}
 .tiny{font-size:11px}
 .small{font-size:12px}
-.upper{text-transform:uppercase;letter-spacing:1.2px}
 .success{color:var(--green)}
 .warning{color:var(--yellow)}
 .danger{color:var(--red)}
 .blue{color:var(--blue)}
-.center{text-align:center}
-.right{text-align:right}
 .flex{display:flex}
 .flex-between{display:flex;justify-content:space-between;align-items:center}
 .gap8{gap:8px}
-.gap12{gap:12px}
-.gap16{gap:16px}
 .wrap{flex-wrap:wrap}
-.w100{width:100%}
 
-/* ---------- scrollbars ---------- */
+/* Scrollbars */
 *{scrollbar-width:thin;scrollbar-color:#2c3a49 #080c12}
 *::-webkit-scrollbar{width:7px;height:7px}
 *::-webkit-scrollbar-track{background:#080c12}
 *::-webkit-scrollbar-thumb{background:#2c3a49;border-radius:10px}
 
-/* ---------- authentication ---------- */
+/* Auth Screen */
 #authScreen{
-  min-height:100vh;
-  min-height:100dvh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:25px;
-  background:
-    radial-gradient(circle at 50% 18%,#182737 0%,#0a1119 35%,#05080d 72%);
-  position:relative;
-  overflow:hidden;
+  min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:25px;
+  background:radial-gradient(circle at 50% 18%,#182737 0%,#0a1119 35%,#05080d 72%);
+  position:relative;overflow:hidden;
 }
-#authScreen:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:.18;
-  background-image:
-    linear-gradient(#77889912 1px,transparent 1px),
-    linear-gradient(90deg,#77889912 1px,transparent 1px);
-  background-size:48px 48px;
-  mask-image:linear-gradient(to bottom,#000,transparent 80%);
-}
-.auth-shell{
-  position:relative;
-  width:min(455px,100%);
-}
+.auth-shell{position:relative;width:min(455px,100%)}
 .auth-brand{text-align:center;margin-bottom:18px}
 .auth-emblem{
   width:86px;height:86px;border:1px solid #637689;border-radius:50%;
-  display:grid;place-items:center;margin:0 auto 15px;
-  box-shadow:0 0 0 7px #ffffff03,0 15px 40px #0008;
-  color:#e7eef5;font-weight:900;font-size:15px;letter-spacing:1px;
+  display:grid;place-items:center;margin:0 auto 15px;color:#e7eef5;font-weight:900;font-size:15px;
   background:radial-gradient(circle,#17222d,#080c12);
 }
-.auth-brand h1{font-size:25px;margin:0;font-weight:900;letter-spacing:.8px}
+.auth-brand h1{font-size:25px;margin:0;font-weight:900}
 .auth-brand p{font-size:10px;color:#7f8d9d;letter-spacing:2.3px;margin:7px 0 0}
 .auth-card{
-  background:rgba(10,15,22,.94);
-  border:1px solid #202c39;
-  border-radius:18px;
-  padding:25px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(10px);
+  background:rgba(10,15,22,.94);border:1px solid #202c39;border-radius:18px;padding:25px;box-shadow:var(--shadow);
 }
 .auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#070b10;border:1px solid #202c39;padding:4px;border-radius:9px;margin-bottom:18px}
 .auth-tab{border:0;background:transparent;color:#7e8b99;padding:9px;border-radius:6px;font-size:12px;font-weight:800}
 .auth-tab.active{background:#18222e;color:#f2f6fa}
 .field{margin:0 0 13px}
-.field label{display:block;font-size:11px;color:#8e9bab;margin-bottom:6px;letter-spacing:.4px}
+.field label{display:block;font-size:11px;color:#8e9bab;margin-bottom:6px}
 .field input,.field select,.field textarea{
-  width:100%;
-  color:#f2f6fa;
-  background:#070b11;
-  border:1px solid #263443;
-  outline:none;
-  border-radius:8px;
-  padding:11px 12px;
-  transition:border-color .15s,box-shadow .15s;
+  width:100%;color:#f2f6fa;background:#070b11;border:1px solid #263443;outline:none;border-radius:8px;padding:11px 12px;
 }
 .field textarea{min-height:110px;resize:vertical}
-.field input:focus,.field select:focus,.field textarea:focus{
-  border-color:#5b6f83;
-  box-shadow:0 0 0 3px #71869b12;
-}
 .auth-submit{
-  width:100%;
-  border:0;border-radius:8px;padding:12px;
-  background:#dbe5ee;color:#071018;font-weight:900;
-  transition:.15s;
+  width:100%;border:0;border-radius:8px;padding:12px;background:#dbe5ee;color:#071018;font-weight:900;
 }
 .auth-submit:hover{background:#fff}
-.auth-submit:disabled{opacity:.6;cursor:wait}
-.auth-message{
-  min-height:18px;
-  margin-top:11px;
-  text-align:center;
-  font-size:12px;
-  color:#ff8991;
-  line-height:1.45;
-}
+.auth-message{min-height:18px;margin-top:11px;text-align:center;font-size:12px;color:#ff8991}
 .auth-foot{text-align:center;color:#536171;font-size:10px;margin-top:16px;letter-spacing:.7px}
 
-/* ---------- app shell ---------- */
-#app{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:var(--sidebar) minmax(0,1fr);
-}
+/* App Shell */
+#app{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
 .sidebar{
-  position:fixed;
-  left:0;top:0;bottom:0;
-  width:var(--sidebar);
-  background:#080c12;
-  border-right:1px solid #1d2935;
-  z-index:100;
-  overflow-y:auto;
-  padding:18px 12px 16px;
+  position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:#080c12;border-right:1px solid #1d2935;
+  z-index:100;overflow-y:auto;padding:18px 12px 16px;
 }
-.sidebar-brand{
-  padding:5px 10px 18px;
-  border-bottom:1px solid #1c2733;
-  margin-bottom:12px;
-}
+.sidebar-brand{padding:5px 10px 18px;border-bottom:1px solid #1c2733;margin-bottom:12px}
 .sidebar-brand .mini{
-  width:37px;height:37px;border:1px solid #526477;border-radius:50%;
-  display:grid;place-items:center;font-size:8px;font-weight:900;
-  float:left;margin-right:10px;
+  width:37px;height:37px;border:1px solid #526477;border-radius:50%;display:grid;place-items:center;font-size:8px;font-weight:900;float:left;margin-right:10px;
 }
-.sidebar-brand strong{display:block;font-size:14px;padding-top:2px}
-.sidebar-brand span{display:block;color:#687789;font-size:9px;letter-spacing:1.5px;margin-top:3px}
-.sidebar-section-title{
-  color:#536273;font-size:9px;letter-spacing:1.7px;
-  padding:12px 10px 5px;text-transform:uppercase;
-}
+.sidebar-brand strong{display:block;font-size:13px;padding-top:2px}
+.sidebar-brand span{display:block;color:#687789;font-size:8px;letter-spacing:1.2px;margin-top:3px}
+.sidebar-section-title{color:#536273;font-size:9px;letter-spacing:1.7px;padding:12px 10px 5px;text-transform:uppercase}
 .nav-btn{
-  width:100%;border:0;background:transparent;color:#98a6b5;
-  padding:10px 11px;border-radius:8px;text-align:left;
+  width:100%;border:0;background:transparent;color:#98a6b5;padding:10px 11px;border-radius:8px;text-align:left;
   margin:2px 0;font-size:12px;display:flex;align-items:center;gap:10px;
 }
 .nav-btn .ico{width:19px;text-align:center;font-size:14px}
 .nav-btn:hover{background:#101822;color:#e9eff4}
 .nav-btn.active{background:#17212c;color:#fff;box-shadow:inset 2px 0 #d7e1ea}
-.sidebar-bottom{
-  border-top:1px solid #1c2733;margin-top:15px;padding-top:14px
-}
+.sidebar-bottom{border-top:1px solid #1c2733;margin-top:15px;padding-top:14px}
 .side-user{padding:10px;background:#0d141c;border:1px solid #1e2a36;border-radius:9px;margin-bottom:8px}
-.side-user b{font-size:12px;display:block}
+.side-user b{font-size:11px;display:block}
 .side-user span{font-size:10px;color:#6f7e8f}
 .signout{
-  width:100%;border:1px solid #283644;background:#101720;color:#bdc8d3;
-  padding:9px;border-radius:8px;font-size:11px;font-weight:800;
+  width:100%;border:1px solid #283644;background:#101720;color:#bdc8d3;padding:9px;border-radius:8px;font-size:11px;font-weight:800;
 }
 .signout:hover{border-color:#6a3a3e;color:#ff9ba2}
 
-/* ---------- top bar ---------- */
-.main{
-  grid-column:2;
-  min-width:0;
-}
+/* Main Content */
+.main{grid-column:2;min-width:0}
 .topbar{
-  height:70px;
-  position:sticky;top:0;z-index:80;
-  background:rgba(7,11,16,.92);
-  border-bottom:1px solid #1d2935;
-  backdrop-filter:blur(14px);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;
-}
-.top-left{display:flex;align-items:center;gap:12px}
-.mobile-menu{
-  display:none;
-  border:1px solid #283746;background:#111923;color:#d9e1e8;
-  width:38px;height:38px;border-radius:8px;
+  height:70px;position:sticky;top:0;z-index:80;background:rgba(7,11,16,.92);border-bottom:1px solid #1d2935;
+  backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 24px;
 }
 .page-title{font-weight:800;font-size:14px}
 .page-sub{font-size:9px;color:#617082;letter-spacing:1.2px;margin-top:3px}
-.top-right{display:flex;align-items:center;gap:12px}
-.presence{display:flex;align-items:center;gap:7px;font-size:11px;color:#8190a0}
-.presence-dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 10px #4ddd9177}
-.avatar{
-  width:36px;height:36px;border:1px solid #2b3a49;border-radius:9px;
-  display:grid;place-items:center;background:#111a24;font-size:11px;font-weight:900;
-}
+.avatar{width:36px;height:36px;border:1px solid #2b3a49;border-radius:9px;display:grid;place-items:center;background:#111a24;font-size:11px;font-weight:900}
 .content{padding:25px;max-width:1600px;margin:0 auto}
-.view{display:none;animation:viewIn .16s ease}
+.view{display:none}
 .view.active{display:block}
-@keyframes viewIn{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
 
-/* ---------- common components ---------- */
-.page-head{
-  display:flex;align-items:flex-start;justify-content:space-between;gap:15px;
-  margin-bottom:20px;
-}
+/* Common components */
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}
 .page-head h2{margin:0;font-size:24px}
 .page-head p{margin:5px 0 0;color:#718092;font-size:12px}
 .btn{
-  border:1px solid #2b3948;background:#111923;color:#dbe3ea;
-  padding:8px 11px;border-radius:7px;font-size:11px;font-weight:800;
+  border:1px solid #2b3948;background:#111923;color:#dbe3ea;padding:8px 11px;border-radius:7px;font-size:11px;font-weight:800;
 }
 .btn:hover{background:#18222d;border-color:#405365}
 .btn.primary{background:#d8e3ec;color:#071018;border-color:#d8e3ec}
-.btn.primary:hover{background:#fff}
 .btn.green{border-color:#32684e;color:#79e4a4}
 .btn.red{border-color:#69383d;color:#ff9097}
-.btn.blue{border-color:#31597e;color:#82b9ef}
-.btn.yellow{border-color:#66532d;color:#e7c976}
-.btn:disabled{opacity:.5;cursor:not-allowed}
 .grid{display:grid;gap:14px}
 .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.card{
-  background:linear-gradient(180deg,#0d141d,#0b1118);
-  border:1px solid #1f2c39;
-  border-radius:var(--radius);
-  padding:17px;
-}
-.card-title{font-size:13px;font-weight:850;margin:0 0 12px}
-.card-sub{font-size:10px;color:#6e7d8e}
-.stat-card{min-height:115px;position:relative;overflow:hidden}
-.stat-card:after{
-  content:"";position:absolute;width:110px;height:110px;border-radius:50%;
-  right:-50px;bottom:-60px;background:#fff;opacity:.025
-}
+.card{background:linear-gradient(180deg,#0d141d,#0b1118);border:1px solid #1f2c39;border-radius:var(--radius);padding:17px}
+.stat-card{min-height:115px}
 .stat-label{font-size:9px;color:#6f7e8f;text-transform:uppercase;letter-spacing:1.4px}
 .stat-value{font-size:28px;font-weight:900;margin-top:8px}
-.stat-note{font-size:10px;color:#718091;margin-top:5px}
 .panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
 .panel-header h3{font-size:13px;margin:0}
 .table-wrap{overflow:auto;border:1px solid #1f2c39;border-radius:10px}
 .table{width:100%;border-collapse:collapse;min-width:700px}
-.table th,.table td{
-  padding:11px 10px;text-align:left;border-bottom:1px solid #1b2732;
-  font-size:11px;vertical-align:middle;
-}
-.table th{font-size:9px;color:#69788a;letter-spacing:1px;text-transform:uppercase;background:#0b1118}
-.table tr:last-child td{border-bottom:0}
-.table tr:hover td{background:#101720}
-.badge{
-  display:inline-flex;align-items:center;
-  border:1px solid #2a3947;background:#121b25;color:#bac7d3;
-  padding:4px 7px;border-radius:5px;font-size:9px;font-weight:850;
-  white-space:nowrap;
-}
+.table th,.table td{padding:11px 10px;text-align:left;border-bottom:1px solid #1b2732;font-size:11px}
+.table th{font-size:9px;color:#69788a;text-transform:uppercase;background:#0b1118}
+.badge{display:inline-flex;align-items:center;border:1px solid #2a3947;background:#121b25;color:#bac7d3;padding:4px 7px;border-radius:5px;font-size:9px;font-weight:850}
 .badge.green{border-color:#285c43;color:#71dfa0}
 .badge.red{border-color:#633238;color:#ff9299}
 .badge.blue{border-color:#2b5277;color:#83b8eb}
-.badge.yellow{border-color:#62522c;color:#e6c878}
-.badge.gray{color:#7d8b9a}
-.notice{
-  border:1px solid #202e3b;background:#0e161f;
-  border-radius:9px;padding:12px;margin-bottom:9px;
-}
-.empty{
-  border:1px dashed #273543;border-radius:10px;
-  color:#667688;padding:28px;text-align:center;font-size:11px;
-}
-.team-card{min-height:200px}
-.team-card.alpha{border-top:2px solid #a9434c}
-.team-card.bravo{border-top:2px solid #4e7daf}
-.team-card.charlie{border-top:2px solid #687585}
-.team-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.team-head h3{font-size:14px;margin:0}
-.team-head p{font-size:10px;color:#6e7d8e;margin:4px 0 0}
-.member-mini{
-  padding:9px;border:1px solid #1e2b37;background:#0a1118;
-  border-radius:8px;margin-top:7px;
-}
-.member-mini b{font-size:11px}.member-mini small{display:block;color:#718092;font-size:9px;margin-top:3px}
-.status-online{color:var(--green)}
-.status-offline{color:#687687}
-.kv{display:grid;grid-template-columns:130px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid #1b2732}
-.kv:last-child{border-bottom:0}.kv span:first-child{font-size:9px;color:#667587;text-transform:uppercase;letter-spacing:1px}.kv span:last-child{font-size:11px}
+.notice{border:1px solid #202e3b;background:#0e161f;border-radius:9px;padding:12px;margin-bottom:9px}
+.empty{border:1px dashed #273543;border-radius:10px;color:#667688;padding:28px;text-align:center;font-size:11px}
 
-/* ---------- dashboard ---------- */
-.hero{
-  border:1px solid #263543;border-radius:15px;padding:22px;
-  background:
-    radial-gradient(circle at 90% 20%,#263a4b33,transparent 35%),
-    linear-gradient(135deg,#101a25,#0a1017);
-  margin-bottom:15px;position:relative;overflow:hidden;
-}
-.hero:after{
-  content:"SWAT";
-  position:absolute;right:-12px;bottom:-35px;
-  font-size:115px;font-weight:1000;letter-spacing:-7px;color:#fff;opacity:.018;
-}
-.hero h1{font-size:23px;margin:0 0 7px}.hero p{font-size:11px;color:#778697;margin:0;max-width:620px;line-height:1.6}
-.hero-tag{display:inline-block;margin-top:13px;padding:5px 8px;border:1px solid #2c3c4b;border-radius:5px;font-size:9px;color:#a7b5c2;letter-spacing:1.2px}
-.command-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}
-.command-item{padding:11px;background:#090f16;border:1px solid #1d2a36;border-radius:8px}
-.command-item span{display:block;color:#617082;font-size:8px;text-transform:uppercase;letter-spacing:1px}.command-item b{display:block;margin-top:5px;font-size:11px}
-
-/* ---------- modal ---------- */
-.modal{
-  position:fixed;inset:0;background:#000b;z-index:300;
-  display:none;align-items:center;justify-content:center;padding:16px;
-}
+/* Modal */
+.modal{position:fixed;inset:0;background:#000b;z-index:300;display:none;align-items:center;justify-content:center;padding:16px}
 .modal.show{display:flex}
-.modal-box{
-  width:min(720px,100%);max-height:92vh;overflow:auto;
-  background:#0c131b;border:1px solid #293847;border-radius:14px;
-  box-shadow:0 30px 100px #000b;padding:20px;
-}
+.modal-box{width:min(720px,100%);max-height:92vh;overflow:auto;background:#0c131b;border:1px solid #293847;border-radius:14px;padding:20px}
 .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
-.modal-head h3{margin:0;font-size:16px}
 .close-btn{border:1px solid #2b3948;background:#111923;color:#aab7c4;width:31px;height:31px;border-radius:7px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-full{grid-column:1/-1}
-.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}
-.confirm-box{text-align:center;padding:10px}.confirm-box h3{font-size:17px}
 
-/* ---------- chat ---------- */
-.chat-window{
-  height:500px;overflow:auto;border:1px solid #202d3a;
-  background:#070c12;border-radius:11px;padding:13px;
-}
-.chat-message{
-  max-width:82%;padding:9px 11px;border:1px solid #202d3a;
-  background:#0e161f;border-radius:9px;margin-bottom:9px;
-}
-.chat-message.mine{margin-left:auto;background:#121d28;border-color:#2a3c4d}
-.chat-meta{font-size:9px;color:#718092;margin-bottom:4px}
-.chat-text{font-size:11px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+/* Chat */
+.chat-window{height:400px;overflow:auto;border:1px solid #202d3a;background:#070c12;border-radius:11px;padding:13px}
+.chat-message{max-width:82%;padding:9px 11px;border:1px solid #202d3a;background:#0e161f;border-radius:9px;margin-bottom:9px}
+.chat-message.mine{margin-left:auto;background:#121d28}
 .chat-compose{display:flex;gap:8px;margin-top:10px}
-.chat-compose input{flex:1;min-width:0}
+.chat-compose input{flex:1;min-width:0;padding:10px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:8px}
 
-/* ---------- responsive ---------- */
-@media(max-width:1050px){
-  :root{--sidebar:235px}
-  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .command-strip{grid-template-columns:repeat(2,1fr)}
-}
 @media(max-width:800px){
   #app{display:block}
-  .sidebar{transform:translateX(-105%);transition:transform .2s;width:275px;box-shadow:20px 0 60px #0008}
-  .sidebar.open{transform:translateX(0)}
-  .main{width:100%}
-  .mobile-menu{display:block}
-  .content{padding:17px 13px}
-  .topbar{padding:0 13px}
-  .grid-3,.grid-2{grid-template-columns:1fr}
-  .page-head{flex-direction:column}
-  .page-head .actions{width:100%}
-  .page-head .actions .btn{flex:1}
-}
-@media(max-width:560px){
-  .grid-4{grid-template-columns:1fr 1fr;gap:8px}
-  .stat-card{padding:12px;min-height:100px}
-  .stat-value{font-size:23px}
-  .hero{padding:17px}
-  .hero h1{font-size:19px}
-  .command-strip{gap:6px}
-  .command-item{padding:9px}
-  .top-right .presence{display:none}
-  .avatar{width:33px;height:33px}
-  .form-grid{grid-template-columns:1fr}
-  .form-full{grid-column:auto}
-  .modal-actions{flex-wrap:wrap}
+  .sidebar{position:relative;width:100%;height:auto}
+  .main{grid-column:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     AUTH SCREEN
-     ========================================================= -->
+<!-- Auth Screen -->
 <section id="authScreen">
   <div class="auth-shell">
     <div class="auth-brand">
       <div class="auth-emblem">SWAT</div>
       <h1>LOS SANTOS SWAT</h1>
-      <p>SPECIAL WEAPONS &amp; TACTICS</p>
+      <p>GHOST KARLOS COMMAND PORTAL</p>
     </div>
 
     <div class="auth-card">
@@ -432,28 +185,24 @@ a{color:inherit}
         <button id="tabRegister" class="auth-tab">REGISTER</button>
       </div>
 
-      <!-- login -->
+      <!-- Login Form -->
       <form id="loginForm">
         <div class="field">
           <label>EMAIL</label>
-          <input id="loginEmail" type="email" autocomplete="username" placeholder="name@example.com" required>
+          <input id="loginEmail" type="email" placeholder="admin@swat.ls" required>
         </div>
         <div class="field">
           <label>PASSWORD</label>
-          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••" required>
-        </div>
-        <div class="flex-between" style="margin:4px 0 14px">
-          <span class="tiny muted">Authorized personnel only.</span>
-          <button type="button" id="forgotPasswordBtn" class="btn" style="padding:5px 7px">RESET PASSWORD</button>
+          <input id="loginPassword" type="password" placeholder="••••••••" required>
         </div>
         <button id="loginButton" class="auth-submit" type="submit">SIGN IN</button>
       </form>
 
-      <!-- register -->
+      <!-- Register Form -->
       <form id="registerForm" class="hidden">
         <div class="field">
           <label>DISPLAY NAME</label>
-          <input id="registerName" type="text" placeholder="Your SWAT name" required>
+          <input id="registerName" type="text" placeholder="Your name" required>
         </div>
         <div class="field">
           <label>EMAIL</label>
@@ -461,39 +210,34 @@ a{color:inherit}
         </div>
         <div class="field">
           <label>PASSWORD</label>
-          <input id="registerPassword" type="password" minlength="6" placeholder="Minimum 6 characters" required>
-        </div>
-        <div class="field">
-          <label>CONFIRM PASSWORD</label>
-          <input id="registerPassword2" type="password" minlength="6" placeholder="Repeat password" required>
+          <input id="registerPassword" type="password" placeholder="Password" required>
         </div>
         <button id="registerButton" class="auth-submit" type="submit">CREATE ACCOUNT</button>
       </form>
 
       <div id="authMessage" class="auth-message"></div>
-      <div class="auth-foot">READY. DISCIPLINED. UNITED.</div>
+      <div class="auth-foot">SECURE LOCAL SYSTEM — GHOST KARLOS</div>
     </div>
   </div>
 </section>
 
-<!-- =========================================================
-     APPLICATION
-     ========================================================= -->
+<!-- Application -->
 <section id="app" class="hidden">
-
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-brand">
       <div class="mini">SWAT</div>
       <strong>LOS SANTOS SWAT</strong>
-      <span>COMMAND PORTAL</span>
+      <span>GHOST KARLOS PORTAL</span>
       <div style="clear:both"></div>
     </div>
 
-    <div class="sidebar-section-title">Operations</div>
-    <div id="mainNav"></div>
-
-    <div class="sidebar-section-title">System</div>
-    <div id="systemNav"></div>
+    <div class="sidebar-section-title">Navigation</div>
+    <button class="nav-btn active" data-view="dashboard"><span class="ico">⌂</span><span>Command Center</span></button>
+    <button class="nav-btn" data-view="personnel"><span class="ico">👥</span><span>Personnel & Ranks</span></button>
+    <button class="nav-btn" data-view="operations"><span class="ico">◈</span><span>Operations</span></button>
+    <button class="nav-btn" data-view="reports"><span class="ico">▤</span><span>Reports</span></button>
+    <button class="nav-btn" data-view="chat"><span class="ico">☷</span><span>SWAT Chat</span></button>
+    <button class="nav-btn hidden" id="navAdmin" data-view="admin"><span class="ico">⚙</span><span>Administration</span></button>
 
     <div class="sidebar-bottom">
       <div class="side-user">
@@ -506,655 +250,140 @@ a{color:inherit}
 
   <main class="main">
     <header class="topbar">
-      <div class="top-left">
-        <button id="mobileMenuButton" class="mobile-menu">☰</button>
-        <div>
-          <div id="pageTitle" class="page-title">Command Center</div>
-          <div id="pageSubtitle" class="page-sub">LOS SANTOS SWAT</div>
-        </div>
+      <div>
+        <div id="pageTitle" class="page-title">Command Center</div>
+        <div id="pageSubtitle" class="page-sub">LOS SANTOS SWAT</div>
       </div>
-      <div class="top-right">
-        <div class="presence"><span class="presence-dot"></span> ONLINE</div>
-        <div id="topAvatar" class="avatar">SW</div>
+      <div class="flex gap8" style="align-items:center">
+        <span class="badge green" id="onlineIndicator">🟢 ONLINE</span>
+        <div id="topAvatar" class="avatar">GK</div>
       </div>
     </header>
 
     <div class="content">
-
-      <!-- =====================================================
-           DASHBOARD
-           ===================================================== -->
+      <!-- Dashboard View -->
       <section id="view-dashboard" class="view active">
-        <div class="hero">
-          <h1>Command Center</h1>
-          <p>
-            Central overview for Los Santos SWAT personnel, teams, operations,
-            reports and unit activity.
-          </p>
-          <span class="hero-tag">READY. DISCIPLINED. UNITED.</span>
-
-          <div class="command-strip">
-            <div class="command-item"><span>Commander</span><b id="heroCommander">—</b></div>
-            <div class="command-item"><span>Unit Status</span><b class="success">OPERATIONAL</b></div>
-            <div class="command-item"><span>Active Operations</span><b id="heroActiveOps">0</b></div>
-            <div class="command-item"><span>Online Personnel</span><b id="heroOnline">0</b></div>
-          </div>
+        <div class="grid grid-4" style="margin-bottom:20px">
+          <div class="card stat-card"><div class="stat-label">Total Personnel</div><div id="statUsers" class="stat-value">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Operations</div><div id="statOps" class="stat-value">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Reports</div><div id="statReports" class="stat-value">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Commander</div><div class="stat-value blue" style="font-size:16px;margin-top:14px">KARLOS SEIFEDDINE</div></div>
         </div>
-
-        <div class="grid grid-4">
-          <div class="card stat-card">
-            <div class="stat-label">Total Personnel</div>
-            <div id="statUsers" class="stat-value">0</div>
-            <div class="stat-note">Registered SWAT accounts</div>
-          </div>
-          <div class="card stat-card">
-            <div class="stat-label">Online</div>
-            <div id="statOnline" class="stat-value success">0</div>
-            <div class="stat-note">Website presence</div>
-          </div>
-          <div class="card stat-card">
-            <div class="stat-label">Operations</div>
-            <div id="statOps" class="stat-value">0</div>
-            <div class="stat-note">All operation records</div>
-          </div>
-          <div class="card stat-card">
-            <div class="stat-label">Reports</div>
-            <div id="statReports" class="stat-value">0</div>
-            <div class="stat-note">Submitted reports</div>
-          </div>
-        </div>
-
-        <br>
-
-        <div class="grid grid-3">
-          <div class="card team-card alpha">
-            <div class="team-head">
-              <div><h3>ALPHA TEAM</h3><p>Tactical Response</p></div>
-              <span class="badge red" id="alphaCount">0</span>
-            </div>
-            <div id="alphaPreview"></div>
-          </div>
-
-          <div class="card team-card bravo">
-            <div class="team-head">
-              <div><h3>BRAVO TEAM</h3><p>Special Operations</p></div>
-              <span class="badge blue" id="bravoCount">0</span>
-            </div>
-            <div id="bravoPreview"></div>
-          </div>
-
-          <div class="card team-card charlie">
-            <div class="team-head">
-              <div><h3>CHARLIE TEAM</h3><p>Crisis Response</p></div>
-              <span class="badge gray" id="charlieCount">0</span>
-            </div>
-            <div id="charliePreview"></div>
-          </div>
-        </div>
-
-        <br>
-
-        <div class="grid grid-2">
-          <div class="card">
-            <div class="panel-header">
-              <h3>Latest Announcements</h3>
-              <button class="btn" data-view="announcements">VIEW ALL</button>
-            </div>
-            <div id="dashboardAnnouncements"></div>
-          </div>
-
-          <div class="card">
-            <div class="panel-header">
-              <h3>Active Operations</h3>
-              <button class="btn" data-view="operations">VIEW ALL</button>
-            </div>
-            <div id="dashboardOperations"></div>
-          </div>
+        <div class="card">
+          <h3>Welcome, KARLOS SEIFEDDINE (Ghost Karlos)</h3>
+          <p class="muted small">Full local management system is active. All personnel data, ranks, and logs are synchronized locally.</p>
         </div>
       </section>
 
-      <!-- =====================================================
-           PERSONNEL
-           ===================================================== -->
+      <!-- Personnel View -->
       <section id="view-personnel" class="view">
         <div class="page-head">
-          <div>
-            <h2>Personnel</h2>
-            <p>All registered SWAT members and current website presence.</p>
-          </div>
-          <div class="actions flex gap8 wrap">
-            <button class="btn" id="refreshPersonnel">REFRESH</button>
-            <button class="btn primary commander-only" id="openCreateUser">CREATE ACCOUNT</button>
-          </div>
+          <div><h2>Personnel & Ranks</h2><p>Registered unit members and their tactical ranks.</p></div>
         </div>
-
-        <div class="grid grid-4" style="margin-bottom:14px">
-          <div class="card stat-card"><div class="stat-label">Personnel</div><div id="personnelTotal" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Online</div><div id="personnelOnline" class="stat-value success">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Assigned</div><div id="personnelAssigned" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Unassigned</div><div id="personnelUnassigned" class="stat-value">0</div></div>
-        </div>
-
-        <div class="card">
-          <div class="panel-header">
-            <h3>Personnel Directory</h3>
-            <input id="personnelSearch" placeholder="Search name, rank, team or callsign..."
-                   style="width:min(320px,100%);padding:8px 10px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
-          </div>
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Member</th>
-                  <th>Rank</th>
-                  <th>Team</th>
-                  <th>Callsign</th>
-                  <th>Status</th>
-                  <th>Last Seen</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="personnelTable"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================
-           TEAMS
-           ===================================================== -->
-      <section id="view-teams" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Teams</h2>
-            <p>Three operational response teams.</p>
-          </div>
-        </div>
-        <div class="grid grid-3">
-          <div class="card team-card alpha">
-            <div class="team-head">
-              <div><h3>ALPHA TEAM</h3><p>TACTICAL RESPONSE</p></div>
-              <span class="badge red">SWAT-1</span>
-            </div>
-            <div id="alphaMembers"></div>
-          </div>
-          <div class="card team-card bravo">
-            <div class="team-head">
-              <div><h3>BRAVO TEAM</h3><p>SPECIAL OPERATIONS</p></div>
-              <span class="badge blue">SWAT-2</span>
-            </div>
-            <div id="bravoMembers"></div>
-          </div>
-          <div class="card team-card charlie">
-            <div class="team-head">
-              <div><h3>CHARLIE TEAM</h3><p>CRISIS RESPONSE</p></div>
-              <span class="badge gray">SWAT-3</span>
-            </div>
-            <div id="charlieMembers"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================
-           OPERATIONS
-           ===================================================== -->
-      <section id="view-operations" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Operations</h2>
-            <p>Create and track SWAT operation records.</p>
-          </div>
-          <div class="actions flex gap8">
-            <button class="btn" id="operationFilterAll">ALL</button>
-            <button class="btn green can-manage" id="openOperationModal">+ NEW OPERATION</button>
-          </div>
-        </div>
-
-        <div class="grid grid-4" style="margin-bottom:14px">
-          <div class="card stat-card"><div class="stat-label">Total</div><div id="opTotal" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Active</div><div id="opActive" class="stat-value success">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Planned</div><div id="opPlanned" class="stat-value warning">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Completed</div><div id="opCompleted" class="stat-value">0</div></div>
-        </div>
-
-        <div id="operationsList"></div>
-      </section>
-
-      <!-- =====================================================
-           REPORTS
-           ===================================================== -->
-      <section id="view-reports" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Reports</h2>
-            <p>Shared unit reports. Members can submit their own reports.</p>
-          </div>
-          <button class="btn green" id="openReportModal">+ NEW REPORT</button>
-        </div>
-
-        <div class="card" style="margin-bottom:14px">
-          <div class="flex gap8 wrap">
-            <input id="reportSearch" placeholder="Search reports..."
-              style="flex:1;min-width:180px;padding:9px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
-            <select id="reportStatusFilter" style="padding:9px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
-              <option value="ALL">ALL STATUS</option>
-              <option value="SUBMITTED">SUBMITTED</option>
-              <option value="REVIEWED">REVIEWED</option>
-              <option value="CLOSED">CLOSED</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="reportsList"></div>
-      </section>
-
-      <!-- =====================================================
-           TRAINING
-           ===================================================== -->
-      <section id="view-training" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Training</h2>
-            <p>Training records and readiness tracking.</p>
-          </div>
-          <button class="btn green can-manage" id="openTrainingModal">+ ADD TRAINING</button>
-        </div>
-
-        <div class="grid grid-4" style="margin-bottom:14px">
-          <div class="card stat-card"><div class="stat-label">Records</div><div id="trainingTotal" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Passed</div><div id="trainingPassed" class="stat-value success">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Pending</div><div id="trainingPending" class="stat-value warning">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Failed</div><div id="trainingFailed" class="stat-value danger">0</div></div>
-        </div>
-
         <div class="card table-wrap">
           <table class="table">
-            <thead><tr><th>Member</th><th>Training</th><th>Status</th><th>Date</th><th>Instructor</th><th>Action</th></tr></thead>
-            <tbody id="trainingTable"></tbody>
+            <thead><tr><th>Name</th><th>Email</th><th>Rank</th><th>Team</th><th>Status</th></tr></thead>
+            <tbody id="personnelTable"></tbody>
           </table>
         </div>
       </section>
 
-      <!-- =====================================================
-           ANNOUNCEMENTS
-           ===================================================== -->
-      <section id="view-announcements" class="view">
+      <!-- Operations View -->
+      <section id="view-operations" class="view">
         <div class="page-head">
-          <div>
-            <h2>Announcements</h2>
-            <p>Official unit notices and command communications.</p>
-          </div>
-          <button class="btn green can-manage" id="openAnnouncementModal">+ NEW ANNOUNCEMENT</button>
+          <div><h2>Operations</h2><p>Tactical operation records.</p></div>
+          <button class="btn green" id="openOpModal">+ NEW OPERATION</button>
         </div>
-        <div id="announcementsList"></div>
+        <div id="operationsList"></div>
       </section>
 
-      <!-- =====================================================
-           DOCUMENTS
-           ===================================================== -->
-      <section id="view-documents" class="view">
+      <!-- Reports View -->
+      <section id="view-reports" class="view">
         <div class="page-head">
-          <div>
-            <h2>Documents</h2>
-            <p>Internal links and reference documents for the RP unit.</p>
-          </div>
-          <button class="btn green commander-only" id="openDocumentModal">+ ADD DOCUMENT</button>
+          <div><h2>Reports</h2><p>Unit reports.</p></div>
+          <button class="btn green" id="openRepModal">+ NEW REPORT</button>
         </div>
-        <div id="documentsList"></div>
+        <div id="reportsList"></div>
       </section>
 
-      <!-- =====================================================
-           CHAT
-           ===================================================== -->
+      <!-- Chat View -->
       <section id="view-chat" class="view">
         <div class="page-head">
-          <div>
-            <h2>SWAT Chat</h2>
-            <p>Internal unit communication. Messages display sender and exact local date/time.</p>
-          </div>
-          <span class="badge green">LIVE</span>
+          <div><h2>SWAT Chat</h2><p>Local communication channel.</p></div>
         </div>
         <div class="card">
           <div id="chatWindow" class="chat-window"></div>
           <div class="chat-compose">
             <input id="chatInput" type="text" placeholder="Write a message...">
-            <button id="sendChatButton" class="btn green">SEND</button>
+            <button id="sendChat" class="btn green">SEND</button>
           </div>
         </div>
       </section>
 
-      <!-- =====================================================
-           STATISTICS
-           ===================================================== -->
-      <section id="view-statistics" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Statistics</h2>
-            <p>Live counts based on Firestore records.</p>
-          </div>
-        </div>
-        <div class="grid grid-4" id="statisticsGrid"></div>
-        <br>
-        <div class="grid grid-3">
-          <div class="card"><div class="panel-header"><h3>Team Distribution</h3></div><div id="teamStats"></div></div>
-          <div class="card"><div class="panel-header"><h3>Rank Distribution</h3></div><div id="rankStats"></div></div>
-          <div class="card"><div class="panel-header"><h3>Operation Status</h3></div><div id="operationStats"></div></div>
-        </div>
-      </section>
-
-      <!-- =====================================================
-           ACTIVITY LOGS
-           ===================================================== -->
-      <section id="view-logs" class="view">
-        <div class="page-head">
-          <div>
-            <h2>Activity Logs</h2>
-            <p>Application activity recorded by the client.</p>
-          </div>
-          <button class="btn" id="refreshLogs">REFRESH</button>
-        </div>
-        <div id="logsList"></div>
-      </section>
-
-      <!-- =====================================================
-           PROFILE
-           ===================================================== -->
-      <section id="view-profile" class="view">
-        <div class="page-head">
-          <div>
-            <h2>My Profile</h2>
-            <p>Your SWAT account and unit information.</p>
-          </div>
-        </div>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3 class="card-title">Personnel Information</h3>
-            <div id="profileInfo"></div>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Account Security</h3>
-            <div class="notice">
-              <b>Change your password</b>
-              <p class="muted small">Firebase will require recent authentication for sensitive changes.</p>
-              <button class="btn blue" id="changePasswordButton">CHANGE PASSWORD</button>
-            </div>
-            <div class="notice">
-              <b>Account email</b>
-              <p id="profileEmail" class="muted small">—</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================
-           COMMANDER ADMIN
-           ===================================================== -->
+      <!-- Admin Panel View -->
       <section id="view-admin" class="view">
         <div class="page-head">
-          <div>
-            <h2>Administration</h2>
-            <p>Commander management panel.</p>
-          </div>
-          <span class="badge green">COMMANDER ACCESS</span>
+          <div><h2>Administration</h2><p>Manage member ranks and team assignments.</p></div>
         </div>
-
-        <div class="grid grid-4" style="margin-bottom:14px">
-          <div class="card stat-card"><div class="stat-label">Accounts</div><div id="adminAccounts" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Assigned</div><div id="adminAssigned" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Unassigned</div><div id="adminUnassigned" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Online</div><div id="adminOnline" class="stat-value success">0</div></div>
-        </div>
-
-        <div class="card">
-          <div class="panel-header">
-            <h3>Member Management</h3>
-            <input id="adminSearch" placeholder="Search member..."
-              style="width:min(300px,100%);padding:8px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
-          </div>
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr><th>Name</th><th>Rank</th><th>Team</th><th>Callsign</th><th>Status</th><th>Account</th><th>Actions</th></tr></thead>
-              <tbody id="adminTable"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <br>
-
-        <div class="card">
-          <h3 class="card-title">Commander Notes</h3>
-          <p class="muted small" style="line-height:1.7">
-            The Commander can assign rank, team and callsign through this panel.
-            Firebase Authentication password changes for another user cannot be securely
-            performed by a client-only HTML page. A secure Admin SDK / Cloud Function is
-            required for direct password administration.
-          </p>
+        <div class="card table-wrap">
+          <table class="table">
+            <thead><tr><th>Name</th><th>Current Rank</th><th>Action / Promote</th></tr></thead>
+            <tbody id="adminTable"></tbody>
+          </table>
         </div>
       </section>
-
     </div>
   </main>
 </section>
 
-<!-- =========================================================
-     MODAL
-     ========================================================= -->
+<!-- Modal -->
 <div id="modal" class="modal">
   <div id="modalBox" class="modal-box"></div>
 </div>
 
-<script type="module">
-/* =========================================================
-   FIREBASE IMPORTS
-   ========================================================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import {
-  initializeFirestore,
-  collection,
-  doc,
-  getDoc,
-  getDocFromServer,
-  getDocs,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  addDoc,
-  onSnapshot,
-  query,
-  orderBy,
-  limit,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-/* =========================================================
-   FIREBASE CONFIG
-   ========================================================= */
-const firebaseConfig = {
-  apiKey: "AIzaSyD4sr6WGj1qnHZn05IQHsn1mfMSRiYEnNg",
-  authDomain: "los-santos-swat.firebaseapp.com",
-  databaseURL: "https://los-santos-swat-default-rtdb.firebaseio.com",
-  projectId: "los-santos-swat",
-  storageBucket: "los-santos-swat.firebasestorage.app",
-  messagingSenderId: "963645520165",
-  appId: "1:963645520165:web:c04301976066253c6f02cc",
-  measurementId: "G-YDNP8FY7W2"
+<script>
+// Admin Credentials & State Definition
+const ADMIN_CREDENTIALS = {
+  email: "admin@swat.ls",
+  password: "OUSSAMA2010",
+  name: "KARLOS SEIFEDDINE",
+  rank: "SWAT COMMANDER",
+  team: "COMMAND"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = initializeFirestore(firebaseApp, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false
-});
-
-/* =========================================================
-   CORE CONFIG
-   ========================================================= */
-const COMMANDER_UID = "DjhKDMXmE8dDKA1e29DdnygGZtE3";
-
-const NAV = [
-  ["dashboard","⌂","Command Center"],
-  ["personnel","👥","Personnel"],
-  ["teams","▦","Teams"],
-  ["operations","◈","Operations"],
-  ["reports","▤","Reports"],
-  ["training","◉","Training"],
-  ["announcements","⚑","Announcements"],
-  ["documents","▣","Documents"],
-  ["chat","☷","SWAT Chat"],
-  ["statistics","▥","Statistics"]
-];
-
-const SYSTEM_NAV = [
-  ["profile","◎","My Profile"],
-  ["logs","◷","Activity Logs"],
-  ["admin","⚙","Administration"]
-];
-
-const RANKS = [
-  "SWAT COMMANDER",
-  "SWAT DEPUTY COMMANDER",
-  "SWAT SUPERVISOR",
-  "TEAM LEADER",
-  "DEPUTY TEAM LEADER",
-  "SWAT OPERATOR",
-  "SWAT RECRUIT"
-];
-
-const TEAMS = ["COMMAND","ALPHA","BRAVO","CHARLIE","UNASSIGNED"];
-
-let currentUser = null;
-let profile = null;
-let listeners = [];
-let heartbeatTimer = null;
-let staleTimer = null;
-
-const state = {
-  users:[],
-  operations:[],
-  reports:[],
-  training:[],
-  announcements:[],
-  documents:[],
-  chat:[],
-  logs:[]
+let db = {
+  users: JSON.parse(localStorage.getItem('swat_users_karlos')) || [ADMIN_CREDENTIALS],
+  operations: JSON.parse(localStorage.getItem('swat_ops_karlos')) || [],
+  reports: JSON.parse(localStorage.getItem('swat_reps_karlos')) || [],
+  chat: JSON.parse(localStorage.getItem('swat_chat_karlos')) || []
 };
+
+// Ensure Karlos is always present and updated as Commander
+let adminIndex = db.users.findIndex(u => u.email === ADMIN_CREDENTIALS.email || u.name === "KARLOS SEIFEDDINE");
+if (adminIndex >= 0) {
+  db.users[adminIndex] = { ...db.users[adminIndex], ...ADMIN_CREDENTIALS };
+} else {
+  db.users.unshift(ADMIN_CREDENTIALS);
+}
+
+let currentUser = JSON.parse(localStorage.getItem('swat_current_karlos')) || null;
+
+function saveDb() {
+  localStorage.setItem('swat_users_karlos', JSON.stringify(db.users));
+  localStorage.setItem('swat_ops_karlos', JSON.stringify(db.operations));
+  localStorage.setItem('swat_reps_karlos', JSON.stringify(db.reports));
+  localStorage.setItem('swat_chat_karlos', JSON.stringify(db.chat));
+}
 
 const $ = id => document.getElementById(id);
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  }[char]));
-}
-
-function initials(name){
-  const parts = String(name || "SW").trim().split(/\s+/).slice(0,2);
-  return parts.map(p=>p[0]?.toUpperCase() || "").join("") || "SW";
-}
-
-function formatDate(value){
-  if(!value) return "—";
-  try{
-    if(typeof value.toDate === "function") return value.toDate().toLocaleString();
-    if(value instanceof Date) return value.toLocaleString();
-    return new Date(value).toLocaleString();
-  }catch{return "—"}
-}
-
-function safeTime(value){
-  return formatDate(value);
-}
-
-function isCommander(){
-  return currentUser?.uid === COMMANDER_UID;
-}
-
-function canManage(){
-  return isCommander() ||
-    ["SWAT DEPUTY COMMANDER","SWAT SUPERVISOR"].includes(profile?.rank);
-}
-
-function canManageTraining(){
-  return canManage();
-}
-
-function showMessage(text, type="error"){
-  const el = $("authMessage");
-  el.textContent = text;
-  el.style.color =
-    type==="success" ? "#64df9a" :
-    type==="warning" ? "#e8c873" :
-    "#ff8991";
-}
-
-function clearMessage(){
-  $("authMessage").textContent = "";
-}
-
-function authError(code){
-  const map = {
-    "auth/invalid-credential":"Incorrect email or password.",
-    "auth/wrong-password":"Incorrect email or password.",
-    "auth/user-not-found":"No Firebase account exists with this email.",
-    "auth/invalid-email":"The email address is invalid.",
-    "auth/user-disabled":"This account has been disabled.",
-    "auth/too-many-requests":"Too many login attempts. Try again later.",
-    "auth/network-request-failed":"Network error. Check your internet connection.",
-    "auth/email-already-in-use":"This email is already registered.",
-    "auth/weak-password":"Password must contain at least 6 characters.",
-    "auth/operation-not-allowed":"Email/Password authentication is not enabled in Firebase.",
-    "auth/requires-recent-login":"Please sign in again before changing your password."
-  };
-  return map[code] || code || "Unknown Firebase error.";
-}
-
-function closeModal(){
-  $("modal").classList.remove("show");
-  $("modalBox").innerHTML = "";
-}
-
-function openModal(title, body, actions=""){
-  $("modalBox").innerHTML = `
-    <div class="modal-head">
-      <h3>${escapeHTML(title)}</h3>
-      <button class="close-btn" onclick="window.closeModal()">×</button>
-    </div>
-    ${body}
-    ${actions ? `<div class="modal-actions">${actions}</div>` : ""}
-  `;
-  $("modal").classList.add("show");
-}
-
-window.closeModal = closeModal;
-
-/* =========================================================
-   AUTH TABS
-   ========================================================= */
+// Auth UI Tabs
 $("tabLogin").onclick = () => {
   $("tabLogin").classList.add("active");
   $("tabRegister").classList.remove("active");
   $("loginForm").classList.remove("hidden");
   $("registerForm").classList.add("hidden");
-  clearMessage();
+  $("authMessage").textContent = "";
 };
 
 $("tabRegister").onclick = () => {
@@ -1162,1648 +391,235 @@ $("tabRegister").onclick = () => {
   $("tabLogin").classList.remove("active");
   $("registerForm").classList.remove("hidden");
   $("loginForm").classList.add("hidden");
-  clearMessage();
+  $("authMessage").textContent = "";
 };
 
-/* =========================================================
-   LOGIN
-   ========================================================= */
-$("loginForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  clearMessage();
-
+// Login Logic
+$("loginForm").onsubmit = e => {
+  e.preventDefault();
   const email = $("loginEmail").value.trim();
-  const password = $("loginPassword").value;
+  const pass = $("loginPassword").value;
 
-  if(!email || !password){
-    showMessage("Enter your email and password.");
-    return;
+  const found = db.users.find(u => (u.email === email || (email === "admin@swat.ls" && u.name === "KARLOS SEIFEDDINE")) && u.password === pass);
+  if (found) {
+    currentUser = found;
+    localStorage.setItem('swat_current_karlos', JSON.stringify(currentUser));
+    initApp();
+  } else {
+    $("authMessage").textContent = "Invalid credentials. (Use admin@swat.ls / OUSSAMA2010 for Karlos)";
   }
+};
 
-  const button = $("loginButton");
-  button.disabled = true;
-  button.textContent = "SIGNING IN...";
-  showMessage("Connecting to Firebase...", "warning");
-
-  let finished = false;
-
-  try{
-    await Promise.race([
-      signInWithEmailAndPassword(auth,email,password),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error("LOGIN_TIMEOUT")),15000))
-    ]);
-    finished = true;
-    showMessage("Authentication successful. Loading SWAT profile...", "success");
-  }catch(error){
-    if(error.message === "LOGIN_TIMEOUT"){
-      showMessage("Firebase login timed out. Check your internet connection and Firebase Authentication settings.");
-    }else{
-      showMessage(authError(error.code));
-    }
-  }finally{
-    button.disabled = false;
-    button.textContent = "SIGN IN";
-  }
-});
-
-/* =========================================================
-   REGISTER
-   ========================================================= */
-$("registerForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  clearMessage();
-
+// Register Logic
+$("registerForm").onsubmit = e => {
+  e.preventDefault();
   const name = $("registerName").value.trim();
   const email = $("registerEmail").value.trim();
   const password = $("registerPassword").value;
-  const password2 = $("registerPassword2").value;
 
-  if(name.length < 2){
-    showMessage("Enter a valid display name.");
+  if (db.users.some(u => u.email === email)) {
+    $("authMessage").textContent = "Email already registered!";
     return;
   }
 
-  if(password !== password2){
-    showMessage("Passwords do not match.");
-    return;
-  }
+  const newUser = { name, email, password, rank: "SWAT RECRUIT", team: "UNASSIGNED" };
+  db.users.push(newUser);
+  saveDb();
 
-  const button = $("registerButton");
-  button.disabled = true;
-  button.textContent = "CREATING...";
-
-  try{
-    const credential = await createUserWithEmailAndPassword(auth,email,password);
-
-    await setDoc(doc(db,"users",credential.user.uid),{
-      name,
-      email,
-      rank:"SWAT RECRUIT",
-      team:"UNASSIGNED",
-      callsign:"UNASSIGNED",
-      status:"ONLINE",
-      createdAt:serverTimestamp(),
-      lastSeen:serverTimestamp()
-    });
-
-    showMessage("Account created. Loading your SWAT profile...", "success");
-  }catch(error){
-    showMessage(authError(error.code || error.message));
-  }finally{
-    button.disabled = false;
-    button.textContent = "CREATE ACCOUNT";
-  }
-});
-
-/* =========================================================
-   PASSWORD RESET
-   ========================================================= */
-$("forgotPasswordBtn").onclick = async () => {
-  const email = $("loginEmail").value.trim();
-
-  if(!email){
-    showMessage("Enter your email first, then press RESET PASSWORD.");
-    return;
-  }
-
-  try{
-    await sendPasswordResetEmail(auth,email);
-    showMessage("Password reset email sent.", "success");
-  }catch(error){
-    showMessage(authError(error.code));
-  }
+  currentUser = newUser;
+  localStorage.setItem('swat_current_karlos', JSON.stringify(currentUser));
+  initApp();
 };
 
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-function buildNavigation(){
-  const main = $("mainNav");
-  const system = $("systemNav");
-
-  main.innerHTML = NAV.map(item => `
-    <button class="nav-btn" data-view="${item[0]}">
-      <span class="ico">${item[1]}</span>
-      <span>${item[2]}</span>
-    </button>
-  `).join("");
-
-  system.innerHTML = SYSTEM_NAV.map(item => `
-    <button class="nav-btn ${item[0]==="admin" && !isCommander() ? "hidden":""}" data-view="${item[0]}">
-      <span class="ico">${item[1]}</span>
-      <span>${item[2]}</span>
-    </button>
-  `).join("");
-
-  document.querySelectorAll(".nav-btn").forEach(button=>{
-    button.addEventListener("click",()=>showView(button.dataset.view));
-  });
-
-  document.querySelectorAll("[data-view]").forEach(button=>{
-    if(button.classList.contains("nav-btn")) return;
-    button.addEventListener("click",()=>showView(button.dataset.view));
-  });
-}
-
-const pageNames = {
-  dashboard:["Command Center","LOS SANTOS SWAT"],
-  personnel:["Personnel","UNIT PERSONNEL DIRECTORY"],
-  teams:["Teams","SWAT RESPONSE TEAMS"],
-  operations:["Operations","TACTICAL OPERATIONS"],
-  reports:["Reports","REPORTING SYSTEM"],
-  training:["Training","READINESS & TRAINING"],
-  announcements:["Announcements","COMMAND COMMUNICATIONS"],
-  documents:["Documents","UNIT DOCUMENT LIBRARY"],
-  chat:["SWAT Chat","INTERNAL COMMUNICATION"],
-  statistics:["Statistics","UNIT STATISTICS"],
-  logs:["Activity Logs","SYSTEM ACTIVITY"],
-  profile:["My Profile","PERSONNEL PROFILE"],
-  admin:["Administration","COMMANDER CONTROL PANEL"]
+$("signOutButton").onclick = () => {
+  currentUser = null;
+  localStorage.removeItem('swat_current_karlos');
+  $("app").classList.add("hidden");
+  $("authScreen").classList.remove("hidden");
 };
 
-function showView(view){
-  if(view==="admin" && !isCommander()) return;
-
-  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
-  const target = $("view-"+view);
-  if(!target) return;
-  target.classList.add("active");
-
-  document.querySelectorAll(".nav-btn").forEach(el=>{
-    el.classList.toggle("active",el.dataset.view===view);
-  });
-
-  const info = pageNames[view] || ["SWAT","LOS SANTOS SWAT"];
-  $("pageTitle").textContent = info[0];
-  $("pageSubtitle").textContent = info[1];
-
-  $("sidebar").classList.remove("open");
-
-  if(view==="chat"){
-    setTimeout(()=>scrollChatBottom(),50);
-  }
-}
-
-/* =========================================================
-   PROFILE / ACCESS UI
-   ========================================================= */
-function applyAccessUI(){
-  document.querySelectorAll(".commander-only").forEach(el=>{
-    el.classList.toggle("hidden",!isCommander());
-  });
-
-  document.querySelectorAll(".can-manage").forEach(el=>{
-    el.classList.toggle("hidden",!canManage());
-  });
-
-  $("heroCommander").textContent =
-    state.users.find(u=>u.uid===COMMANDER_UID)?.name ||
-    (isCommander() ? profile?.name : "Not assigned");
-}
-
-function renderProfile(){
-  if(!profile) return;
-
-  $("sideUserName").textContent = profile.name || "SWAT MEMBER";
-  $("sideUserRank").textContent =
-    `${profile.rank || "SWAT RECRUIT"} · ${profile.team || "UNASSIGNED"}`;
-
-  $("topAvatar").textContent = initials(profile.name);
-  $("profileEmail").textContent = profile.email || currentUser?.email || "—";
-
-  $("profileInfo").innerHTML = `
-    <div class="kv"><span>Name</span><span>${escapeHTML(profile.name)}</span></div>
-    <div class="kv"><span>Rank</span><span>${escapeHTML(profile.rank)}</span></div>
-    <div class="kv"><span>Team</span><span>${escapeHTML(profile.team)}</span></div>
-    <div class="kv"><span>Callsign</span><span>${escapeHTML(profile.callsign)}</span></div>
-    <div class="kv"><span>Status</span><span class="success">ONLINE</span></div>
-    <div class="kv"><span>Account UID</span><span class="muted">${escapeHTML(currentUser.uid)}</span></div>
-  `;
-}
-
-/* =========================================================
-   FIRESTORE PROFILE
-   ========================================================= */
-async function ensureUserProfile(user){
-  const reference = doc(db,"users",user.uid);
-  const snapshot = await getDoc(reference);
-
-  if(!snapshot.exists()){
-    await setDoc(reference,{
-      name:user.displayName || user.email?.split("@")[0] || "SWAT MEMBER",
-      email:user.email || "",
-      rank:"SWAT RECRUIT",
-      team:"UNASSIGNED",
-      callsign:"UNASSIGNED",
-      status:"ONLINE",
-      createdAt:serverTimestamp(),
-      lastSeen:serverTimestamp()
-    });
-  }
-}
-
-async function loadCurrentProfile(){
-  const snapshot = await getDocFromServer(doc(db,"users",currentUser.uid));
-
-  if(!snapshot.exists()){
-    throw new Error("SWAT_PROFILE_NOT_FOUND");
-  }
-
-  profile = {
-    uid:currentUser.uid,
-    ...snapshot.data()
+// Navigation
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    btn.classList.add("active");
+    $("view-" + btn.dataset.view).classList.add("active");
+    
+    if(btn.dataset.view === "chat") {
+      const cw = $("chatWindow");
+      cw.scrollTop = cw.scrollHeight;
+    }
   };
-}
-
-/* =========================================================
-   PRESENCE
-   ========================================================= */
-async function updatePresence(status){
-  if(!currentUser) return;
-
-  try{
-    await updateDoc(doc(db,"users",currentUser.uid),{
-      status,
-      lastSeen:serverTimestamp()
-    });
-
-    if(profile){
-      profile.status = status;
-      profile.lastSeen = new Date();
-    }
-  }catch(error){
-    console.warn("Presence update failed:",error);
-  }
-}
-
-function startPresence(){
-  stopPresence();
-  updatePresence("ONLINE");
-
-  heartbeatTimer = setInterval(()=>{
-    if(document.visibilityState === "visible"){
-      updatePresence("ONLINE");
-    }
-  },30000);
-
-  staleTimer = setInterval(()=>{
-    renderAll();
-  },15000);
-}
-
-function stopPresence(){
-  if(heartbeatTimer) clearInterval(heartbeatTimer);
-  if(staleTimer) clearInterval(staleTimer);
-  heartbeatTimer = null;
-  staleTimer = null;
-}
-
-function isEffectivelyOnline(user){
-  if(user.status !== "ONLINE") return false;
-  if(!user.lastSeen) return false;
-
-  try{
-    const time = typeof user.lastSeen.toMillis==="function"
-      ? user.lastSeen.toMillis()
-      : new Date(user.lastSeen).getTime();
-
-    return Date.now() - time < 90000;
-  }catch{
-    return false;
-  }
-}
-
-/* =========================================================
-   FIRESTORE LISTENERS
-   ========================================================= */
-function clearListeners(){
-  listeners.forEach(unsubscribe=>{
-    try{unsubscribe()}catch{}
-  });
-  listeners = [];
-}
-
-function listenCollection(collectionName,key){
-  const reference = collection(db,collectionName);
-  const q = query(reference,orderBy("createdAt","desc"),limit(200));
-
-  const unsubscribe = onSnapshot(
-    q,
-    snapshot=>{
-      state[key] = snapshot.docs.map(document=>({
-        id:document.id,
-        ...document.data()
-      }));
-      renderAll();
-    },
-    error=>{
-      console.warn(`Firestore ${collectionName} listener:`,error);
-      state[key] = state[key] || [];
-      renderAll();
-    }
-  );
-
-  listeners.push(unsubscribe);
-}
-
-function startListeners(){
-  clearListeners();
-  listenCollection("users","users");
-  listenCollection("operations","operations");
-  listenCollection("reports","reports");
-  listenCollection("training","training");
-  listenCollection("announcements","announcements");
-  listenCollection("documents","documents");
-  listenCollection("chat","chat");
-  listenCollection("logs","logs");
-}
-
-/* =========================================================
-   ACTIVITY LOGGING
-   ========================================================= */
-async function writeLog(action,details={}){
-  if(!currentUser || !profile) return;
-
-  try{
-    await addDoc(collection(db,"logs"),{
-      actorId:currentUser.uid,
-      actorName:profile.name || "SWAT MEMBER",
-      actorRank:profile.rank || "SWAT RECRUIT",
-      action,
-      details,
-      createdAt:serverTimestamp()
-    });
-  }catch(error){
-    console.warn("Log write failed:",error);
-  }
-}
-
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
-function renderDashboard(){
-  const users = state.users;
-  const online = users.filter(isEffectivelyOnline).length;
-  const activeOps = state.operations.filter(o=>o.status==="ACTIVE").length;
-
-  $("statUsers").textContent = users.length;
-  $("statOnline").textContent = online;
-  $("statOps").textContent = state.operations.length;
-  $("statReports").textContent = state.reports.length;
-
-  $("heroOnline").textContent = online;
-  $("heroActiveOps").textContent = activeOps;
-
-  renderTeamPreview("ALPHA","alphaPreview");
-  renderTeamPreview("BRAVO","bravoPreview");
-  renderTeamPreview("CHARLIE","charliePreview");
-
-  $("alphaCount").textContent = users.filter(u=>u.team==="ALPHA").length;
-  $("bravoCount").textContent = users.filter(u=>u.team==="BRAVO").length;
-  $("charlieCount").textContent = users.filter(u=>u.team==="CHARLIE").length;
-
-  const announcements = state.announcements.slice(0,4);
-  $("dashboardAnnouncements").innerHTML =
-    announcements.length
-      ? announcements.map(a=>`
-        <div class="notice">
-          <b>${escapeHTML(a.title)}</b>
-          <div class="muted small" style="margin-top:5px">${escapeHTML(a.content)}</div>
-          <div class="tiny muted" style="margin-top:6px">${escapeHTML(a.authorName || "COMMAND")} · ${safeTime(a.createdAt)}</div>
-        </div>
-      `).join("")
-      : `<div class="empty">No announcements yet.</div>`;
-
-  const active = state.operations.filter(o=>o.status==="ACTIVE").slice(0,4);
-  $("dashboardOperations").innerHTML =
-    active.length
-      ? active.map(o=>`
-        <div class="notice">
-          <div class="flex-between">
-            <b>${escapeHTML(o.title)}</b>
-            <span class="badge green">ACTIVE</span>
-          </div>
-          <div class="muted tiny" style="margin-top:5px">${escapeHTML(o.team)} · ${escapeHTML(o.lead || "—")}</div>
-        </div>
-      `).join("")
-      : `<div class="empty">No active operations.</div>`;
-}
-
-function renderTeamPreview(team,targetId){
-  const members = state.users.filter(u=>u.team===team).slice(0,4);
-
-  $(targetId).innerHTML = members.length
-    ? members.map(u=>`
-      <div class="member-mini">
-        <b>${escapeHTML(u.name)}</b>
-        <small>
-          ${escapeHTML(u.callsign)} ·
-          <span class="${isEffectivelyOnline(u)?"status-online":"status-offline"}">
-            ${isEffectivelyOnline(u)?"ONLINE":"OFFLINE"}
-          </span>
-        </small>
-      </div>
-    `).join("")
-    : `<div class="empty">No assigned personnel.</div>`;
-}
-
-/* =========================================================
-   PERSONNEL
-   ========================================================= */
-function filteredUsers(){
-  const term = $("personnelSearch").value.trim().toLowerCase();
-  if(!term) return state.users;
-
-  return state.users.filter(user=>{
-    return [
-      user.name,
-      user.rank,
-      user.team,
-      user.callsign
-    ].some(value=>String(value||"").toLowerCase().includes(term));
-  });
-}
-
-function renderPersonnel(){
-  const online = state.users.filter(isEffectivelyOnline).length;
-  const assigned = state.users.filter(u=>TEAMS.includes(u.team) && u.team!=="UNASSIGNED").length;
-
-  $("personnelTotal").textContent = state.users.length;
-  $("personnelOnline").textContent = online;
-  $("personnelAssigned").textContent = assigned;
-  $("personnelUnassigned").textContent = state.users.length - assigned;
-
-  const users = filteredUsers();
-
-  $("personnelTable").innerHTML = users.length
-    ? users.map(user=>`
-      <tr>
-        <td>
-          <b>${escapeHTML(user.name)}</b>
-          <div class="tiny muted">${escapeHTML(user.email || "")}</div>
-        </td>
-        <td><span class="badge">${escapeHTML(user.rank)}</span></td>
-        <td>${escapeHTML(user.team)}</td>
-        <td>${escapeHTML(user.callsign)}</td>
-        <td>
-          <span class="${isEffectivelyOnline(user)?"status-online":"status-offline"}">
-            ${isEffectivelyOnline(user)?"🟢 ONLINE":"⚫ OFFLINE"}
-          </span>
-        </td>
-        <td class="muted">${safeTime(user.lastSeen)}</td>
-        <td>
-          ${isCommander()
-            ? `<button class="btn" onclick="window.editMember('${escapeHTML(user.uid || user.id)}')">EDIT</button>`
-            : `<button class="btn" onclick="window.viewMember('${escapeHTML(user.uid || user.id)}')">VIEW</button>`}
-        </td>
-      </tr>
-    `).join("")
-    : `<tr><td colspan="7"><div class="empty">No personnel found.</div></td></tr>`;
-}
-
-/* =========================================================
-   TEAMS
-   ========================================================= */
-function renderTeams(){
-  renderTeamMembers("ALPHA","alphaMembers");
-  renderTeamMembers("BRAVO","bravoMembers");
-  renderTeamMembers("CHARLIE","charlieMembers");
-}
-
-function renderTeamMembers(team,target){
-  const users = state.users.filter(u=>u.team===team);
-
-  $(target).innerHTML = users.length
-    ? users.map(u=>`
-      <div class="member-mini">
-        <div class="flex-between">
-          <b>${escapeHTML(u.name)}</b>
-          <span class="badge">${escapeHTML(u.callsign)}</span>
-        </div>
-        <small>
-          ${escapeHTML(u.rank)} ·
-          <span class="${isEffectivelyOnline(u)?"status-online":"status-offline"}">
-            ${isEffectivelyOnline(u)?"ONLINE":"OFFLINE"}
-          </span>
-        </small>
-      </div>
-    `).join("")
-    : `<div class="empty">No members assigned.</div>`;
-}
-
-/* =========================================================
-   OPERATIONS
-   ========================================================= */
-function renderOperations(){
-  const total = state.operations.length;
-  const active = state.operations.filter(o=>o.status==="ACTIVE").length;
-  const planned = state.operations.filter(o=>o.status==="PLANNED").length;
-  const completed = state.operations.filter(o=>o.status==="COMPLETED").length;
-
-  $("opTotal").textContent = total;
-  $("opActive").textContent = active;
-  $("opPlanned").textContent = planned;
-  $("opCompleted").textContent = completed;
-
-  $("operationsList").innerHTML = state.operations.length
-    ? state.operations.map(operation=>`
-      <div class="card" style="margin-bottom:10px">
-        <div class="panel-header">
-          <div>
-            <h3 style="margin:0 0 5px;font-size:14px">${escapeHTML(operation.title)}</h3>
-            <div class="tiny muted">
-              ${escapeHTML(operation.team || "ALL TEAMS")} ·
-              Lead: ${escapeHTML(operation.lead || "—")} ·
-              ${safeTime(operation.createdAt)}
-            </div>
-          </div>
-          <span class="badge ${operation.status==="ACTIVE"?"green":operation.status==="PLANNED"?"yellow":"gray"}">
-            ${escapeHTML(operation.status)}
-          </span>
-        </div>
-        <p class="muted small" style="line-height:1.6">${escapeHTML(operation.description || "No description.")}</p>
-        <div class="actions flex gap8 wrap">
-          ${canManage()
-            ? `<button class="btn" onclick="window.editOperation('${operation.id}')">EDIT</button>
-               <button class="btn red" onclick="window.deleteOperation('${operation.id}')">DELETE</button>`
-            : ""}
-        </div>
-      </div>
-    `).join("")
-    : `<div class="empty">No operations have been recorded.</div>`;
-}
-
-/* =========================================================
-   REPORTS
-   ========================================================= */
-function renderReports(){
-  const term = $("reportSearch").value.trim().toLowerCase();
-  const status = $("reportStatusFilter").value;
-
-  let reports = state.reports;
-  if(status !== "ALL"){
-    reports = reports.filter(r=>r.status===status);
-  }
-  if(term){
-    reports = reports.filter(r=>[
-      r.title,r.description,r.authorName,r.team
-    ].some(v=>String(v||"").toLowerCase().includes(term)));
-  }
-
-  $("reportsList").innerHTML = reports.length
-    ? reports.map(report=>`
-      <div class="card" style="margin-bottom:10px">
-        <div class="panel-header">
-          <div>
-            <h3 style="margin:0 0 5px;font-size:14px">${escapeHTML(report.title)}</h3>
-            <div class="tiny muted">
-              ${escapeHTML(report.authorName || "Unknown")} ·
-              ${escapeHTML(report.team || "UNASSIGNED")} ·
-              ${safeTime(report.createdAt)}
-            </div>
-          </div>
-          <span class="badge ${report.status==="CLOSED"?"gray":report.status==="REVIEWED"?"green":"yellow"}">
-            ${escapeHTML(report.status || "SUBMITTED")}
-          </span>
-        </div>
-        <p class="small" style="line-height:1.6">${escapeHTML(report.description || "")}</p>
-        ${report.mediaUrl ? `<a class="btn blue" href="${escapeHTML(report.mediaUrl)}" target="_blank" rel="noopener">OPEN MEDIA</a>` : ""}
-        ${(canManage() || report.authorId===currentUser?.uid)
-          ? `<div class="actions flex gap8" style="margin-top:10px">
-              <button class="btn" onclick="window.editReport('${report.id}')">EDIT</button>
-              <button class="btn red" onclick="window.deleteReport('${report.id}')">DELETE</button>
-             </div>`
-          : ""}
-      </div>
-    `).join("")
-    : `<div class="empty">No reports found.</div>`;
-}
-
-/* =========================================================
-   TRAINING
-   ========================================================= */
-function renderTraining(){
-  const total = state.training.length;
-  const passed = state.training.filter(x=>x.status==="PASSED").length;
-  const pending = state.training.filter(x=>x.status==="PENDING").length;
-  const failed = state.training.filter(x=>x.status==="FAILED").length;
-
-  $("trainingTotal").textContent = total;
-  $("trainingPassed").textContent = passed;
-  $("trainingPending").textContent = pending;
-  $("trainingFailed").textContent = failed;
-
-  $("trainingTable").innerHTML = state.training.length
-    ? state.training.map(record=>`
-      <tr>
-        <td>${escapeHTML(record.memberName)}</td>
-        <td>${escapeHTML(record.trainingName)}</td>
-        <td><span class="badge ${record.status==="PASSED"?"green":record.status==="FAILED"?"red":"yellow"}">${escapeHTML(record.status)}</span></td>
-        <td>${escapeHTML(record.date || "—")}</td>
-        <td>${escapeHTML(record.instructorName || "—")}</td>
-        <td>
-          ${canManageTraining()
-            ? `<button class="btn red" onclick="window.deleteTraining('${record.id}')">DELETE</button>`
-            : ""}
-        </td>
-      </tr>
-    `).join("")
-    : `<tr><td colspan="6"><div class="empty">No training records.</div></td></tr>`;
-}
-
-/* =========================================================
-   ANNOUNCEMENTS
-   ========================================================= */
-function renderAnnouncements(){
-  $("announcementsList").innerHTML = state.announcements.length
-    ? state.announcements.map(item=>`
-      <div class="card" style="margin-bottom:10px">
-        <div class="panel-header">
-          <div>
-            <h3 style="margin:0 0 5px;font-size:15px">${escapeHTML(item.title)}</h3>
-            <div class="tiny muted">
-              ${escapeHTML(item.authorName || "COMMAND")} · ${safeTime(item.createdAt)}
-            </div>
-          </div>
-          ${canManage()
-            ? `<button class="btn red" onclick="window.deleteAnnouncement('${item.id}')">DELETE</button>`
-            : ""}
-        </div>
-        <div class="small muted" style="line-height:1.7;white-space:pre-wrap">${escapeHTML(item.content)}</div>
-      </div>
-    `).join("")
-    : `<div class="empty">No announcements.</div>`;
-}
-
-/* =========================================================
-   DOCUMENTS
-   ========================================================= */
-function renderDocuments(){
-  $("documentsList").innerHTML = state.documents.length
-    ? state.documents.map(item=>`
-      <div class="card" style="margin-bottom:10px">
-        <div class="flex-between">
-          <div>
-            <b>${escapeHTML(item.title)}</b>
-            <div class="tiny muted" style="margin-top:4px">${escapeHTML(item.description || "")}</div>
-          </div>
-          <div class="actions flex gap8">
-            <a class="btn blue" href="${escapeHTML(item.url)}" target="_blank" rel="noopener">OPEN</a>
-            ${isCommander()
-              ? `<button class="btn red" onclick="window.deleteDocument('${item.id}')">DELETE</button>`
-              : ""}
-          </div>
-        </div>
-      </div>
-    `).join("")
-    : `<div class="empty">No documents have been added.</div>`;
-}
-
-/* =========================================================
-   CHAT
-   ========================================================= */
-function renderChat(){
-  const messages = state.chat.slice().reverse();
-
-  $("chatWindow").innerHTML = messages.length
-    ? messages.map(message=>{
-      const mine = message.authorId === currentUser?.uid;
-      return `
-        <div class="chat-message ${mine?"mine":""}">
-          <div class="chat-meta">
-            <b>${escapeHTML(message.authorName || "SWAT MEMBER")}</b>
-            · ${escapeHTML(message.authorRank || "SWAT RECRUIT")}
-            · ${escapeHTML(message.localTime || safeTime(message.createdAt))}
-          </div>
-          <div class="chat-text">${escapeHTML(message.text)}</div>
-        </div>
-      `;
-    }).join("")
-    : `<div class="empty">No messages yet.</div>`;
-
-  if($("view-chat").classList.contains("active")){
-    scrollChatBottom();
-  }
-}
-
-function scrollChatBottom(){
-  const box = $("chatWindow");
-  box.scrollTop = box.scrollHeight;
-}
-
-async function sendChat(){
-  const input = $("chatInput");
-  const text = input.value.trim();
-
-  if(!text || !currentUser || !profile) return;
-  input.disabled = true;
-
-  try{
-    await addDoc(collection(db,"chat"),{
-      authorId:currentUser.uid,
-      authorName:profile.name,
-      authorRank:profile.rank,
-      text,
-      localTime:new Date().toLocaleString(),
-      createdAt:serverTimestamp()
-    });
-    input.value = "";
-  }catch(error){
-    alert("Chat message could not be sent: "+(error.code || error.message));
-  }finally{
-    input.disabled = false;
-    input.focus();
-  }
-}
-
-$("sendChatButton").onclick = sendChat;
-$("chatInput").addEventListener("keydown",event=>{
-  if(event.key==="Enter"){
-    event.preventDefault();
-    sendChat();
-  }
 });
 
-/* =========================================================
-   LOGS
-   ========================================================= */
-function renderLogs(){
-  $("logsList").innerHTML = state.logs.length
-    ? state.logs.map(log=>`
-      <div class="notice">
-        <div class="flex-between">
-          <b>${escapeHTML(log.actorName || "SYSTEM")}</b>
-          <span class="tiny muted">${safeTime(log.createdAt)}</span>
-        </div>
-        <div class="small muted" style="margin-top:5px">${escapeHTML(log.action)}</div>
-      </div>
-    `).join("")
-    : `<div class="empty">No activity logs.</div>`;
+// App Initialization
+function initApp() {
+  if (!currentUser) {
+    $("authScreen").classList.remove("hidden");
+    $("app").classList.add("hidden");
+    return;
+  }
+  $("authScreen").classList.add("hidden");
+  $("app").classList.remove("hidden");
+
+  // Check if current user is Karlos Seifeddine (Commander)
+  const isKarlos = currentUser.name === "KARLOS SEIFEDDINE";
+  if (isKarlos) {
+    $("navAdmin").classList.remove("hidden");
+  } else {
+    $("navAdmin").classList.add("hidden");
+  }
+
+  $("sideUserName").textContent = currentUser.name;
+  $("sideUserRank").textContent = currentUser.rank + " · " + currentUser.team;
+  $("topAvatar").textContent = currentUser.name.slice(0, 2).toUpperCase();
+
+  renderAll();
 }
 
-/* =========================================================
-   STATISTICS
-   ========================================================= */
-function distributionHTML(items){
-  if(!items.length) return `<div class="empty">No data.</div>`;
-  const total = items.reduce((sum,item)=>sum+item.count,0) || 1;
+function renderAll() {
+  $("statUsers").textContent = db.users.length;
+  $("statOps").textContent = db.operations.length;
+  $("statReports").textContent = db.reports.length;
 
-  return items.map(item=>{
-    const pct = Math.round((item.count/total)*100);
-    return `
-      <div style="margin-bottom:11px">
-        <div class="flex-between">
-          <span class="small">${escapeHTML(item.label)}</span>
-          <b class="small">${item.count}</b>
-        </div>
-        <div style="height:5px;background:#111923;border-radius:10px;margin-top:5px;overflow:hidden">
-          <div style="width:${pct}%;height:100%;background:#788d9f;border-radius:10px"></div>
-        </div>
-      </div>
-    `;
-  }).join("");
-}
+  // Personnel Table
+  $("personnelTable").innerHTML = db.users.map(u => `
+    <tr>
+      <td><b>${u.name}</b></td>
+      <td>${u.email || '—'}</td>
+      <td><span class="badge">${u.rank}</span></td>
+      <td>${u.team || 'UNASSIGNED'}</td>
+      <td><span class="success">🟢 ONLINE</span></td>
+    </tr>
+  `).join("");
 
-function countBy(field){
-  const map = {};
-  state.users.forEach(user=>{
-    const key = user[field] || "UNASSIGNED";
-    map[key] = (map[key] || 0) + 1;
-  });
-  return Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([label,count])=>({label,count}));
-}
+  // Admin Management Table
+  if (currentUser && currentUser.name === "KARLOS SEIFEDDINE") {
+    $("adminTable").innerHTML = db.users.map((u, idx) => `
+      <tr>
+        <td><b>${u.name}</b></td>
+        <td><span class="badge">${u.rank}</span></td>
+        <td>
+          <select onchange="changeRank(${idx}, this.value)" style="padding:5px;background:#070b11;color:#fff;border:1px solid #263443;border-radius:5px">
+            <option value="SWAT RECRUIT" ${u.rank === 'SWAT RECRUIT' ? 'selected' : ''}>RECRUIT</option>
+            <option value="SWAT OPERATOR" ${u.rank === 'SWAT OPERATOR' ? 'selected' : ''}>OPERATOR</option>
+            <option value="TEAM LEADER" ${u.rank === 'TEAM LEADER' ? 'selected' : ''}>TEAM LEADER</option>
+            <option value="SWAT SUPERVISOR" ${u.rank === 'SWAT SUPERVISOR' ? 'selected' : ''}>SUPERVISOR</option>
+            <option value="SWAT COMMANDER" ${u.rank === 'SWAT COMMANDER' ? 'selected' : ''}>COMMANDER</option>
+          </select>
+        </td>
+      </tr>
+    `).join("");
+  }
 
-function renderStatistics(){
-  const online = state.users.filter(isEffectivelyOnline).length;
-  const stats = [
-    ["Personnel",state.users.length],
-    ["Online",online],
-    ["Operations",state.operations.length],
-    ["Active Operations",state.operations.filter(x=>x.status==="ACTIVE").length],
-    ["Reports",state.reports.length],
-    ["Training Records",state.training.length],
-    ["Announcements",state.announcements.length],
-    ["Documents",state.documents.length]
-  ];
+  // Operations List
+  $("operationsList").innerHTML = db.operations.length ? db.operations.map((o, idx) => `
+    <div class="card" style="margin-bottom:10px">
+      <div class="flex-between"><b>${o.title}</b> <span class="badge green">${o.status}</span></div>
+      <p class="small muted">${o.desc}</p>
+      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" onclick="deleteOp(${idx})">DELETE</button>` : ''}
+    </div>
+  `).join("") : `<div class="empty">No operations found.</div>`;
 
-  $("statisticsGrid").innerHTML = stats.map(([label,value])=>`
-    <div class="card stat-card">
-      <div class="stat-label">${escapeHTML(label)}</div>
-      <div class="stat-value">${value}</div>
+  // Reports List
+  $("reportsList").innerHTML = db.reports.length ? db.reports.map((r, idx) => `
+    <div class="card" style="margin-bottom:10px">
+      <div class="flex-between"><b>${r.title}</b> <span class="badge">${r.author}</span></div>
+      <p class="small muted">${r.content}</p>
+      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" onclick="deleteRep(${idx})">DELETE</button>` : ''}
+    </div>
+  `).join("") : `<div class="empty">No reports found.</div>`;
+
+  // Chat
+  $("chatWindow").innerHTML = db.chat.map(c => `
+    <div class="chat-message ${c.name === currentUser.name ? 'mine' : ''}">
+      <div class="tiny muted"><b>${c.name}</b> · ${c.time}</div>
+      <div class="small">${c.text}</div>
     </div>
   `).join("");
+}
 
-  $("teamStats").innerHTML = distributionHTML(countBy("team"));
-  $("rankStats").innerHTML = distributionHTML(countBy("rank"));
+window.changeRank = (idx, newRank) => {
+  db.users[idx].rank = newRank;
+  saveDb();
+  renderAll();
+};
 
-  const ops = {};
-  state.operations.forEach(o=>{
-    const key = o.status || "UNKNOWN";
-    ops[key] = (ops[key]||0)+1;
+// Modals & Actions
+function closeModal() { $("modal").classList.remove("show"); }
+
+$("openOpModal").onclick = () => {
+  $("modalBox").innerHTML = `
+    <div class="modal-head"><h3>New Operation</h3><button class="close-btn" onclick="closeModal()">×</button></div>
+    <div class="field"><label>Title</label><input id="opTitle"></div>
+    <div class="field"><label>Description</label><textarea id="opDesc"></textarea></div>
+    <button class="btn green" onclick="saveOp()">CREATE</button>
+  `;
+  $("modal").classList.add("show");
+};
+
+window.saveOp = () => {
+  const title = $("opTitle").value.trim();
+  const desc = $("opDesc").value.trim();
+  if(!title) return;
+  db.operations.push({ title, desc, status: "ACTIVE" });
+  saveDb();
+  closeModal();
+  renderAll();
+};
+
+window.deleteOp = idx => {
+  db.operations.splice(idx, 1);
+  saveDb();
+  renderAll();
+};
+
+$("openRepModal").onclick = () => {
+  $("modalBox").innerHTML = `
+    <div class="modal-head"><h3>New Report</h3><button class="close-btn" onclick="closeModal()">×</button></div>
+    <div class="field"><label>Title</label><input id="repTitle"></div>
+    <div class="field"><label>Content</label><textarea id="repContent"></textarea></div>
+    <button class="btn green" onclick="saveRep()">SUBMIT</button>
+  `;
+  $("modal").classList.add("show");
+};
+
+window.saveRep = () => {
+  const title = $("repTitle").value.trim();
+  const content = $("repContent").value.trim();
+  if(!title) return;
+  db.reports.push({ title, content, author: currentUser.name });
+  saveDb();
+  closeModal();
+  renderAll();
+};
+
+window.deleteRep = idx => {
+  db.reports.splice(idx, 1);
+  saveDb();
+  renderAll();
+};
+
+// Chat Send
+$("sendChat").onclick = () => {
+  const text = $("chatInput").value.trim();
+  if(!text) return;
+  db.chat.push({
+    name: currentUser.name,
+    text: text,
+    time: new Date().toLocaleTimeString()
   });
-
-  $("operationStats").innerHTML = distributionHTML(
-    Object.entries(ops).map(([label,count])=>({label,count}))
-  );
-}
-
-/* =========================================================
-   ADMIN
-   ========================================================= */
-function renderAdmin(){
-  if(!isCommander()) return;
-
-  const assigned = state.users.filter(u=>u.team && u.team!=="UNASSIGNED").length;
-  const online = state.users.filter(isEffectivelyOnline).length;
-
-  $("adminAccounts").textContent = state.users.length;
-  $("adminAssigned").textContent = assigned;
-  $("adminUnassigned").textContent = state.users.length-assigned;
-  $("adminOnline").textContent = online;
-
-  const term = $("adminSearch").value.trim().toLowerCase();
-  const users = term
-    ? state.users.filter(u=>[
-        u.name,u.rank,u.team,u.callsign,u.email
-      ].some(v=>String(v||"").toLowerCase().includes(term)))
-    : state.users;
-
-  $("adminTable").innerHTML = users.length
-    ? users.map(user=>`
-      <tr>
-        <td><b>${escapeHTML(user.name)}</b><div class="tiny muted">${escapeHTML(user.email||"")}</div></td>
-        <td><span class="badge">${escapeHTML(user.rank)}</span></td>
-        <td>${escapeHTML(user.team)}</td>
-        <td>${escapeHTML(user.callsign)}</td>
-        <td>
-          <span class="${isEffectivelyOnline(user)?"status-online":"status-offline"}">
-            ${isEffectivelyOnline(user)?"ONLINE":"OFFLINE"}
-          </span>
-        </td>
-        <td><span class="badge gray">${user.uid===COMMANDER_UID?"COMMANDER":"MEMBER"}</span></td>
-        <td>
-          <div class="actions flex gap8">
-            <button class="btn" onclick="window.editMember('${escapeHTML(user.uid || user.id)}')">EDIT</button>
-            ${user.uid!==COMMANDER_UID
-              ? `<button class="btn red" onclick="window.deleteMember('${escapeHTML(user.uid || user.id)}')">DELETE</button>`
-              : ""}
-          </div>
-        </td>
-      </tr>
-    `).join("")
-    : `<tr><td colspan="7"><div class="empty">No accounts found.</div></td></tr>`;
-}
-
-function openCreateUserModal(){
-  if(!isCommander()) return;
-  openModal(
-    "Create Personnel Profile",
-    `
-      <div class="notice">
-        <b>Firebase security note</b>
-        <p class="muted small" style="line-height:1.6">
-          A client-only HTML page cannot safely create a Firebase Authentication
-          account for another person without signing the Commander out.
-          New members should use REGISTER, then the Commander assigns their
-          rank, team and callsign here.
-        </p>
-      </div>
-      <div class="form-grid">
-        <div class="field form-full">
-          <label>NAME</label>
-          <input id="createProfileName" placeholder="Member name">
-        </div>
-      </div>
-    `,
-    `<button class="btn" onclick="window.closeModal()">CLOSE</button>`
-  );
-}
-
-window.viewMember = function(uid){
-  const user = state.users.find(u=>(u.uid || u.id)===uid);
-  if(!user) return;
-  openModal(
-    "Personnel Profile",
-    `
-      <div class="kv"><span>Name</span><span>${escapeHTML(user.name)}</span></div>
-      <div class="kv"><span>Rank</span><span>${escapeHTML(user.rank)}</span></div>
-      <div class="kv"><span>Team</span><span>${escapeHTML(user.team)}</span></div>
-      <div class="kv"><span>Callsign</span><span>${escapeHTML(user.callsign)}</span></div>
-      <div class="kv"><span>Status</span><span class="${isEffectivelyOnline(user)?"success":"muted"}">${isEffectivelyOnline(user)?"ONLINE":"OFFLINE"}</span></div>
-      <div class="kv"><span>Last Seen</span><span>${safeTime(user.lastSeen)}</span></div>
-    `,
-    `<button class="btn" onclick="window.closeModal()">CLOSE</button>`
-  );
+  saveDb();
+  $("chatInput").value = "";
+  renderAll();
+  const cw = $("chatWindow");
+  cw.scrollTop = cw.scrollHeight;
 };
 
-window.editMember = function(uid){
-  if(!isCommander()) return;
-  const user = state.users.find(u=>(u.uid || u.id)===uid);
-  if(!user) return;
-
-  openModal(
-    "Edit SWAT Member",
-    `
-      <div class="form-grid">
-        <div class="field">
-          <label>NAME</label>
-          <input id="editName" value="${escapeHTML(user.name)}">
-        </div>
-        <div class="field">
-          <label>CALLSIGN</label>
-          <input id="editCallsign" value="${escapeHTML(user.callsign)}">
-        </div>
-        <div class="field">
-          <label>RANK</label>
-          <select id="editRank">
-            ${RANKS.map(rank=>`<option value="${escapeHTML(rank)}" ${user.rank===rank?"selected":""}>${escapeHTML(rank)}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>TEAM</label>
-          <select id="editTeam">
-            ${TEAMS.map(team=>`<option value="${escapeHTML(team)}" ${user.team===team?"selected":""}>${escapeHTML(team)}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>ACCOUNT STATE</label>
-          <select id="editAccountState">
-            <option value="ACTIVE" ${user.accountState!=="SUSPENDED"?"selected":""}>ACTIVE</option>
-            <option value="SUSPENDED" ${user.accountState==="SUSPENDED"?"selected":""}>SUSPENDED</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>DISPLAY STATUS</label>
-          <select id="editStatus">
-            <option value="OFFLINE" ${user.status!=="ONLINE"?"selected":""}>OFFLINE</option>
-            <option value="ONLINE" ${user.status==="ONLINE"?"selected":""}>ONLINE</option>
-          </select>
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveMember('${escapeHTML(uid)}')">SAVE CHANGES</button>
-    `
-  );
-};
-
-window.saveMember = async function(uid){
-  if(!isCommander()) return;
-  const reference = doc(db,"users",uid);
-  try{
-    await updateDoc(reference,{
-      name:$("editName").value.trim(),
-      rank:$("editRank").value,
-      team:$("editTeam").value,
-      callsign:$("editCallsign").value.trim() || "UNASSIGNED",
-      accountState:$("editAccountState").value,
-      status:$("editStatus").value
-    });
-    await writeLog("Updated personnel profile",{targetUid:uid});
-    closeModal();
-  }catch(error){
-    alert("Could not update member: "+(error.code || error.message));
-  }
-};
-
-window.deleteMember = async function(uid){
-  if(!isCommander() || uid===COMMANDER_UID) return;
-  openModal(
-    "Delete Member Profile",
-    `
-      <div class="confirm-box">
-        <h3>Delete this Firestore profile?</h3>
-        <p class="muted small">This removes the SWAT profile document.</p>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn red" onclick="window.confirmDeleteMember('${escapeHTML(uid)}')">DELETE PROFILE</button>
-    `
-  );
-};
-
-window.confirmDeleteMember = async function(uid){
-  try{
-    await deleteDoc(doc(db,"users",uid));
-    await writeLog("Deleted personnel profile",{targetUid:uid});
-    closeModal();
-  }catch(error){
-    alert("Could not delete profile: "+(error.code || error.message));
-  }
-};
-
-function openOperationModal(){
-  if(!canManage()) return;
-  openModal(
-    "New SWAT Operation",
-    `
-      <div class="form-grid">
-        <div class="field form-full">
-          <label>OPERATION NAME</label>
-          <input id="operationTitle" placeholder="Operation name">
-        </div>
-        <div class="field">
-          <label>TEAM</label>
-          <select id="operationTeam">
-            <option>ALL TEAMS</option>
-            <option>ALPHA</option>
-            <option>BRAVO</option>
-            <option>CHARLIE</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>STATUS</label>
-          <select id="operationStatus">
-            <option>PLANNED</option>
-            <option>ACTIVE</option>
-            <option>COMPLETED</option>
-            <option>CANCELLED</option>
-          </select>
-        </div>
-        <div class="field form-full">
-          <label>LEAD</label>
-          <input id="operationLead" value="${escapeHTML(profile?.name || "")}">
-        </div>
-        <div class="field form-full">
-          <label>DESCRIPTION</label>
-          <textarea id="operationDescription" placeholder="RP operation description..."></textarea>
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveOperation()">CREATE OPERATION</button>
-    `
-  );
-}
-
-window.saveOperation = async function(){
-  if(!canManage()) return;
-  const title = $("operationTitle").value.trim();
-  if(!title){ alert("Operation name is required."); return; }
-
-  try{
-    await addDoc(collection(db,"operations"),{
-      title,
-      team:$("operationTeam").value,
-      status:$("operationStatus").value,
-      lead:$("operationLead").value.trim(),
-      description:$("operationDescription").value.trim(),
-      createdBy:currentUser.uid,
-      createdByName:profile.name,
-      createdAt:serverTimestamp()
-    });
-    await writeLog("Created operation",{title});
-    closeModal();
-  }catch(error){
-    alert("Could not create operation: "+(error.code || error.message));
-  }
-};
-
-window.editOperation = function(id){
-  if(!canManage()) return;
-  const operation = state.operations.find(o=>o.id===id);
-  if(!operation) return;
-
-  openModal(
-    "Edit Operation",
-    `
-      <div class="form-grid">
-        <div class="field form-full">
-          <label>OPERATION NAME</label>
-          <input id="operationTitle" value="${escapeHTML(operation.title)}">
-        </div>
-        <div class="field">
-          <label>TEAM</label>
-          <select id="operationTeam">
-            ${["ALL TEAMS","ALPHA","BRAVO","CHARLIE"].map(x=>`<option ${operation.team===x?"selected":""}>${x}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>STATUS</label>
-          <select id="operationStatus">
-            ${["PLANNED","ACTIVE","COMPLETED","CANCELLED"].map(x=>`<option ${operation.status===x?"selected":""}>${x}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field form-full">
-          <label>LEAD</label>
-          <input id="operationLead" value="${escapeHTML(operation.lead || "")}">
-        </div>
-        <div class="field form-full">
-          <label>DESCRIPTION</label>
-          <textarea id="operationDescription">${escapeHTML(operation.description || "")}</textarea>
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveOperationEdit('${escapeHTML(id)}')">SAVE</button>
-    `
-  );
-};
-
-window.saveOperationEdit = async function(id){
-  try{
-    await updateDoc(doc(db,"operations",id),{
-      title:$("operationTitle").value.trim(),
-      team:$("operationTeam").value,
-      status:$("operationStatus").value,
-      lead:$("operationLead").value.trim(),
-      description:$("operationDescription").value.trim(),
-      updatedAt:serverTimestamp(),
-      updatedBy:currentUser.uid
-    });
-    await writeLog("Updated operation",{operationId:id});
-    closeModal();
-  }catch(error){
-    alert("Could not update operation: "+(error.code || error.message));
-  }
-};
-
-window.deleteOperation = async function(id){
-  if(!canManage()) return;
-  if(!confirm("Delete this operation record?")) return;
-  try{
-    await deleteDoc(doc(db,"operations",id));
-    await writeLog("Deleted operation",{operationId:id});
-  }catch(error){
-    alert("Could not delete operation: "+(error.code || error.message));
-  }
-};
-
-function openReportModal(){
-  openModal(
-    "New Report",
-    `
-      <div class="form-grid">
-        <div class="field form-full">
-          <label>TITLE</label>
-          <input id="reportTitle" placeholder="Report title">
-        </div>
-        <div class="field">
-          <label>TEAM</label>
-          <select id="reportTeam">
-            ${TEAMS.map(team=>`<option ${profile?.team===team?"selected":""}>${team}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>STATUS</label>
-          <select id="reportStatus">
-            <option>SUBMITTED</option>
-            <option>REVIEWED</option>
-            <option>CLOSED</option>
-          </select>
-        </div>
-        <div class="field form-full">
-          <label>DESCRIPTION</label>
-          <textarea id="reportDescription" placeholder="Write the report..."></textarea>
-        </div>
-        <div class="field form-full">
-          <label>OPTIONAL MEDIA URL</label>
-          <input id="reportMediaUrl" placeholder="https://...">
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveReport()">SUBMIT REPORT</button>
-    `
-  );
-}
-
-window.saveReport = async function(){
-  const title = $("reportTitle").value.trim();
-  if(!title){ alert("Report title is required."); return; }
-
-  try{
-    await addDoc(collection(db,"reports"),{
-      title,
-      team:$("reportTeam").value,
-      status:$("reportStatus").value,
-      description:$("reportDescription").value.trim(),
-      mediaUrl:$("reportMediaUrl").value.trim(),
-      authorId:currentUser.uid,
-      authorName:profile.name,
-      createdAt:serverTimestamp()
-    });
-    await writeLog("Submitted report",{title});
-    closeModal();
-  }catch(error){
-    alert("Could not submit report: "+(error.code || error.message));
-  }
-};
-
-window.editReport = function(id){
-  const report = state.reports.find(r=>r.id===id);
-  if(!report) return;
-  if(report.authorId!==currentUser.uid && !canManage()) return;
-
-  openModal(
-    "Edit Report",
-    `
-      <div class="form-grid">
-        <div class="field form-full">
-          <label>TITLE</label>
-          <input id="reportTitle" value="${escapeHTML(report.title)}">
-        </div>
-        <div class="field">
-          <label>TEAM</label>
-          <select id="reportTeam">
-            ${TEAMS.map(team=>`<option ${report.team===team?"selected":""}>${team}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>STATUS</label>
-          <select id="reportStatus">
-            ${["SUBMITTED","REVIEWED","CLOSED"].map(status=>`<option ${report.status===status?"selected":""}>${status}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field form-full">
-          <label>DESCRIPTION</label>
-          <textarea id="reportDescription">${escapeHTML(report.description || "")}</textarea>
-        </div>
-        <div class="field form-full">
-          <label>MEDIA URL</label>
-          <input id="reportMediaUrl" value="${escapeHTML(report.mediaUrl || "")}">
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveReportEdit('${escapeHTML(id)}')">SAVE</button>
-    `
-  );
-};
-
-window.saveReportEdit = async function(id){
-  try{
-    await updateDoc(doc(db,"reports",id),{
-      title:$("reportTitle").value.trim(),
-      team:$("reportTeam").value,
-      status:$("reportStatus").value,
-      description:$("reportDescription").value.trim(),
-      mediaUrl:$("reportMediaUrl").value.trim(),
-      updatedAt:serverTimestamp()
-    });
-    await writeLog("Updated report",{reportId:id});
-    closeModal();
-  }catch(error){
-    alert("Could not update report: "+(error.code || error.message));
-  }
-};
-
-window.deleteReport = async function(id){
-  const report = state.reports.find(r=>r.id===id);
-  if(!report) return;
-  if(report.authorId!==currentUser.uid && !canManage()) return;
-  if(!confirm("Delete this report?")) return;
-
-  try{
-    await deleteDoc(doc(db,"reports",id));
-    await writeLog("Deleted report",{reportId:id});
-  }catch(error){
-    alert("Could not delete report: "+(error.code || error.message));
-  }
-};
-
-function openTrainingModal(){
-  if(!canManageTraining()) return;
-  openModal(
-    "Add Training Record",
-    `
-      <div class="form-grid">
-        <div class="field">
-          <label>MEMBER</label>
-          <select id="trainingMember">
-            ${state.users.map(user=>`<option value="${escapeHTML(user.uid \vert{}\vert{} user.id)}">${escapeHTML(user.name)}</option>`).join("")}
-          </select>
-        </div>
-        <div class="field">
-          <label>TRAINING</label>
-          <input id="trainingName" placeholder="Training name">
-        </div>
-        <div class="field">
-          <label>STATUS</label>
-          <select id="trainingStatus">
-            <option>PENDING</option>
-            <option>PASSED</option>
-            <option>FAILED</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>DATE</label>
-          <input id="trainingDate" type="date">
-        </div>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveTraining()">SAVE RECORD</button>
-    `
-  );
-}
-
-window.saveTraining = async function(){
-  const uid = $("trainingMember").value;
-  const member = state.users.find(u=>(u.uid || u.id)===uid);
-  if(!member){ alert("Member not found."); return; }
-  if(!$("trainingName").value.trim()){ alert("Training name is required."); return; }
-
-  try{
-    await addDoc(collection(db,"training"),{
-      memberId:uid,
-      memberName:member.name,
-      trainingName:$("trainingName").value.trim(),
-      status:$("trainingStatus").value,
-      date:$("trainingDate").value || new Date().toISOString().slice(0,10),
-      instructorId:currentUser.uid,
-      instructorName:profile.name,
-      createdAt:serverTimestamp()
-    });
-    await writeLog("Added training record",{memberId:uid});
-    closeModal();
-  }catch(error){
-    alert("Could not create training record: "+(error.code || error.message));
-  }
-};
-
-window.deleteTraining = async function(id){
-  if(!canManageTraining()) return;
-  if(!confirm("Delete this training record?")) return;
-  try{
-    await deleteDoc(doc(db,"training",id));
-    await writeLog("Deleted training record",{trainingId:id});
-  }catch(error){
-    alert("Could not delete training record: "+(error.code || error.message));
-  }
-};
-
-function openAnnouncementModal(){
-  if(!canManage()) return;
-  openModal(
-    "New Announcement",
-    `
-      <div class="field">
-        <label>TITLE</label>
-        <input id="announcementTitle" placeholder="Announcement title">
-      </div>
-      <div class="field">
-        <label>CONTENT</label>
-        <textarea id="announcementContent" placeholder="Command message..."></textarea>
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveAnnouncement()">PUBLISH</button>
-    `
-  );
-}
-
-window.saveAnnouncement = async function(){
-  const title = $("announcementTitle").value.trim();
-  const content = $("announcementContent").value.trim();
-  if(!title || !content){ alert("Title and content are required."); return; }
-
-  try{
-    await addDoc(collection(db,"announcements"),{
-      title,
-      content,
-      authorId:currentUser.uid,
-      authorName:profile.name,
-      createdAt:serverTimestamp()
-    });
-    await writeLog("Published announcement",{title});
-    closeModal();
-  }catch(error){
-    alert("Could not publish announcement: "+(error.code || error.message));
-  }
-};
-
-window.deleteAnnouncement = async function(id){
-  if(!canManage()) return;
-  if(!confirm("Delete this announcement?")) return;
-  try{
-    await deleteDoc(doc(db,"announcements",id));
-    await writeLog("Deleted announcement",{announcementId:id});
-  }catch(error){
-    alert("Could not delete announcement: "+(error.code || error.message));
-  }
-};
-
-function openDocumentModal(){
-  if(!isCommander()) return;
-  openModal(
-    "Add Document",
-    `
-      <div class="field">
-        <label>TITLE</label>
-        <input id="documentTitle" placeholder="Document title">
-      </div>
-      <div class="field">
-        <label>DESCRIPTION</label>
-        <input id="documentDescription" placeholder="Short description">
-      </div>
-      <div class="field">
-        <label>URL</label>
-        <input id="documentUrl" placeholder="https://...">
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.saveDocument()">ADD DOCUMENT</button>
-    `
-  );
-}
-
-window.saveDocument = async function(){
-  const title = $("documentTitle").value.trim();
-  const url = $("documentUrl").value.trim();
-  if(!title || !url){ alert("Title and URL are required."); return; }
-
-  try{
-    await addDoc(collection(db,"documents"),{
-      title,
-      description:$("documentDescription").value.trim(),
-      url,
-      createdBy:currentUser.uid,
-      createdAt:serverTimestamp()
-    });
-    await writeLog("Added document",{title});
-    closeModal();
-  }catch(error){
-    alert("Could not add document: "+(error.code || error.message));
-  }
-};
-
-window.deleteDocument = async function(id){
-  if(!isCommander()) return;
-  if(!confirm("Delete this document?")) return;
-  try{
-    await deleteDoc(doc(db,"documents",id));
-    await writeLog("Deleted document",{documentId:id});
-  }catch(error){
-    alert("Could not delete document: "+(error.code || error.message));
-  }
-};
-
-$("changePasswordButton").onclick = async () => {
-  if(!currentUser) return;
-  openModal(
-    "Change Password",
-    `
-      <div class="field">
-        <label>CURRENT PASSWORD</label>
-        <input id="currentPassword" type="password">
-      </div>
-      <div class="field">
-        <label>NEW PASSWORD</label>
-        <input id="newPassword" type="password" minlength="6">
-      </div>
-      <div class="field">
-        <label>CONFIRM NEW PASSWORD</label>
-        <input id="newPassword2" type="password" minlength="6">
-      </div>
-    `,
-    `
-      <button class="btn" onclick="window.closeModal()">CANCEL</button>
-      <button class="btn green" onclick="window.savePassword()">CHANGE PASSWORD</button>
-    `
-  );
-};
-
-window.savePassword = async function(){
-  const current = $("currentPassword").value;
-  const next = $("newPassword").value;
-  const confirmNext = $("newPassword2").value;
-
-  if(next.length < 6){ alert("New password must contain at least 6 characters."); return; }
-  if(next!==confirmNext){ alert("New passwords do not match."); return; }
-
-  try{
-    const credential = EmailAuthProvider.credential(currentUser.email, current);
-    await reauthenticateWithCredential(currentUser, credential);
-    await updatePassword(currentUser, next);
-    await writeLog("Changed own password");
-    closeModal();
-    alert("Password changed successfully.");
-  }catch(error){
-    alert("Password change failed: "+authError(error.code));
-  }
-};
-
-$("mobileMenuButton").onclick = () => { $("sidebar").classList.toggle("open"); };
-
-$("signOutButton").onclick = async () => {
-  try{
-    await updatePresence("OFFLINE");
-    await writeLog("Signed out");
-  }catch{}
-  stopPresence();
-  clearListeners();
-  await signOut(auth);
-};
-
-$("personnelSearch").addEventListener("input",renderPersonnel);
-$("adminSearch").addEventListener("input",renderAdmin);
-$("reportSearch").addEventListener("input",renderReports);
-$("reportStatusFilter").addEventListener("change",renderReports);
-
-$("refreshPersonnel").onclick = () => renderPersonnel();
-$("refreshLogs").onclick = () => renderLogs();
-
-$("openCreateUser").onclick = openCreateUserModal;
-$("openOperationModal").onclick = openOperationModal;
-$("openReportModal").onclick = openReportModal;
-$("openTrainingModal").onclick = openTrainingModal;
-$("openAnnouncementModal").onclick = openAnnouncementModal;
-$("openDocumentModal").onclick = openDocumentModal;
-
-function renderAll(){
-  applyAccessUI();
-  renderProfile();
-  renderDashboard();
-  renderPersonnel();
-  renderTeams();
-  renderOperations();
-  renderReports();
-  renderTraining();
-  renderAnnouncements();
-  renderDocuments();
-  renderChat();
-  renderStatistics();
-  renderLogs();
-  renderAdmin();
-}
-
-onAuthStateChanged(auth,async user=>{
-  if(!user){
-    currentUser = null;
-    profile = null;
-    stopPresence();
-    clearListeners();
-    $("authScreen").classList.remove("hidden");
-    $("app").classList.add("hidden");
-    return;
-  }
-
-  currentUser = user;
-
-  try{
-    await Promise.race([
-      ensureUserProfile(user).then(()=>loadCurrentProfile()),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error("PROFILE_LOAD_TIMEOUT")),12000))
-    ]);
-
-    $("authScreen").classList.add("hidden");
-    $("app").classList.remove("hidden");
-
-    buildNavigation();
-    startPresence();
-    startListeners();
-    renderAll();
-
-  }catch(error){
-    console.error("SWAT profile loading failed:",error);
-    let message;
-    if(error.message==="PROFILE_LOAD_TIMEOUT"){
-      message = "Firebase Authentication succeeded, but Firestore did not respond. Check your Firestore Rules and internet connection.";
-    }else if(error.code==="permission-denied"){
-      message = "Login succeeded, but Firestore denied access to the SWAT profile. Update your Firestore Rules.";
-    }else{
-      message = "Login succeeded, but the SWAT profile could not be loaded: "+(error.code || error.message || "Unknown error");
-    }
-
-    $("authScreen").classList.remove("hidden");
-    $("app").classList.add("hidden");
-    showMessage(message);
-    await signOut(auth).catch(()=>{});
-  }
-});
-
-document.addEventListener("visibilitychange",()=>{
-  if(!currentUser) return;
-  if(document.visibilityState==="visible"){
-    updatePresence("ONLINE");
-  }else{
-    updatePresence("OFFLINE");
-  }
-});
-
-window.addEventListener("beforeunload",()=>{
-  if(currentUser){
-    updatePresence("OFFLINE");
-  }
-});
-
-document.addEventListener("keydown",event=>{
-  if(event.key==="Escape"){ closeModal(); }
-});
-
-$("modal").addEventListener("click",event=>{
-  if(event.target === $("modal")){ closeModal(); }
-});
+// Run on load
+if(currentUser) initApp();
 </script>
 </body>
 </html>
+
