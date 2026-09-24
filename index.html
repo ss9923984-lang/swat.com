@@ -143,6 +143,7 @@ a{color:inherit}
 .badge.green{border-color:#285c43;color:#71dfa0}
 .badge.red{border-color:#633238;color:#ff9299}
 .badge.blue{border-color:#2b5277;color:#83b8eb}
+.badge.yellow{border-color:#62522c;color:#e6c878}
 .notice{border:1px solid #202e3b;background:#0e161f;border-radius:9px;padding:12px;margin-bottom:9px}
 .empty{border:1px dashed #273543;border-radius:10px;color:#667688;padding:28px;text-align:center;font-size:11px}
 
@@ -233,9 +234,11 @@ a{color:inherit}
 
     <div class="sidebar-section-title">Navigation</div>
     <button class="nav-btn active" data-view="dashboard"><span class="ico">⌂</span><span>Command Center</span></button>
-    <button class="nav-btn" data-view="personnel"><span class="ico">👥</span><span>Personnel & Ranks</span></button>
+    <button class="nav-btn" data-view="personnel"><span class="ico">👥</span><span>Sector Personnel</span></button>
     <button class="nav-btn" data-view="operations"><span class="ico">◈</span><span>Operations</span></button>
-    <button class="nav-btn" data-view="reports"><span class="ico">▤</span><span>Reports</span></button>
+    <button class="nav-btn" data-view="announcements"><span class="ico">⚑</span><span>Announcements</span></button>
+    <button class="nav-btn" data-view="wanted"><span class="ico">⚠</span><span>Wanted List</span></button>
+    <button class="nav-btn" data-view="reports"><span class="ico">▤</span><span>Reports Hub</span></button>
     <button class="nav-btn" data-view="chat"><span class="ico">☷</span><span>SWAT Chat</span></button>
     <button class="nav-btn hidden" id="navAdmin" data-view="admin"><span class="ico">⚙</span><span>Administration</span></button>
 
@@ -266,23 +269,23 @@ a{color:inherit}
         <div class="grid grid-4" style="margin-bottom:20px">
           <div class="card stat-card"><div class="stat-label">Total Personnel</div><div id="statUsers" class="stat-value">0</div></div>
           <div class="card stat-card"><div class="stat-label">Operations</div><div id="statOps" class="stat-value">0</div></div>
-          <div class="card stat-card"><div class="stat-label">Reports</div><div id="statReports" class="stat-value">0</div></div>
+          <div class="card stat-card"><div class="stat-label">Wanted Suspects</div><div id="statWanted" class="stat-value warning">0</div></div>
           <div class="card stat-card"><div class="stat-label">Commander</div><div class="stat-value blue" style="font-size:16px;margin-top:14px">KARLOS SEIFEDDINE</div></div>
         </div>
         <div class="card">
           <h3>Welcome, KARLOS SEIFEDDINE (Ghost Karlos)</h3>
-          <p class="muted small">Full local management system is active. All personnel data, ranks, and logs are synchronized locally.</p>
+          <p class="muted small">All 3 SWAT Teams (Alpha, Bravo, Charlie), Announcements, Wanted tracking, and Reports hub are fully operational.</p>
         </div>
       </section>
 
       <!-- Personnel View -->
       <section id="view-personnel" class="view">
         <div class="page-head">
-          <div><h2>Personnel & Ranks</h2><p>Registered unit members and their tactical ranks.</p></div>
+          <div><h2>Sector Personnel</h2><p>Organized hierarchically: Commander, Deputy, Supervisor, then Teams (Alpha, Bravo, Charlie) with Leaders and Operators.</p></div>
         </div>
         <div class="card table-wrap">
           <table class="table">
-            <thead><tr><th>Name</th><th>Email</th><th>Rank</th><th>Team</th><th>Status</th></tr></thead>
+            <thead><tr><th>Name</th><th>Email</th><th>Rank</th><th>Team / Division</th><th>Status</th></tr></thead>
             <tbody id="personnelTable"></tbody>
           </table>
         </div>
@@ -297,11 +300,35 @@ a{color:inherit}
         <div id="operationsList"></div>
       </section>
 
-      <!-- Reports View -->
+      <!-- Announcements View -->
+      <section id="view-announcements" class="view">
+        <div class="page-head">
+          <div><h2>Announcements</h2><p>Official notices from Command, Deputy, and Supervisor only.</p></div>
+          <button class="btn green hidden" id="openAnnModal">+ POST ANNOUNCEMENT</button>
+        </div>
+        <div id="announcementsList"></div>
+      </section>
+
+      <!-- Wanted List View -->
+      <section id="view-wanted" class="view">
+        <div class="page-head">
+          <div><h2>Wanted Suspects</h2><p>Track wanted individuals with images and fingerprints.</p></div>
+          <button class="btn green" id="openWantedModal">+ ADD WANTED</button>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <input id="wantedSearch" placeholder="Search wanted suspect by name..." style="width:min(320px,100%);padding:8px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
+        </div>
+        <div class="grid grid-3" id="wantedGrid"></div>
+      </section>
+
+      <!-- Reports Hub View -->
       <section id="view-reports" class="view">
         <div class="page-head">
-          <div><h2>Reports</h2><p>Unit reports.</p></div>
+          <div><h2>Reports Hub</h2><p>Submit and search reports by person or client name.</p></div>
           <button class="btn green" id="openRepModal">+ NEW REPORT</button>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <input id="reportSearch" placeholder="Search reports by client or person name..." style="width:min(320px,100%);padding:8px;background:#070b11;border:1px solid #263443;color:#fff;border-radius:7px;font-size:11px">
         </div>
         <div id="reportsList"></div>
       </section>
@@ -327,7 +354,7 @@ a{color:inherit}
         </div>
         <div class="card table-wrap">
           <table class="table">
-            <thead><tr><th>Name</th><th>Current Rank</th><th>Action / Promote</th></tr></thead>
+            <thead><tr><th>Name</th><th>Current Rank</th><th>Assigned Team</th><th>Action / Edit</th></tr></thead>
             <tbody id="adminTable"></tbody>
           </table>
         </div>
@@ -352,10 +379,12 @@ const ADMIN_CREDENTIALS = {
 };
 
 let db = {
-  users: JSON.parse(localStorage.getItem('swat_users_karlos')) || [ADMIN_CREDENTIALS],
-  operations: JSON.parse(localStorage.getItem('swat_ops_karlos')) || [],
-  reports: JSON.parse(localStorage.getItem('swat_reps_karlos')) || [],
-  chat: JSON.parse(localStorage.getItem('swat_chat_karlos')) || []
+  users: JSON.parse(localStorage.getItem('swat_users_karlos_v2')) || [ADMIN_CREDENTIALS],
+  operations: JSON.parse(localStorage.getItem('swat_ops_karlos_v2')) || [],
+  announcements: JSON.parse(localStorage.getItem('swat_anns_karlos_v2')) || [],
+  wanted: JSON.parse(localStorage.getItem('swat_wanted_karlos_v2')) || [],
+  reports: JSON.parse(localStorage.getItem('swat_reps_karlos_v2')) || [],
+  chat: JSON.parse(localStorage.getItem('swat_chat_karlos_v2')) || []
 };
 
 // Ensure Karlos is always present and updated as Commander
@@ -366,13 +395,15 @@ if (adminIndex >= 0) {
   db.users.unshift(ADMIN_CREDENTIALS);
 }
 
-let currentUser = JSON.parse(localStorage.getItem('swat_current_karlos')) || null;
+let currentUser = JSON.parse(localStorage.getItem('swat_current_karlos_v2')) || null;
 
 function saveDb() {
-  localStorage.setItem('swat_users_karlos', JSON.stringify(db.users));
-  localStorage.setItem('swat_ops_karlos', JSON.stringify(db.operations));
-  localStorage.setItem('swat_reps_karlos', JSON.stringify(db.reports));
-  localStorage.setItem('swat_chat_karlos', JSON.stringify(db.chat));
+  localStorage.setItem('swat_users_karlos_v2', JSON.stringify(db.users));
+  localStorage.setItem('swat_ops_karlos_v2', JSON.stringify(db.operations));
+  localStorage.setItem('swat_anns_karlos_v2', JSON.stringify(db.announcements));
+  localStorage.setItem('swat_wanted_karlos_v2', JSON.stringify(db.wanted));
+  localStorage.setItem('swat_reps_karlos_v2', JSON.stringify(db.reports));
+  localStorage.setItem('swat_chat_karlos_v2', JSON.stringify(db.chat));
 }
 
 const $ = id => document.getElementById(id);
@@ -403,7 +434,7 @@ $("loginForm").onsubmit = e => {
   const found = db.users.find(u => (u.email === email || (email === "admin@swat.ls" && u.name === "KARLOS SEIFEDDINE")) && u.password === pass);
   if (found) {
     currentUser = found;
-    localStorage.setItem('swat_current_karlos', JSON.stringify(currentUser));
+    localStorage.setItem('swat_current_karlos_v2', JSON.stringify(currentUser));
     initApp();
   } else {
     $("authMessage").textContent = "Invalid credentials. (Use admin@swat.ls / OUSSAMA2010 for Karlos)";
@@ -422,18 +453,18 @@ $("registerForm").onsubmit = e => {
     return;
   }
 
-  const newUser = { name, email, password, rank: "SWAT RECRUIT", team: "UNASSIGNED" };
+  const newUser = { name, email, password, rank: "SWAT OPERATOR", team: "ALPHA TEAM" };
   db.users.push(newUser);
   saveDb();
 
   currentUser = newUser;
-  localStorage.setItem('swat_current_karlos', JSON.stringify(currentUser));
+  localStorage.setItem('swat_current_karlos_v2', JSON.stringify(currentUser));
   initApp();
 };
 
 $("signOutButton").onclick = () => {
   currentUser = null;
-  localStorage.removeItem('swat_current_karlos');
+  localStorage.removeItem('swat_current_karlos_v2');
   $("app").classList.add("hidden");
   $("authScreen").classList.remove("hidden");
 };
@@ -453,11 +484,27 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
   };
 });
 
+// Rank Hierarchy Weight Helper
+function getRankWeight(rank, team) {
+  if (rank === "SWAT COMMANDER") return 1;
+  if (rank === "SWAT DEPUTY COMMANDER") return 2;
+  if (rank === "SWAT SUPERVISOR") return 3;
+  
+  // Teams sorting: Alpha Team, Bravo Team, Charlie Team
+  let teamWeight = 4;
+  if (team === "BRAVO TEAM") teamWeight = 7;
+  if (team === "CHARLIE TEAM") teamWeight = 10;
+
+  if (rank === "TEAM LEADER") return teamWeight;
+  if (rank === "DEPUTY TEAM LEADER") return teamWeight + 1;
+  return teamWeight + 2; // SWAT OPERATOR / RECRUIT
+}
+
 // App Initialization
 function initApp() {
   if (!currentUser) {
-    $("authScreen").classList.remove("hidden");
-    $("app").classList.add("hidden");
+    $("authScreen").classList.add("hidden");
+    $("app").classList.remove("hidden"); // fallback or stay
     return;
   }
   $("authScreen").classList.add("hidden");
@@ -471,8 +518,16 @@ function initApp() {
     $("navAdmin").classList.add("hidden");
   }
 
+  // Check if user can post announcements (Commander, Deputy, Supervisor)
+  const canPostAnn = isKarlos || currentUser.rank === "SWAT DEPUTY COMMANDER" || currentUser.rank === "SWAT SUPERVISOR";
+  if (canPostAnn) {
+    $("openAnnModal").classList.remove("hidden");
+  } else {
+    $("openAnnModal").classList.add("hidden");
+  }
+
   $("sideUserName").textContent = currentUser.name;
-  $("sideUserRank").textContent = currentUser.rank + " · " + currentUser.team;
+  $("sideUserRank").textContent = currentUser.rank + " · " + (currentUser.team || "COMMAND");
   $("topAvatar").textContent = currentUser.name.slice(0, 2).toUpperCase();
 
   renderAll();
@@ -481,15 +536,20 @@ function initApp() {
 function renderAll() {
   $("statUsers").textContent = db.users.length;
   $("statOps").textContent = db.operations.length;
-  $("statReports").textContent = db.reports.length;
+  $("statWanted").textContent = db.wanted.length;
+
+  // Sorted Personnel according to strict hierarchy
+  let sortedUsers = [...db.users].sort((a, b) => {
+    return getRankWeight(a.rank, a.team) - getRankWeight(b.rank, b.team);
+  });
 
   // Personnel Table
-  $("personnelTable").innerHTML = db.users.map(u => `
+  $("personnelTable").innerHTML = sortedUsers.map(u => `
     <tr>
       <td><b>${u.name}</b></td>
       <td>${u.email || '—'}</td>
-      <td><span class="badge">${u.rank}</span></td>
-      <td>${u.team || 'UNASSIGNED'}</td>
+      <td><span class="badge ${u.rank === 'SWAT COMMANDER' ? 'blue' : ''}">${u.rank}</span></td>
+      <td>${u.team || 'COMMAND'}</td>
       <td><span class="success">🟢 ONLINE</span></td>
     </tr>
   `).join("");
@@ -501,11 +561,21 @@ function renderAll() {
         <td><b>${u.name}</b></td>
         <td><span class="badge">${u.rank}</span></td>
         <td>
+          <select onchange="changeTeam(${idx}, this.value)" style="padding:5px;background:#070b11;color:#fff;border:1px solid #263443;border-radius:5px">
+            <option value="COMMAND" ${u.team === 'COMMAND' ? 'selected' : ''}>COMMAND</option>
+            <option value="ALPHA TEAM" ${u.team === 'ALPHA TEAM' ? 'selected' : ''}>ALPHA TEAM</option>
+            <option value="BRAVO TEAM" ${u.team === 'BRAVO TEAM' ? 'selected' : ''}>BRAVO TEAM</option>
+            <option value="CHARLIE TEAM" ${u.team === 'CHARLIE TEAM' ? 'selected' : ''}>CHARLIE TEAM</option>
+          </select>
+        </td>
+        <td>
           <select onchange="changeRank(${idx}, this.value)" style="padding:5px;background:#070b11;color:#fff;border:1px solid #263443;border-radius:5px">
             <option value="SWAT RECRUIT" ${u.rank === 'SWAT RECRUIT' ? 'selected' : ''}>RECRUIT</option>
             <option value="SWAT OPERATOR" ${u.rank === 'SWAT OPERATOR' ? 'selected' : ''}>OPERATOR</option>
             <option value="TEAM LEADER" ${u.rank === 'TEAM LEADER' ? 'selected' : ''}>TEAM LEADER</option>
+            <option value="DEPUTY TEAM LEADER" ${u.rank === 'DEPUTY TEAM LEADER' ? 'selected' : ''}>DEPUTY TEAM LEADER</option>
             <option value="SWAT SUPERVISOR" ${u.rank === 'SWAT SUPERVISOR' ? 'selected' : ''}>SUPERVISOR</option>
+            <option value="SWAT DEPUTY COMMANDER" ${u.rank === 'SWAT DEPUTY COMMANDER' ? 'selected' : ''}>DEPUTY COMMANDER</option>
             <option value="SWAT COMMANDER" ${u.rank === 'SWAT COMMANDER' ? 'selected' : ''}>COMMANDER</option>
           </select>
         </td>
@@ -522,14 +592,21 @@ function renderAll() {
     </div>
   `).join("") : `<div class="empty">No operations found.</div>`;
 
-  // Reports List
-  $("reportsList").innerHTML = db.reports.length ? db.reports.map((r, idx) => `
-    <div class="card" style="margin-bottom:10px">
-      <div class="flex-between"><b>${r.title}</b> <span class="badge">${r.author}</span></div>
-      <p class="small muted">${r.content}</p>
-      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" onclick="deleteRep(${idx})">DELETE</button>` : ''}
+  // Announcements List
+  $("announcementsList").innerHTML = db.announcements.length ? db.announcements.map((a, idx) => `
+    <div class="notice" style="margin-bottom:10px">
+      <div class="flex-between"><b>${a.title}</b> <span class="badge blue">${a.author}</span></div>
+      <p class="small muted" style="margin-top:6px">${a.content}</p>
+      <div class="tiny muted" style="margin-top:6px">${a.time}</div>
+      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" style="margin-top:8px" onclick="deleteAnn(${idx})">DELETE</button>` : ''}
     </div>
-  `).join("") : `<div class="empty">No reports found.</div>`;
+  `).join("") : `<div class="empty">No announcements published yet.</div>`;
+
+  // Wanted List Render with filter
+  renderWantedGrid();
+
+  // Reports Hub Render with filter
+  renderReportsList();
 
   // Chat
   $("chatWindow").innerHTML = db.chat.map(c => `
@@ -545,6 +622,54 @@ window.changeRank = (idx, newRank) => {
   saveDb();
   renderAll();
 };
+
+window.changeTeam = (idx, newTeam) => {
+  db.users[idx].team = newTeam;
+  saveDb();
+  renderAll();
+};
+
+// Wanted Search & Grid
+$("wantedSearch").oninput = renderWantedGrid;
+
+function renderWantedGrid() {
+  const term = $("wantedSearch").value.trim().toLowerCase();
+  let filtered = db.wanted;
+  if (term) {
+    filtered = filtered.filter(w => w.name.toLowerCase().includes(term));
+  }
+
+  $("wantedGrid").innerHTML = filtered.length ? filtered.map((w, idx) => `
+    <div class="card">
+      ${w.img ? `<img src="${w.img}" alt="Suspect" style="width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:10px">` : '<div class="empty" style="padding:20px;margin-bottom:10px">No Image</div>'}
+      <b>${w.name}</b>
+      <p class="small muted" style="margin:5px 0">Fingerprint: ${w.fingerprint ? w.fingerprint : 'Not Provided'}</p>
+      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" onclick="deleteWanted(${idx})">REMOVE</button>` : ''}
+    </div>
+  `).join("") : `<div class="empty" style="grid-column:1/-1">No wanted suspects found.</div>`;
+}
+
+// Reports Search & List
+$("reportSearch").oninput = renderReportsList;
+
+function renderReportsList() {
+  const term = $("reportSearch").value.trim().toLowerCase();
+  let filtered = db.reports;
+  if (term) {
+    filtered = filtered.filter(r => r.client.toLowerCase().includes(term) || r.title.toLowerCase().includes(term));
+  }
+
+  $("reportsList").innerHTML = filtered.length ? filtered.map((r, idx) => `
+    <div class="card" style="margin-bottom:10px">
+      <div class="flex-between">
+        <b>${r.title} (Client/Person: ${r.client})</b> 
+        <span class="badge">${r.author}</span>
+      </div>
+      <p class="small muted" style="margin-top:6px">${r.content}</p>
+      ${currentUser.name === "KARLOS SEIFEDDINE" ? `<button class="btn red" style="margin-top:8px" onclick="deleteRep(${idx})">DELETE</button>` : ''}
+    </div>
+  `).join("") : `<div class="empty">No reports found matching your search.</div>`;
+}
 
 // Modals & Actions
 function closeModal() { $("modal").classList.remove("show"); }
@@ -575,21 +700,80 @@ window.deleteOp = idx => {
   renderAll();
 };
 
+// Announcement Modal
+$("openAnnModal").onclick = () => {
+  $("modalBox").innerHTML = `
+    <div class="modal-head"><h3>New Announcement</h3><button class="close-btn" onclick="closeModal()">×</button></div>
+    <div class="field"><label>Title</label><input id="annTitle"></div>
+    <div class="field"><label>Content</label><textarea id="annContent"></textarea></div>
+    <button class="btn green" onclick="saveAnn()">PUBLISH</button>
+  `;
+  $("modal").classList.add("show");
+};
+
+window.saveAnn = () => {
+  const title = $("annTitle").value.trim();
+  const content = $("annContent").value.trim();
+  if(!title) return;
+  db.announcements.push({ title, content, author: currentUser.name, time: new Date().toLocaleString() });
+  saveDb();
+  closeModal();
+  renderAll();
+};
+
+window.deleteAnn = idx => {
+  db.announcements.splice(idx, 1);
+  saveDb();
+  renderAll();
+};
+
+// Wanted Modal
+$("openWantedModal").onclick = () => {
+  $("modalBox").innerHTML = `
+    <div class="modal-head"><h3>Add Wanted Suspect</h3><button class="close-btn" onclick="closeModal()">×</button></div>
+    <div class="field"><label>Suspect Name</label><input id="wName"></div>
+    <div class="field"><label>Fingerprint (Optional)</label><input id="wFinger"></div>
+    <div class="field"><label>Image URL (Optional)</label><input id="wImg" placeholder="https://..."></div>
+    <button class="btn green" onclick="saveWanted()">ADD TO WANTED</button>
+  `;
+  $("modal").classList.add("show");
+};
+
+window.saveWanted = () => {
+  const name = $("wName").value.trim();
+  const fingerprint = $("wFinger").value.trim();
+  const img = $("wImg").value.trim();
+  if(!name) return;
+  db.wanted.push({ name, fingerprint, img });
+  saveDb();
+  closeModal();
+  renderAll();
+};
+
+window.deleteWanted = idx => {
+  db.wanted.splice(idx, 1);
+  saveDb();
+  renderAll();
+};
+
+// Report Modal
 $("openRepModal").onclick = () => {
   $("modalBox").innerHTML = `
     <div class="modal-head"><h3>New Report</h3><button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="field"><label>Title</label><input id="repTitle"></div>
-    <div class="field"><label>Content</label><textarea id="repContent"></textarea></div>
-    <button class="btn green" onclick="saveRep()">SUBMIT</button>
+    <div class="field"><label>Report Title</label><input id="repTitle"></div>
+    <div class="field"><label>Client / Person Name (For Search)</label><input id="repClient"></div>
+    <div class="field"><label>Report Content</label><textarea id="repContent"></textarea></div>
+    <button class="btn green" onclick="saveRep()">SUBMIT REPORT</button>
   `;
   $("modal").classList.add("show");
 };
 
 window.saveRep = () => {
   const title = $("repTitle").value.trim();
+  const client = $("repClient").value.trim();
   const content = $("repContent").value.trim();
-  if(!title) return;
-  db.reports.push({ title, content, author: currentUser.name });
+  if(!title || !client) return;
+  db.reports.push({ title, client, content, author: currentUser.name });
   saveDb();
   closeModal();
   renderAll();
@@ -622,4 +806,3 @@ if(currentUser) initApp();
 </script>
 </body>
 </html>
-
