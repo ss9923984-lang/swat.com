@@ -1,797 +1,250 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOS SANTOS SWAT | Official External RP Management System</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        swatDark: '#0a0d14',
-                        swatPanel: '#121824',
-                        swatBorder: '#1e293b',
-                        swatBlue: '#0284c7',
-                        swatRed: '#dc2626',
-                        swatGray: '#64748b'
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif'],
-                        mono: ['Share Tech Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0a0d14; color: #f8fafc; }
-        .font-mono { font-family: 'Share Tech Mono', monospace; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0d14; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
-        .glow-effect { text-shadow: 0 0 10px rgba(2, 132, 199, 0.5); }
-        .tactical-border { border: 1px solid #1e293b; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Santos SWAT | Command Portal</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#070a0f;color:#e8edf3}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}.muted{color:#8e9aaa}.danger{color:#ff6b6b}.success{color:#54d38a}
+#login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#172333 0,#070a0f 48%,#040507 100%)}
+.login-card{width:min(430px,92vw);background:#0d121a;border:1px solid #263241;border-radius:18px;padding:30px;box-shadow:0 25px 80px #0008}
+.logo{width:74px;height:74px;border:2px solid #5c6d80;border-radius:50%;display:grid;place-items:center;margin:auto;font-weight:900;color:#dbe7f4}
+h1,h2,h3{margin-top:0}.login-card h1{text-align:center;font-size:25px;margin:18px 0 4px}.login-card p{text-align:center}
+.field{margin:13px 0}.field label{display:block;font-size:12px;color:#9eabb9;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;background:#080c12;border:1px solid #2b3746;color:#fff;border-radius:9px;padding:11px;outline:none}
+.primary{width:100%;padding:12px;border:0;border-radius:9px;background:#dce5ee;color:#080b0f;font-weight:800}.primary:hover{background:#fff}
+.msg{margin-top:12px;text-align:center;font-size:13px}.brand{text-align:center;letter-spacing:2px;font-size:11px;color:#8795a5}
+#app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}
+aside{background:#0a0e14;border-right:1px solid #202a36;padding:20px 14px;position:sticky;top:0;height:100vh}
+.side-title{padding:7px 10px 20px;border-bottom:1px solid #202a36;margin-bottom:12px}.side-title strong{display:block;font-size:17px}.side-title span{font-size:10px;color:#8997a7;letter-spacing:1.5px}
+nav button{display:block;width:100%;text-align:left;background:transparent;color:#aeb9c6;border:0;padding:11px 12px;border-radius:8px;margin:3px 0}
+nav button:hover,nav button.active{background:#17202c;color:#fff}
+.logout{position:absolute;bottom:18px;left:14px;right:14px;background:#151b24;border:1px solid #293543;color:#cbd4de;padding:10px;border-radius:8px}
+main{min-width:0}.top{height:68px;border-bottom:1px solid #202a36;display:flex;align-items:center;justify-content:space-between;padding:0 25px;background:#090d13;position:sticky;top:0;z-index:5}
+.userbox{display:flex;gap:12px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;background:#43d17b;box-shadow:0 0 10px #43d17b}.content{padding:25px;max-width:1500px;margin:auto}
+.view{display:none}.view.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:#0d131b;border:1px solid #202c39;border-radius:12px;padding:17px}.stat{font-size:28px;font-weight:900;margin-top:7px}.label{font-size:11px;color:#8e9aaa;text-transform:uppercase;letter-spacing:1px}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 9px;border-bottom:1px solid #202a35;text-align:left;font-size:13px;white-space:nowrap}.table th{color:#8290a0;font-size:11px;text-transform:uppercase}
+.badge{display:inline-block;padding:4px 7px;border-radius:5px;font-size:10px;font-weight:800;background:#1a2430;color:#cbd6e1}.online{color:#52d98a}.offline{color:#85909d}
+.team{border-left:3px solid #657789}.alpha{border-color:#b93b45}.bravo{border-color:#4777a8}.charlie{border-color:#6e7680}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #2a3745;background:#121a24;color:#d7e0e8;border-radius:7px;padding:7px 10px;font-size:12px}.btn:hover{background:#1b2633}.btn.red{border-color:#6d3035;color:#ff8b8b}.btn.green{border-color:#2f684b;color:#77e1a1}
+.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:20;padding:15px}.modal.show{display:grid}.modal-box{width:min(650px,96vw);max-height:90vh;overflow:auto;background:#0d131b;border:1px solid #2a3745;border-radius:14px;padding:20px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}
+.chat{height:420px;overflow:auto;background:#080c12;border:1px solid #202b37;border-radius:10px;padding:12px}.message{padding:9px 0;border-bottom:1px solid #19222d}.message b{font-size:12px}.message small{color:#687687;margin-left:7px}
+.notice{padding:12px;border:1px solid #293746;border-radius:9px;background:#101720;margin-bottom:9px}
+@media(max-width:900px){#app{grid-template-columns:1fr}aside{position:fixed;left:-260px;z-index:10;transition:.2s;width:250px}aside.open{left:0}.grid{grid-template-columns:repeat(2,1fr)}.top{padding:0 14px}.content{padding:15px}.row{grid-template-columns:1fr}}
+@media(max-width:550px){.grid,.grid2{grid-template-columns:1fr}.top .userbox span{display:none}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+<body>
 
-    <!-- TOP SYSTEM STATUS BAR -->
-    <header class="bg-swatPanel border-b border-swatBorder px-4 py-2 text-xs font-mono flex flex-wrap justify-between items-center z-50">
-        <div class="flex items-center space-x-4 space-x-reverse">
-            <span class="flex items-center text-green-400">
-                <span class="h-2 w-2 bg-green-500 rounded-full animate-ping ml-2"></span>
-                UNIT STATUS: <strong class="text-white ml-1">OPERATIONAL</strong>
-            </span>
-            <span class="hidden md:inline text-swatGray">|</span>
-            <span class="hidden md:inline text-sky-400">CLOUD SYNC: ACTIVE</span>
-        </div>
-        <div class="flex items-center space-x-4 space-x-reverse">
-            <span id="system-clock" class="text-swatGray"></span>
-            <span id="user-session-badge" class="hidden bg-sky-900/50 text-sky-400 border border-sky-700 px-2 py-0.5 rounded text-[10px]"></span>
-            <button id="logout-btn" onclick="logoutSystem()" class="hidden text-red-400 hover:text-red-300 transition"><i class="fa-solid fa-power-off ml-1"></i> خروج</button>
-        </div>
+<section id="login">
+  <div class="login-card">
+    <div class="logo">SWAT</div>
+    <h1>LOS SANTOS SWAT</h1>
+    <p class="brand">SPECIAL WEAPONS & TACTICS</p>
+    <div class="field"><label>Email</label><input id="email" type="email" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div>
+    <button class="primary" id="loginBtn">SIGN IN</button>
+    <div class="msg" id="loginMsg"></div>
+  </div>
+</section>
+
+<section id="app" class="hidden">
+  <aside id="sidebar">
+    <div class="side-title"><strong>LOS SANTOS SWAT</strong><span>COMMAND PORTAL</span></div>
+    <nav id="nav"></nav>
+    <button class="logout" id="logoutBtn">SIGN OUT</button>
+  </aside>
+  <main>
+    <header class="top">
+      <button class="btn" id="menuBtn">☰</button>
+      <div class="userbox"><span id="who"></span><span class="dot"></span></div>
     </header>
+    <div class="content">
 
-    <!-- MAIN APP CONTAINER -->
-    <main class="flex-grow flex flex-col">
+      <section id="dashboard" class="view active">
+        <h2>Command Center</h2>
+        <p class="muted">Los Santos SWAT operational overview.</p>
+        <div class="grid">
+          <div class="card"><div class="label">Total Personnel</div><div class="stat" id="sUsers">0</div></div>
+          <div class="card"><div class="label">Online</div><div class="stat success" id="sOnline">0</div></div>
+          <div class="card"><div class="label">Active Operations</div><div class="stat" id="sOps">0</div></div>
+          <div class="card"><div class="label">Reports</div><div class="stat" id="sReports">0</div></div>
+        </div>
+        <br>
+        <div class="grid3 grid">
+          <div class="card team alpha"><h3>🔴 ALPHA TEAM</h3><p class="muted">Tactical Response</p><b id="alphaCount">0</b> members</div>
+          <div class="card team bravo"><h3>🔵 BRAVO TEAM</h3><p class="muted">Special Operations</p><b id="bravoCount">0</b> members</div>
+          <div class="card team charlie"><h3>⚫ CHARLIE TEAM</h3><p class="muted">Crisis Response</p><b id="charlieCount">0</b> members</div>
+        </div>
+        <br><div class="card"><h3>Latest Announcements</h3><div id="dashAnnouncements"></div></div>
+      </section>
 
-        <!-- VIEW 1: HOME LANDING -->
-        <section id="view-home" class="flex-grow flex flex-col justify-center items-center p-6 text-center">
-            <div class="max-w-4xl mx-auto space-y-6">
-                <div class="inline-block p-4 rounded-full bg-slate-900/80 border border-swatBorder shadow-2xl mb-2">
-                    <i class="fa-solid fa-shield-halved text-6xl text-sky-500 glow-effect"></i>
-                </div>
-                <h1 class="text-4xl md:text-6xl font-black tracking-wider uppercase text-white">
-                    LOS SANTOS <span class="text-sky-500">SWAT</span>
-                </h1>
-                <p class="font-mono text-swatGray tracking-widest text-sm md:text-base uppercase">
-                    SPECIAL WEAPONS & TACTICS — OFFICIAL EXTERNAL RP MANAGEMENT SYSTEM
-                </p>
-                <div class="bg-swatPanel tactical-border p-6 rounded-xl max-w-xl mx-auto grid grid-cols-3 gap-4 text-center my-6">
-                    <div class="border-l border-swatBorder">
-                        <div class="text-xs font-mono text-swatGray">ALPHA TEAM</div>
-                        <div id="home-alpha-count" class="text-xl font-bold text-red-500 font-mono">0 Online</div>
-                    </div>
-                    <div class="border-l border-swatBorder">
-                        <div class="text-xs font-mono text-swatGray">BRAVO TEAM</div>
-                        <div id="home-bravo-count" class="text-xl font-bold text-blue-500 font-mono">0 Online</div>
-                    </div>
-                    <div>
-                        <div class="text-xs font-mono text-swatGray">CHARLIE TEAM</div>
-                        <div id="home-charlie-count" class="text-xl font-bold text-slate-300 font-mono">0 Online</div>
-                    </div>
-                </div>
-                <div class="flex justify-center gap-4 flex-wrap">
-                    <button onclick="switchView('view-login')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition flex items-center">
-                        <i class="fa-solid fa-right-to-bracket ml-2"></i> تسجيل الدخول (LOGIN)
-                    </button>
-                    <button onclick="switchView('view-register')" class="bg-slate-800 hover:bg-slate-700 text-sky-400 font-bold px-6 py-3 rounded-lg border border-sky-600/40 transition flex items-center">
-                        <i class="fa-solid fa-user-plus ml-2"></i> إنشاء حساب (REGISTER)
-                    </button>
-                    <button onclick="switchView('view-command-center')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-6 py-3 rounded-lg border border-swatBorder transition flex items-center">
-                        <i class="fa-solid fa-desktop ml-2"></i> Command Center
-                    </button>
-                </div>
-                <div class="pt-8 text-xs font-mono text-swatGray italic">
-                    "READY. DISCIPLINED. UNITED."
-                </div>
-            </div>
-        </section>
+      <section id="personnel" class="view"><h2>Personnel</h2><div class="card table-wrap"><table class="table"><thead><tr><th>Name</th><th>Rank</th><th>Team</th><th>Callsign</th><th>Status</th><th>Action</th></tr></thead><tbody id="usersTable"></tbody></table></div></section>
 
-        <!-- VIEW 2: LOGIN PORTAL -->
-        <section id="view-login" class="hidden flex-grow flex justify-center items-center p-6">
-            <div class="bg-swatPanel tactical-border w-full max-w-md p-8 rounded-xl shadow-2xl space-y-6">
-                <div class="text-center space-y-2">
-                    <i class="fa-solid fa-fingerprint text-4xl text-sky-500"></i>
-                    <h2 class="text-2xl font-bold tracking-wide">تسجيل دخول الأعضاء</h2>
-                    <p class="text-xs font-mono text-swatGray">أدخل بيانات الاعتماد الخاصة بنظام الـ SWAT MDT</p>
-                </div>
-                <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-mono text-swatGray mb-1">اسم المستخدم (Username)</label>
-                        <input type="text" id="login-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="KARLOS SEIFEDDINE">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-mono text-swatGray mb-1">كلمة المرور (Password)</label>
-                        <input type="password" id="login-password" required class="w-full bg-slate-900 border border-swatBorder rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 font-mono" placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded transition shadow-lg mt-2">
-                        الدخول إلى النظام
-                    </button>
-                </form>
-                <div class="text-center flex justify-between items-center text-xs">
-                    <button onclick="switchView('view-home')" class="text-swatGray hover:text-white transition"><i class="fa-solid fa-arrow-right ml-1"></i> الرئيسية</button>
-                    <button onclick="switchView('view-register')" class="text-sky-400 hover:underline">إنشاء حساب جديد</button>
-                </div>
-            </div>
-        </section>
+      <section id="teams" class="view"><h2>Teams</h2><div class="grid2" id="teamsGrid"></div></section>
 
-        <!-- VIEW 2.5: REGISTER PORTAL -->
-        <section id="view-register" class="hidden flex-grow flex justify-center items-center p-6">
-            <div class="bg-swatPanel tactical-border w-full max-w-md p-8 rounded-xl shadow-2xl space-y-6">
-                <div class="text-center space-y-2">
-                    <i class="fa-solid fa-user-plus text-4xl text-sky-500"></i>
-                    <h2 class="text-2xl font-bold tracking-wide">تسجيل حساب عضو جديد</h2>
-                    <p class="text-xs font-mono text-swatGray">سيتم منحك رتبة Operator مبدئياً وتعيين ندائك</p>
-                </div>
-                <form onsubmit="handleRegister(event)" class="space-y-3 font-mono text-xs">
-                    <div>
-                        <label class="block text-swatGray mb-1">اسم المستخدم</label>
-                        <input type="text" id="reg-username" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="karlos">
-                    </div>
-                    <div>
-                        <label class="block text-swatGray mb-1">كلمة المرور</label>
-                        <input type="password" id="reg-password" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="••••••••">
-                    </div>
-                    <div>
-                        <label class="block text-swatGray mb-1">الاسم الكامل</label>
-                        <input type="text" id="reg-fullname" required class="w-full bg-slate-900 border border-swatBorder rounded px-3 py-2 text-white" placeholder="Karlos Seifeddine">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-swatGray mb-1">الفريق</label>
-                            <select id="reg-team" class="w-full bg-slate-900 border border-swatBorder rounded px-2 py-2 text-white">
-                                <option value="Alpha">Alpha Team</option>
-                                <option value="Bravo">Bravo Team</option>
-                                <option value="Charlie">Charlie Team</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-swatGray mb-1">النداء التكتيكي (Callsign)</label>
-                            <input type="text" id="reg-callsign" required class="w-full bg-slate-900 border border-swatBorder rounded px-2 py-2 text-white" placeholder="SWAT-1A">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded transition shadow-lg mt-2 font-cairo">
-                        إنشاء الحساب والدخول
-                    </button>
-                </form>
-                <div class="text-center">
-                    <button onclick="switchView('view-home')" class="text-xs text-swatGray hover:text-white transition"><i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية</button>
-                </div>
-            </div>
-        </section>
+      <section id="operations" class="view"><div class="actions" style="justify-content:space-between"><div><h2>Operations</h2></div><button class="btn green admin-action" onclick="openOperation()">+ New Operation</button></div><div id="opsList"></div></section>
 
-        <!-- VIEW 3: DASHBOARD / MDT INTERFACE -->
-        <section id="view-dashboard" class="hidden flex-grow flex flex-col md:flex-row h-full">
-            <!-- SIDEBAR NAVIGATION -->
-            <aside class="w-full md:w-64 bg-swatPanel border-l border-swatBorder flex flex-col justify-between">
-                <div>
-                    <div class="p-4 border-b border-swatBorder flex items-center space-x-3 space-x-reverse">
-                        <div class="bg-sky-600/20 p-2 rounded border border-sky-600/40 text-sky-400">
-                            <i class="fa-solid fa-shield text-xl"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-sm tracking-wide">LS-SWAT MDT</div>
-                            <div class="text-[10px] font-mono text-sky-400" id="dash-user-rank">SWAT OPERATOR</div>
-                        </div>
-                    </div>
-                    <nav class="p-2 space-y-1 font-mono text-xs">
-                        <button onclick="openTab('tab-overview')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn active-tab" data-tab="tab-overview">
-                            <i class="fa-solid fa-chart-pie ml-3 w-4 text-sky-500"></i> نظرة عامة
-                        </button>
-                        <button onclick="openTab('tab-personnel')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-personnel">
-                            <i class="fa-solid fa-users ml-3 w-4 text-sky-500"></i> الأفراد والفرق
-                        </button>
-                        <button onclick="openTab('tab-operations')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-operations">
-                            <i class="fa-solid fa-triangle-exclamation ml-3 w-4 text-sky-500"></i> العمليات
-                        </button>
-                        <button onclick="openTab('tab-reports')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-reports">
-                            <i class="fa-solid fa-clipboard-list ml-3 w-4 text-sky-500"></i> التقارير الرسمية
-                        </button>
-                        <button onclick="openTab('tab-announcements')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-announcements">
-                            <i class="fa-solid fa-bullhorn ml-3 w-4 text-sky-500"></i> الإعلانات
-                        </button>
-                        <button onclick="openTab('tab-training')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-training">
-                            <i class="fa-solid fa-dumbbell ml-3 w-4 text-sky-500"></i> التدريبات
-                        </button>
-                        <button onclick="openTab('tab-chat')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-chat">
-                            <i class="fa-solid fa-comments ml-3 w-4 text-sky-500"></i> الشات الداخلي
-                        </button>
-                        <button onclick="openTab('tab-documents')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-documents">
-                            <i class="fa-solid fa-folder-open ml-3 w-4 text-sky-500"></i> الملفات (SOP)
-                        </button>
-                        <button onclick="openTab('tab-logs')" class="w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-slate-300 flex items-center transition tab-btn" data-tab="tab-logs">
-                            <i class="fa-solid fa-clock-rotate-left ml-3 w-4 text-sky-500"></i> سجل النشاطات
-                        </button>
-                        <button id="admin-menu-btn" onclick="openTab('tab-admin')" class="hidden w-full text-right px-3 py-2.5 rounded hover:bg-slate-800 text-red-400 flex items-center transition tab-btn" data-tab="tab-admin">
-                            <i class="fa-solid fa-gears ml-3 w-4 text-red-500"></i> لوحة الإدارة العليا
-                        </button>
-                    </nav>
-                </div>
-                <div class="p-4 border-t border-swatBorder text-[11px] font-mono text-swatGray">
-                    <div>المستخدم: <span id="dash-username" class="text-white">---</span></div>
-                    <div>النداء: <span id="dash-callsign" class="text-sky-400">---</span></div>
-                </div>
-            </aside>
+      <section id="reports" class="view"><div class="actions" style="justify-content:space-between"><h2>Reports</h2><button class="btn green" onclick="openReport()">+ New Report</button></div><div id="reportsList"></div></section>
 
-            <!-- WORKSPACE -->
-            <div class="flex-grow bg-[#0f131c] p-6 overflow-y-auto">
+      <section id="training" class="view"><div class="actions" style="justify-content:space-between"><h2>Training</h2><button class="btn green admin-action" onclick="openTraining()">+ Training Record</button></div><div class="card table-wrap"><table class="table"><thead><tr><th>Member</th><th>Training</th><th>Status</th><th>Date</th></tr></thead><tbody id="trainingTable"></tbody></table></div></section>
 
-                <!-- 1. OVERVIEW -->
-                <div id="tab-overview" class="tab-content space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
-                            <div class="text-xs font-mono text-swatGray">إجمالي الأعضاء</div>
-                            <div id="stat-total-members" class="text-2xl font-bold font-mono mt-1">0</div>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
-                            <div class="text-xs font-mono text-swatGray">متصلون الآن (Online)</div>
-                            <div id="stat-online-members" class="text-2xl font-bold font-mono text-green-400 mt-1">0</div>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
-                            <div class="text-xs font-mono text-swatGray">العمليات النشطة</div>
-                            <div id="stat-active-ops" class="text-2xl font-bold font-mono text-amber-400 mt-1">0</div>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl">
-                            <div class="text-xs font-mono text-swatGray">التقارير المقدمة</div>
-                            <div id="stat-total-reports" class="text-2xl font-bold font-mono text-sky-400 mt-1">0</div>
-                        </div>
-                    </div>
-                </div>
+      <section id="announcements" class="view"><div class="actions" style="justify-content:space-between"><h2>Announcements</h2><button class="btn green admin-action" onclick="openAnnouncement()">+ Announcement</button></div><div id="annList"></div></section>
 
-                <!-- 2. PERSONNEL -->
-                <div id="tab-personnel" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-users text-sky-500 ml-2"></i> سجل أفراد الوحدة وسلسلة القيادة</h3>
-                    </div>
-                    <div class="bg-swatPanel tactical-border rounded-xl overflow-hidden">
-                        <table class="w-full text-right text-sm">
-                            <thead class="bg-slate-900 text-swatGray font-mono text-xs border-b border-swatBorder">
-                                <tr>
-                                    <th class="p-3">الاسم الكامل</th>
-                                    <th class="p-3">الرتبة</th>
-                                    <th class="p-3">الفريق</th>
-                                    <th class="p-3">النداء (Callsign)</th>
-                                    <th class="p-3">الحالة</th>
-                                </tr>
-                            </thead>
-                            <tbody id="personnel-table-body" class="divide-y divide-swatBorder font-mono text-xs"></tbody>
-                        </table>
-                    </div>
-                </div>
+      <section id="documents" class="view"><h2>Documents</h2><div class="card"><p class="muted">Internal SWAT document library.</p><div id="docsList"></div><div class="admin-action"><input id="docTitle" placeholder="Document title" style="padding:9px;background:#080c12;color:#fff;border:1px solid #2b3746;border-radius:7px"><input id="docUrl" placeholder="Document URL" style="padding:9px;background:#080c12;color:#fff;border:1px solid #2b3746;border-radius:7px"><button class="btn green" onclick="addDocument()">Add</button></div></div></section>
 
-                <!-- 3. OPERATIONS -->
-                <div id="tab-operations" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-triangle-exclamation text-sky-500 ml-2"></i> العمليات الميدانية</h3>
-                        <button onclick="openNewOperationModal()" id="btn-new-op" class="hidden bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
-                            <i class="fa-solid fa-plus ml-1"></i> عملية جديدة
-                        </button>
-                    </div>
-                    <div id="operations-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                </div>
+      <section id="chat" class="view"><h2>SWAT Chat</h2><div class="chat" id="chatBox"></div><br><div class="actions"><input id="chatInput" style="flex:1;min-width:180px;padding:10px;background:#080c12;color:#fff;border:1px solid #2b3746;border-radius:7px" placeholder="Write message..."><button class="btn green" onclick="sendChat()">SEND</button></div></section>
 
-                <!-- 4. REPORTS (Fully Functional Report Builder) -->
-                <div id="tab-reports" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-clipboard-list text-sky-500 ml-2"></i> نظام التقارير الرسمية</h3>
-                        <button onclick="openNewReportModal()" class="bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
-                            <i class="fa-solid fa-plus ml-1"></i> كتابة تقرير رسمي جديد
-                        </button>
-                    </div>
-                    <div id="reports-container" class="space-y-3"></div>
-                </div>
+      <section id="logs" class="view"><h2>Activity Logs</h2><div id="logsList"></div></section>
 
-                <!-- 5. ANNOUNCEMENTS -->
-                <div id="tab-announcements" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-bullhorn text-sky-500 ml-2"></i> الإعلانات الرسمية</h3>
-                        <button onclick="openNewAnnouncementModal()" id="btn-new-ann" class="hidden bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs px-3 py-2 rounded transition">
-                            <i class="fa-solid fa-plus ml-1"></i> نشر إعلان
-                        </button>
-                    </div>
-                    <div id="announcements-container" class="space-y-4"></div>
-                </div>
+      <section id="statistics" class="view"><h2>Statistics</h2><div class="grid" id="statsGrid"></div></section>
 
-                <!-- 6. TRAINING -->
-                <div id="tab-training" class="tab-content hidden space-y-4">
-                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-dumbbell text-sky-500 ml-2"></i> نظام التدريبات والاختبارات التكتيكية</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
-                            <div class="font-bold text-sky-400 text-sm">Basic SWAT Training</div>
-                            <p class="text-swatGray">اختبار الاقتحام والاشتباك الفردي الميداني.</p>
-                        </div>
-                        <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2">
-                            <div class="font-bold text-sky-400 text-sm">Radio & Callsign Procedures</div>
-                            <p class="text-swatGray">بروتوكولات الاتصال الراديوي والنداءات الرسمية.</p>
-                        </div>
-                    </div>
-                </div>
+      <section id="admin" class="view"><h2>Administration</h2><p class="muted">Commander-only management.</p><div class="card table-wrap"><table class="table"><thead><tr><th>Name</th><th>Rank</th><th>Team</th><th>Callsign</th><th>Actions</th></tr></thead><tbody id="adminTable"></tbody></table></div></section>
 
-                <!-- 7. CHAT -->
-                <div id="tab-chat" class="tab-content hidden flex flex-col h-[calc(100vh-140px)]">
-                    <h3 class="font-bold text-lg mb-3 flex items-center"><i class="fa-solid fa-comments text-sky-500 ml-2"></i> الشات التكتيكي الداخلي</h3>
-                    <div id="chat-messages" class="flex-grow bg-swatPanel tactical-border rounded-xl p-4 overflow-y-auto space-y-3 font-mono text-xs"></div>
-                    <form onsubmit="sendChatMessage(event)" class="mt-3 flex gap-2">
-                        <input type="text" id="chat-input" required placeholder="اكتب رسالتك التكتيكية هنا..." class="flex-grow bg-swatPanel border border-swatBorder rounded px-4 py-2 text-sm text-white font-mono focus:outline-none focus:border-sky-500">
-                        <button type="submit" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-6 py-2 rounded transition font-mono text-xs">إرسال</button>
-                    </form>
-                </div>
+    </div>
+  </main>
+</section>
 
-                <!-- 8. DOCUMENTS -->
-                <div id="tab-documents" class="tab-content hidden space-y-4">
-                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-folder-open text-sky-500 ml-2"></i> الملفات والكتيبات الرسمية (SOP)</h3>
-                    <div class="bg-swatPanel tactical-border p-4 rounded-xl font-mono text-xs space-y-2">
-                        <div class="font-bold text-white text-sm">Standard Operating Procedures (SOP)</div>
-                        <p class="text-swatGray">الالتزام بسلسلة القيادة، عدم التحرك إلا بأمر Supervisor أو Commander، وحفظ حقوق الـ RP.</p>
-                    </div>
-                </div>
+<div class="modal" id="modal"><div class="modal-box" id="modalBox"></div></div>
 
-                <!-- 9. ACTIVITY LOGS -->
-                <div id="tab-logs" class="tab-content hidden space-y-4">
-                    <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-clock-rotate-left text-sky-500 ml-2"></i> سجل النشاطات والعمليات الحية</h3>
-                    <div class="bg-swatPanel tactical-border rounded-xl p-4 font-mono text-xs space-y-3" id="logs-container"></div>
-                </div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, where } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-                <!-- 10. ADMIN PANEL (Commander / Deputy / Supervisor Only) -->
-                <div id="tab-admin" class="tab-content hidden space-y-4">
-                    <h3 class="font-bold text-lg text-red-400 flex items-center"><i class="fa-solid fa-gears text-red-500 ml-2"></i> لوحة التحكم الإدارية والصلاحيات</h3>
-                    <div class="bg-swatPanel tactical-border p-6 rounded-xl space-y-6">
-                        <div>
-                            <h4 class="font-bold text-sm mb-2 text-sky-400">ترقية عضو أو تعديل رتبته</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-                                <select id="admin-target-user" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white"></select>
-                                <select id="admin-new-rank" class="bg-slate-900 border border-swatBorder p-2.5 rounded text-white">
-                                    <option value="SWAT Commander">SWAT Commander</option>
-                                    <option value="Deputy Commander">Deputy Commander</option>
-                                    <option value="Supervisor">Supervisor</option>
-                                    <option value="Team Leader">Team Leader</option>
-                                    <option value="SWAT Operator">SWAT Operator</option>
-                                </select>
-                                <button onclick="executeRankPromotion()" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 rounded transition">تحديث الرتبة فوراً</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+const firebaseConfig = {
+  apiKey: "AIzaSyD4sr6WGj1qnHZn05IQHsn1mfMSRiYEnNg",
+  authDomain: "los-santos-swat.firebaseapp.com",
+  databaseURL: "https://los-santos-swat-default-rtdb.firebaseio.com",
+  projectId: "los-santos-swat",
+  storageBucket: "los-santos-swat.firebasestorage.app",
+  messagingSenderId: "963645520165",
+  appId: "1:963645520165:web:c04301976066253c6f02cc",
+  measurementId: "G-YDNP8FY7W2"
+};
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+const COMMANDER_UID="DjhKDMXmE8dDKA1e29DdnygGZtE3";
+let me=null, unsub=[], data={users:[],ops:[],reports:[],training:[],ann:[],docs:[],chat:[],logs:[]};
 
-            </div>
-        </section>
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function isCommander(){return me?.uid===COMMANDER_UID || me?.rank==="SWAT COMMANDER"}
+function canManage(){return isCommander()||["SWAT DEPUTY COMMANDER","SWAT SUPERVISOR"].includes(me?.rank)}
+function closeModal(){$("modal").classList.remove("show")}
+window.closeModal=closeModal;
 
-        <!-- VIEW 4: COMMAND CENTER -->
-        <section id="view-command-center" class="hidden flex-grow flex flex-col justify-center items-center p-6">
-            <div class="bg-swatPanel tactical-border w-full max-w-3xl p-8 rounded-xl shadow-2xl space-y-6 font-mono">
-                <div class="text-center border-b border-swatBorder pb-4">
-                    <h2 class="text-2xl font-black text-white tracking-widest">LOS SANTOS SWAT</h2>
-                    <p class="text-xs text-sky-400 mt-1">SWAT COMMAND CENTER — LIVE MONITOR</p>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
-                        <div class="text-xs text-swatGray">UNIT STATUS</div>
-                        <div class="text-green-400 font-bold mt-1">🟢 OPERATIONAL</div>
-                    </div>
-                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
-                        <div class="text-xs text-swatGray">ALPHA ONLINE</div>
-                        <div id="cc-alpha" class="text-red-400 font-bold mt-1">0</div>
-                    </div>
-                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
-                        <div class="text-xs text-swatGray">BRAVO ONLINE</div>
-                        <div id="cc-bravo" class="text-blue-400 font-bold mt-1">0</div>
-                    </div>
-                    <div class="bg-slate-900 p-4 rounded border border-swatBorder">
-                        <div class="text-xs text-swatGray">CHARLIE ONLINE</div>
-                        <div id="cc-charlie" class="text-slate-300 font-bold mt-1">0</div>
-                    </div>
-                </div>
-                <div class="text-center pt-4">
-                    <button onclick="switchView('view-home')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-6 py-2 rounded text-xs transition">العودة للرئيسية</button>
-                </div>
-            </div>
-        </section>
+$("loginBtn").onclick=async()=>{
+  $("loginMsg").textContent="";
+  try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}
+  catch(e){$("loginMsg").textContent="Login failed: "+(e.code||e.message)}
+};
+$("logoutBtn").onclick=()=>signOut(auth);
+$("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
 
-    </main>
+const baseNav=[
+["dashboard","⌂","Command Center"],["personnel","👥","Personnel"],["teams","🏢","Teams"],
+["operations","🚨","Operations"],["reports","📋","Reports"],["training","🏋","Training"],
+["announcements","📢","Announcements"],["documents","📁","Documents"],["chat","💬","SWAT Chat"],
+["statistics","📊","Statistics"],["logs","🕐","Activity Logs"]
+];
+function buildNav(){
+ let arr=[...baseNav]; if(isCommander())arr.push(["admin","⚙","Administration"]);
+ $("nav").innerHTML=arr.map(x=>`<button data-view="${x[0]}">${x[1]} &nbsp; ${x[2]}</button>`).join("");
+ $("nav").querySelectorAll("button").forEach(b=>b.onclick=()=>showView(b.dataset.view));
+}
+function showView(id){
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+ $(id).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));
+ if(innerWidth<901)$("sidebar").classList.remove("open");
+}
+async function ensureProfile(user){
+ const ref=doc(db,"users",user.uid), snap=await getDoc(ref);
+ if(!snap.exists()){
+   await setDoc(ref,{name:user.displayName||user.email?.split("@")[0]||"New Member",rank:"SWAT RECRUIT",team:"UNASSIGNED",callsign:"UNASSIGNED",status:"ONLINE",email:user.email||"",createdAt:serverTimestamp()});
+ }
+}
+async function setPresence(status){
+ if(!auth.currentUser)return;
+ await updateDoc(doc(db,"users",auth.currentUser.uid),{status,lastSeen:serverTimestamp()}).catch(()=>{});
+}
+async function log(action,extra={}){
+ if(!me)return;
+ await addDoc(collection(db,"logs"),{actor:me.name,uid:me.uid,action,at:serverTimestamp(),...extra}).catch(()=>{});
+}
+function listenAll(){
+ unsub.forEach(f=>f());unsub=[];
+ const listen=(col,key,fn)=>{
+   const q=query(collection(db,col),orderBy("createdAt","desc"),limit(100));
+   unsub.push(onSnapshot(q,s=>{data[key]=s.docs.map(d=>({id:d.id,...d.data()}));fn();},()=>{}));
+ };
+ listen("users","users",renderAll);listen("operations","ops",renderAll);listen("reports","reports",renderAll);
+ listen("training","training",renderAll);listen("announcements","ann",renderAll);listen("documents","docs",renderAll);
+ listen("chat","chat",renderAll);listen("logs","logs",renderAll);
+}
+function renderAll(){
+ renderDashboard();renderUsers();renderTeams();renderOps();renderReports();renderTraining();renderAnnouncements();renderDocs();renderChat();renderLogs();renderStats();renderAdmin();
+}
+function renderDashboard(){
+ $("sUsers").textContent=data.users.length;$("sOnline").textContent=data.users.filter(u=>u.status==="ONLINE").length;
+ $("sOps").textContent=data.ops.filter(x=>x.status==="ACTIVE").length;$("sReports").textContent=data.reports.length;
+ $("alphaCount").textContent=data.users.filter(u=>u.team==="ALPHA").length;
+ $("bravoCount").textContent=data.users.filter(u=>u.team==="BRAVO").length;
+ $("charlieCount").textContent=data.users.filter(u=>u.team==="CHARLIE").length;
+ $("dashAnnouncements").innerHTML=data.ann.slice(0,4).map(a=>`<div class="notice"><b>${esc(a.title)}</b><div class="muted">${esc(a.content)}</div></div>`).join("")||"<span class='muted'>No announcements.</span>";
+}
+function userRow(u,admin=false){
+ return `<tr><td>${esc(u.name)}</td><td>${esc(u.rank)}</td><td>${esc(u.team)}</td><td>${esc(u.callsign)}</td><td class="${u.status==="ONLINE"?"online":"offline"}">${u.status==="ONLINE"?"🟢 ONLINE":"⚫ OFFLINE"}</td>${admin?`<td><button class="btn" onclick="editUser('${u.id}')">Edit</button> <button class="btn red" onclick="removeUser('${u.id}')">Delete</button></td>`:"<td></td>"}</tr>`
+}
+function renderUsers(){$("usersTable").innerHTML=data.users.map(u=>userRow(u)).join("")||`<tr><td colspan="6" class="muted">No personnel yet.</td></tr>`}
+function renderAdmin(){$("adminTable").innerHTML=data.users.map(u=>userRow(u,true)).join("")}
+function renderTeams(){
+ const teams=[["ALPHA","Tactical Response","alpha"],["BRAVO","Special Operations","bravo"],["CHARLIE","Crisis Response","charlie"]];
+ $("teamsGrid").innerHTML=teams.map(t=>`<div class="card team ${t[2]}"><h3>${t[0]} TEAM</h3><p class="muted">${t[1]}</p>${data.users.filter(u=>u.team===t[0]).map(u=>`<div class="notice">${esc(u.name)} <span class="badge">${esc(u.rank)}</span><br><small>${esc(u.callsign)} · <span class="${u.status==="ONLINE"?"online":"offline"}">${u.status}</span></small></div>`).join("")||"<span class='muted'>No members.</span>"}</div>`).join("");
+}
+function renderOps(){$("opsList").innerHTML=data.ops.map(o=>`<div class="card" style="margin:10px 0"><div class="actions" style="justify-content:space-between"><h3>${esc(o.name)}</h3><span class="badge">${esc(o.status)}</span></div><p class="muted">${esc(o.team)} · ${esc(o.leader||"")} · ${esc(o.description||"")}</p></div>`).join("")||"<p class='muted'>No operations.</p>"}
+function renderReports(){$("reportsList").innerHTML=data.reports.map(r=>`<div class="card" style="margin:10px 0"><h3>${esc(r.title)}</h3><p class="muted">${esc(r.author)} · ${esc(r.team)} · ${esc(r.status||"SUBMITTED")}</p><p>${esc(r.description)}</p></div>`).join("")||"<p class='muted'>No reports.</p>"}
+function renderTraining(){$("trainingTable").innerHTML=data.training.map(t=>`<tr><td>${esc(t.member)}</td><td>${esc(t.training)}</td><td>${esc(t.status)}</td><td>${esc(t.date||"")}</td></tr>`).join("")}
+function renderAnnouncements(){$("annList").innerHTML=data.ann.map(a=>`<div class="notice"><h3>${esc(a.title)}</h3><p>${esc(a.content)}</p><small class="muted">${esc(a.author||"")}</small></div>`).join("")||"<p class='muted'>No announcements.</p>"}
+function renderDocs(){$("docsList").innerHTML=data.docs.map(d=>`<div class="notice"><a href="${esc(d.url)}" target="_blank" rel="noopener" style="color:#cbd9e8">${esc(d.title)}</a></div>`).join("")||"<p class='muted'>No documents.</p>"}
+function renderChat(){$("chatBox").innerHTML=data.chat.slice().reverse().map(m=>`<div class="message"><b>${esc(m.name)} · ${esc(m.rank)}</b><small>${esc(m.time||"")}</small><div>${esc(m.text)}</div></div>`).join("")}
+function renderLogs(){$("logsList").innerHTML=data.logs.map(l=>`<div class="notice"><b>${esc(l.actor)}</b> — ${esc(l.action)}<div class="muted">${l.at?.toDate?l.at.toDate().toLocaleString():""}</div></div>`).join("")}
+function renderStats(){$("statsGrid").innerHTML=[["Personnel",data.users.length],["Online",data.users.filter(u=>u.status==="ONLINE").length],["Operations",data.ops.length],["Completed Operations",data.ops.filter(x=>x.status==="COMPLETED").length],["Reports",data.reports.length],["Training Records",data.training.length],["Announcements",data.ann.length],["Documents",data.docs.length]].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="stat">${x[1]}</div></div>`).join("")}
 
-    <!-- FOOTER -->
-    <footer class="bg-swatPanel border-t border-swatBorder py-2 px-4 text-center text-xs font-mono text-swatGray">
-        LOS SANTOS SWAT OFFICIAL SYSTEM © 2026 — ALL RIGHTS RESERVED
-    </footer>
+window.openOperation=()=>{if(!canManage())return;modal(`<h2>New Operation</h2><div class="field"><label>Name</label><input id="mName"></div><div class="row"><div class="field"><label>Team</label><select id="mTeam"><option>ALPHA</option><option>BRAVO</option><option>CHARLIE</option><option>ALL TEAMS</option></select></div><div class="field"><label>Status</label><select id="mStatus"><option>PLANNED</option><option>ACTIVE</option><option>COMPLETED</option><option>CANCELLED</option></select></div></div><div class="field"><label>Description</label><textarea id="mDesc"></textarea></div><div class="actions"><button class="btn green" onclick="saveOperation()">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
+window.saveOperation=async()=>{await addDoc(collection(db,"operations"),{name:$("mName").value,team:$("mTeam").value,status:$("mStatus").value,description:$("mDesc").value,leader:me.name,createdAt:serverTimestamp()});await log("created operation");closeModal()}
+window.openReport=()=>modal(`<h2>New Report</h2><div class="field"><label>Title</label><input id="rTitle"></div><div class="field"><label>Description</label><textarea id="rDesc"></textarea></div><button class="btn green" onclick="saveReport()">Submit</button> <button class="btn" onclick="closeModal()">Cancel</button>`);
+window.saveReport=async()=>{await addDoc(collection(db,"reports"),{title:$("rTitle").value,description:$("rDesc").value,author:me.name,team:me.team||"UNASSIGNED",status:"SUBMITTED",createdAt:serverTimestamp()});await log("submitted report");closeModal()}
+window.openTraining=()=>modal(`<h2>Training Record</h2><div class="row"><div class="field"><label>Member</label><select id="tMember">${data.users.map(u=>`<option>${esc(u.name)}</option>`).join("")}</select></div><div class="field"><label>Training</label><input id="tName"></div></div><div class="field"><label>Status</label><select id="tStatus"><option>PENDING</option><option>PASSED</option><option>FAILED</option></select></div><button class="btn green" onclick="saveTraining()">Save</button> <button class="btn" onclick="closeModal()">Cancel</button>`);
+window.saveTraining=async()=>{await addDoc(collection(db,"training"),{member:$("tMember").value,training:$("tName").value,status:$("tStatus").value,date:new Date().toLocaleDateString(),createdAt:serverTimestamp()});await log("created training record");closeModal()}
+window.openAnnouncement=()=>modal(`<h2>Announcement</h2><div class="field"><label>Title</label><input id="aTitle"></div><div class="field"><label>Content</label><textarea id="aContent"></textarea></div><button class="btn green" onclick="saveAnnouncement()">Publish</button> <button class="btn" onclick="closeModal()">Cancel</button>`);
+window.saveAnnouncement=async()=>{await addDoc(collection(db,"announcements"),{title:$("aTitle").value,content:$("aContent").value,author:me.name,createdAt:serverTimestamp()});await log("published announcement");closeModal()}
+window.addDocument=async()=>{if(!isCommander())return;const title=$("docTitle").value,url=$("docUrl").value;if(!title||!url)return;await addDoc(collection(db,"documents"),{title,url,createdAt:serverTimestamp()});await log("added document");$("docTitle").value="";$("docUrl").value=""}
+window.sendChat=async()=>{const text=$("chatInput").value.trim();if(!text)return;await addDoc(collection(db,"chat"),{name:me.name,rank:me.rank,text,time:new Date().toLocaleString(),createdAt:serverTimestamp()});$("chatInput").value=""}
+function modal(html){$("modalBox").innerHTML=html;$("modal").classList.add("show")}
+window.editUser=(id)=>{
+ if(!isCommander())return;const u=data.users.find(x=>x.id===id);if(!u)return;
+ modal(`<h2>Edit Member</h2><div class="row"><div class="field"><label>Name</label><input id="eName" value="${esc(u.name)}"></div><div class="field"><label>Callsign</label><input id="eCall" value="${esc(u.callsign)}"></div><div class="field"><label>Rank</label><select id="eRank">${["SWAT COMMANDER","SWAT DEPUTY COMMANDER","SWAT SUPERVISOR","TEAM LEADER","DEPUTY TEAM LEADER","SWAT OPERATOR","SWAT RECRUIT"].map(r=>`<option ${u.rank===r?"selected":""}>${r}</option>`).join("")}</select></div><div class="field"><label>Team</label><select id="eTeam">${["COMMAND","ALPHA","BRAVO","CHARLIE","UNASSIGNED"].map(r=>`<option ${u.team===r?"selected":""}>${r}</option>`).join("")}</select></div><div class="field"><label>Status</label><select id="eStatus"><option ${u.status==="ACTIVE"?"selected":""}>ACTIVE</option><option ${u.status==="SUSPENDED"?"selected":""}>SUSPENDED</option></select></div></div><button class="btn green" onclick="saveUser('${id}')">Save</button> <button class="btn" onclick="closeModal()">Cancel</button>`)
+}
+window.saveUser=async id=>{await updateDoc(doc(db,"users",id),{name:$("eName").value,rank:$("eRank").value,team:$("eTeam").value,callsign:$("eCall").value,status:$("eStatus").value});await log("updated member",{target:id});closeModal()}
+window.removeUser=async id=>{if(!isCommander()||id===COMMANDER_UID)return;if(confirm("Delete this member profile?")){await deleteDoc(doc(db,"users",id));await log("deleted member",{target:id})}}
 
-    <!-- SYSTEM LOGIC & CLOUD STORAGE SYNC -->
-    <script>
-        // Clock
-        setInterval(() => {
-            document.getElementById('system-clock').innerText = new Date().toLocaleTimeString('en-US', {hour12: false});
-        }, 1000);
-
-        function switchView(viewId) {
-            ['view-home', 'view-login', 'view-register', 'view-dashboard', 'view-command-center'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(viewId).classList.remove('hidden');
-        }
-
-        function openTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('bg-slate-800', 'text-sky-400'));
-            
-            document.getElementById(tabId).classList.remove('hidden');
-            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
-            if(activeBtn) activeBtn.classList.add('bg-slate-800', 'text-sky-400');
-        }
-
-        // Persistent Cloud/Local Storage Syncing Database Engine
-        let currentUser = JSON.parse(localStorage.getItem('swat_user')) || null;
-
-        let mockMembers = JSON.parse(localStorage.getItem('swat_members')) || [
-            { id: '1', username: 'KARLOS SEIFEDDINE', password: 'OUSSAMA2010', fullname: 'Karlos Seifeddine', rank: 'SWAT Commander', team: 'Command', callsign: 'SWAT-00', status: 'ONLINE' },
-            { id: '2', username: 'alpha1', password: '123', fullname: 'James Murphy', rank: 'Team Leader', team: 'Alpha', callsign: 'SWAT-1', status: 'OFFLINE' }
-        ];
-
-        let mockChat = JSON.parse(localStorage.getItem('swat_chat')) || [
-            { sender: 'SWAT-00 | SWAT Commander', time: '00:00', text: 'النظام التكتيكي يعمل بكامل الصلاحيات.' }
-        ];
-
-        let mockLogs = JSON.parse(localStorage.getItem('swat_logs')) || [
-            { time: '00:00', text: 'تم بدء تشغيل النظام بنجاح.' }
-        ];
-
-        let mockReports = JSON.parse(localStorage.getItem('swat_reports')) || [
-            { id: 'REP-001', author: 'Karlos Seifeddine', rank: 'SWAT Commander', team: 'Command', callsign: 'SWAT-00', date: '2026-09-24', operation: 'تأمين المقر الرئيسي', description: 'تم فحص الجهوزية الكاملة للوحدة.', status: 'APPROVED' }
-        ];
-
-        let mockOperations = JSON.parse(localStorage.getItem('swat_operations')) || [
-            { id: 'OP-01', name: 'تأمين القطاع الشمالي', date: '2026-09-24', time: '00:10', team: 'Alpha', leader: 'SWAT-00', status: 'ACTIVE', desc: 'انتشار تكتيكي دوري.' }
-        ];
-
-        let mockAnnouncements = JSON.parse(localStorage.getItem('swat_announcements')) || [
-            { title: 'تعليمات القيادة العليا', content: 'الالتزام التام بسلسلة القيادة وعدم تجاوز الرتب.', author: 'SWAT-00', rank: 'SWAT Commander', date: '2026-09-24' }
-        ];
-
-        window.addEventListener('DOMContentLoaded', () => {
-            if (currentUser) {
-                activateDashboard(currentUser);
-            }
-            syncDatabase();
-        });
-
-        function syncDatabase() {
-            localStorage.setItem('swat_members', JSON.stringify(mockMembers));
-            localStorage.setItem('swat_chat', JSON.stringify(mockChat));
-            localStorage.setItem('swat_logs', JSON.stringify(mockLogs));
-            localStorage.setItem('swat_reports', JSON.stringify(mockReports));
-            localStorage.setItem('swat_operations', JSON.stringify(mockOperations));
-            localStorage.setItem('swat_announcements', JSON.stringify(mockAnnouncements));
-
-            renderHomeStats();
-            renderPersonnel();
-            renderChat();
-            renderLogs();
-            renderReports();
-            renderOperations();
-            renderAnnouncements();
-            populateAdminDropdown();
-        }
-
-        // Login Handler
-        function handleLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('login-username').value.trim();
-            const p = document.getElementById('login-password').value.trim();
-
-            const found = mockMembers.find(m => m.username.toLowerCase() === u.toLowerCase() && m.password === p);
-            if (found) {
-                found.status = 'ONLINE';
-                currentUser = found;
-                localStorage.setItem('swat_user', JSON.stringify(currentUser));
-                syncDatabase();
-                addLog(`تسجيل دخول: ${currentUser.fullname} (${currentUser.callsign})`);
-                activateDashboard(currentUser);
-            } else {
-                alert('خطأ في اسم المستخدم أو كلمة المرور!');
-            }
-        }
-
-        // Register Handler
-        function handleRegister(e) {
-            e.preventDefault();
-            const username = document.getElementById('reg-username').value.trim();
-            const password = document.getElementById('reg-password').value.trim();
-            const fullname = document.getElementById('reg-fullname').value.trim();
-            const team = document.getElementById('reg-team').value;
-            const callsign = document.getElementById('reg-callsign').value.trim();
-
-            if(mockMembers.some(m => m.username.toLowerCase() === username.toLowerCase())) {
-                alert('اسم المستخدم مستخدم مسبقاً!');
-                return;
-            }
-
-            const newMember = {
-                id: String(mockMembers.length + 1),
-                username, password, fullname,
-                rank: 'SWAT Operator',
-                team, callsign,
-                status: 'ONLINE'
-            };
-
-            mockMembers.push(newMember);
-            currentUser = newMember;
-            localStorage.setItem('swat_user', JSON.stringify(currentUser));
-            syncDatabase();
-            addLog(`تسجيل وانضمام عضو جديد: ${fullname} (${callsign})`);
-            activateDashboard(currentUser);
-        }
-
-        function logoutSystem() {
-            if(currentUser) {
-                currentUser.status = 'OFFLINE';
-                addLog(`تسجيل خروج: ${currentUser.fullname}`);
-            }
-            localStorage.removeItem('swat_user');
-            currentUser = null;
-            syncDatabase();
-            location.reload();
-        }
-
-        function activateDashboard(user) {
-            switchView('view-dashboard');
-            document.getElementById('dash-username').innerText = user.fullname;
-            document.getElementById('dash-user-rank').innerText = user.rank;
-            document.getElementById('dash-callsign').innerText = user.callsign;
-            document.getElementById('user-session-badge').innerText = `${user.callsign} | ${user.rank}`;
-            document.getElementById('user-session-badge').classList.remove('hidden');
-            document.getElementById('logout-btn').classList.remove('hidden');
-
-            // Permissions Check (الصلاحيات حسب الرتبة)
-            const highRanks = ['SWAT Commander', 'Deputy Commander', 'Supervisor'];
-            if (highRanks.includes(user.rank)) {
-                document.getElementById('admin-menu-btn').classList.remove('hidden');
-                document.getElementById('btn-new-op').classList.remove('hidden');
-                document.getElementById('btn-new-ann').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-menu-btn').classList.add('hidden');
-                document.getElementById('btn-new-op').classList.add('hidden');
-                document.getElementById('btn-new-ann').classList.add('hidden');
-            }
-            openTab('tab-overview');
-        }
-
-        // Render Functions
-        function renderHomeStats() {
-            const alphaCount = mockMembers.filter(m => m.team === 'Alpha' && m.status === 'ONLINE').length;
-            const bravoCount = mockMembers.filter(m => m.team === 'Bravo' && m.status === 'ONLINE').length;
-            const charlieCount = mockMembers.filter(m => m.team === 'Charlie' && m.status === 'ONLINE').length;
-
-            document.getElementById('home-alpha-count').innerText = `${alphaCount} Online`;
-            document.getElementById('home-bravo-count').innerText = `${bravoCount} Online`;
-            document.getElementById('home-charlie-count').innerText = `${charlieCount} Online`;
-
-            document.getElementById('cc-alpha').innerText = alphaCount;
-            document.getElementById('cc-bravo').innerText = bravoCount;
-            document.getElementById('cc-charlie').innerText = charlieCount;
-
-            document.getElementById('stat-total-members').innerText = mockMembers.length;
-            document.getElementById('stat-online-members').innerText = mockMembers.filter(m => m.status === 'ONLINE').length;
-            document.getElementById('stat-active-ops').innerText = mockOperations.filter(o => o.status === 'ACTIVE').length;
-            document.getElementById('stat-total-reports').innerText = mockReports.length;
-        }
-
-        function renderPersonnel() {
-            const tbody = document.getElementById('personnel-table-body');
-            tbody.innerHTML = '';
-            mockMembers.forEach(m => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-900/50">
-                        <td class="p-3 text-white font-bold">${m.fullname}</td>
-                        <td class="p-3">${m.rank}</td>
-                        <td class="p-3">${m.team} Team</td>
-                        <td class="p-3 text-sky-400 font-mono">${m.callsign}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${m.status === 'ONLINE' ? 'bg-green-950 text-green-400 border border-green-800' : 'bg-slate-800 text-swatGray'}">${m.status}</span></td>
-                    </tr>
-                `;
-            });
-        }
-
-        function sendChatMessage(e) {
-            e.preventDefault();
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text || !currentUser) return;
-
-            const time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
-            mockChat.push({
-                sender: `${currentUser.callsign} | ${currentUser.rank}`,
-                time: time,
-                text: text
-            });
-            syncDatabase();
-            input.value = '';
-        }
-
-        function renderChat() {
-            const container = document.getElementById('chat-messages');
-            container.innerHTML = '';
-            mockChat.forEach(c => {
-                container.innerHTML += `
-                    <div class="border-b border-swatBorder/50 pb-2">
-                        <div class="flex justify-between text-[10px] text-swatGray">
-                            <span class="text-sky-400 font-bold">${c.sender}</span>
-                            <span>[${c.time}]</span>
-                        </div>
-                        <div class="text-white mt-1">${c.text}</div>
-                    </div>
-                `;
-            });
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function renderReports() {
-            const container = document.getElementById('reports-container');
-            container.innerHTML = '';
-            mockReports.forEach(r => {
-                container.innerHTML += `
-                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
-                        <div class="flex justify-between items-center text-swatGray border-b border-swatBorder pb-2">
-                            <span class="text-sky-400 font-bold">${r.id} — ${r.operation}</span>
-                            <span>${r.date}</span>
-                        </div>
-                        <div class="text-white font-bold">${r.author} (${r.callsign} - ${r.rank})</div>
-                        <p class="text-slate-300 font-sans">${r.description}</p>
-                    </div>
-                `;
-            });
-        }
-
-        function openNewReportModal() {
-            const op = prompt('أدخل اسم أو رقم العملية التكتيكية المرتبطة بالتقرير:');
-            if(!op) return;
-            const desc = prompt('اكتب تفاصيل التقرير الميداني الكامل:');
-            if(!desc) return;
-
-            mockReports.push({
-                id: `REP-00${mockReports.length + 1}`,
-                author: currentUser.fullname,
-                rank: currentUser.rank,
-                team: currentUser.team,
-                callsign: currentUser.callsign,
-                date: new Date().toISOString().split('T')[0],
-                operation: op,
-                description: desc,
-                status: 'SUBMITTED'
-            });
-            syncDatabase();
-            addLog(`${currentUser.callsign} قدم تقريراً ميدانياً جديداً.`);
-        }
-
-        function renderOperations() {
-            const container = document.getElementById('operations-container');
-            container.innerHTML = '';
-            mockOperations.forEach(o => {
-                container.innerHTML += `
-                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
-                        <div class="flex justify-between items-center text-swatGray border-b border-swatBorder pb-2">
-                            <span class="text-amber-400 font-bold">${o.id} — ${o.name}</span>
-                            <span class="bg-amber-950 text-amber-400 px-2 py-0.5 rounded">${o.status}</span>
-                        </div>
-                        <div>الفريق المكلف: <span class="text-white">${o.team} Team</span> (قائد العملية: ${o.leader})</div>
-                        <p class="text-slate-300 font-sans">${o.desc}</p>
-                    </div>
-                `;
-            });
-        }
-
-        function openNewOperationModal() {
-            const highRanks = ['SWAT Commander', 'Deputy Commander', 'Supervisor'];
-            if(!highRanks.includes(currentUser.rank)) {
-                alert('عذراً، صلاحياتك لا تسمح بإنشاء عمليات ميدانية (مخصص للقيادة والمشرفين فقط).');
-                return;
-            }
-            const name = prompt('اسم العملية الميدانية:');
-            if(!name) return;
-            const desc = prompt('وصف العمليات والتوجيهات:');
-            if(!desc) return;
-
-            mockOperations.push({
-                id: `OP-0${mockOperations.length + 10}`,
-                name: name,
-                date: new Date().toISOString().split('T')[0],
-                time: new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}),
-                team: 'Alpha',
-                leader: currentUser.callsign,
-                status: 'ACTIVE',
-                desc: desc
-            });
-            syncDatabase();
-            addLog(`${currentUser.callsign} أنشأ عملية ميدانية: ${name}`);
-        }
-
-        function renderAnnouncements() {
-            const container = document.getElementById('announcements-container');
-            container.innerHTML = '';
-            mockAnnouncements.forEach(a => {
-                container.innerHTML += `
-                    <div class="bg-swatPanel tactical-border p-4 rounded-xl space-y-2 font-mono text-xs">
-                        <div class="flex justify-between items-center text-sky-400 font-bold border-b border-swatBorder pb-2">
-                            <span><i class="fa-solid fa-bullhorn ml-1"></i> ${a.title}</span>
-                            <span class="text-swatGray">${a.date}</span>
-                        </div>
-                        <p class="text-slate-200 font-sans">${a.content}</p>
-                        <div class="text-[10px] text-swatGray pt-1">الناشر: ${a.author} (${a.rank})</div>
-                    </div>
-                `;
-            });
-        }
-
-        function openNewAnnouncementModal() {
-            const highRanks = ['SWAT Commander', 'Deputy Commander', 'Supervisor'];
-            if(!highRanks.includes(currentUser.rank)) {
-                alert('عذراً، نشر الإعلانات مقتصر على القيادة العليا فقط.');
-                return;
-            }
-            const title = prompt('عنوان الإعلان الرسمي:');
-            if(!title) return;
-            const content = prompt('محتوى الإعلان:');
-            if(!content) return;
-
-            mockAnnouncements.unshift({
-                title, content,
-                author: currentUser.fullname,
-                rank: currentUser.rank,
-                date: new Date().toISOString().split('T')[0]
-            });
-            syncDatabase();
-            addLog(`${currentUser.callsign} نشر إعلاناً رسمياً.`);
-        }
-
-        function addLog(text) {
-            const time = new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
-            mockLogs.unshift({ time: time, text: text });
-            syncDatabase();
-        }
-
-        function renderLogs() {
-            const container = document.getElementById('logs-container');
-            container.innerHTML = '';
-            mockLogs.forEach(l => {
-                container.innerHTML += `<div class="border-b border-swatBorder/40 pb-1 text-slate-300"><span class="text-sky-400">[${l.time}]</span> ${l.text}</div>`;
-            });
-        }
-
-        function populateAdminDropdown() {
-            const sel = document.getElementById('admin-target-user');
-            if(!sel) return;
-            sel.innerHTML = '';
-            mockMembers.forEach(m => {
-                sel.innerHTML += `<option value="${m.id}">${m.fullname} (${m.callsign} - ${m.rank})</option>`;
-            });
-        }
-
-        function executeRankPromotion() {
-            const userId = document.getElementById('admin-target-user').value;
-            const newRank = document.getElementById('admin-new-rank').value;
-            const target = mockMembers.find(m => m.id === userId);
-            if(target) {
-                target.rank = newRank;
-                syncDatabase();
-                addLog(`القيادة قامت بتحديث رتبة العضو ${target.fullname} إلى ${newRank}`);
-                alert(`تم تحديث رتبة ${target.fullname} بنجاح!`);
-            }
-        }
-    </script>
+onAuthStateChanged(auth,async user=>{
+ if(!user){$("login").classList.remove("hidden");$("app").classList.add("hidden");unsub.forEach(f=>f());return}
+ await ensureProfile(user);
+ const snap=await getDoc(doc(db,"users",user.uid));me={uid:user.uid,...snap.data()};
+ await setPresence("ONLINE");
+ $("login").classList.add("hidden");$("app").classList.remove("hidden");
+ $("who").textContent=`${me.name} · ${me.rank}`;
+ buildNav();listenAll();renderAll();
+});
+window.addEventListener("beforeunload",()=>{if(auth.currentUser)setPresence("OFFLINE")});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)setPresence("OFFLINE");else setPresence("ONLINE")});
+setInterval(()=>{if(auth.currentUser&&!document.hidden)setPresence("ONLINE")},30000);
+</script>
 </body>
 </html>
