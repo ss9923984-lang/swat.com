@@ -994,8 +994,6 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = initializeFirestore(firebaseApp, {
-  // GitHub Pages + some mobile networks/proxies can interfere with
-  // Firestore's normal streaming transport. Force HTTP long-polling.
   experimentalForceLongPolling: true,
   useFetchStreams: false
 });
@@ -1035,12 +1033,6 @@ const RANKS = [
 ];
 
 const TEAMS = ["COMMAND","ALPHA","BRAVO","CHARLIE","UNASSIGNED"];
-
-const TEAM_META = {
-  ALPHA:{label:"ALPHA TEAM",sub:"Tactical Response",call:"SWAT-1",cls:"alpha"},
-  BRAVO:{label:"BRAVO TEAM",sub:"Special Operations",call:"SWAT-2",cls:"bravo"},
-  CHARLIE:{label:"CHARLIE TEAM",sub:"Crisis Response",call:"SWAT-3",cls:"charlie"}
-};
 
 let currentUser = null;
 let profile = null;
@@ -1411,7 +1403,6 @@ async function ensureUserProfile(user){
 }
 
 async function loadCurrentProfile(){
-  // Force a server read so we do not wait on a potentially stale/local cache.
   const snapshot = await getDocFromServer(doc(db,"users",currentUser.uid));
 
   if(!snapshot.exists()){
@@ -1426,7 +1417,6 @@ async function loadCurrentProfile(){
 
 /* =========================================================
    PRESENCE
-   Firestore only. No Realtime Database is used.
    ========================================================= */
 async function updatePresence(status){
   if(!currentUser) return;
@@ -1448,7 +1438,6 @@ async function updatePresence(status){
 
 function startPresence(){
   stopPresence();
-
   updatePresence("ONLINE");
 
   heartbeatTimer = setInterval(()=>{
@@ -1471,7 +1460,6 @@ function stopPresence(){
 
 function isEffectivelyOnline(user){
   if(user.status !== "ONLINE") return false;
-
   if(!user.lastSeen) return false;
 
   try{
@@ -1520,12 +1508,6 @@ function listenCollection(collectionName,key){
 
 function startListeners(){
   clearListeners();
-
-  /*
-    Users is required for the portal.
-    Other collections are independent so one denied collection
-    does not freeze the entire interface.
-  */
   listenCollection("users","users");
   listenCollection("operations","operations");
   listenCollection("reports","reports");
@@ -1630,7 +1612,6 @@ function renderTeamPreview(team,targetId){
    ========================================================= */
 function filteredUsers(){
   const term = $("personnelSearch").value.trim().toLowerCase();
-
   if(!term) return state.users;
 
   return state.users.filter(user=>{
@@ -1760,11 +1741,9 @@ function renderReports(){
   const status = $("reportStatusFilter").value;
 
   let reports = state.reports;
-
   if(status !== "ALL"){
     reports = reports.filter(r=>r.status===status);
   }
-
   if(term){
     reports = reports.filter(r=>[
       r.title,r.description,r.authorName,r.team
@@ -1917,7 +1896,6 @@ async function sendChat(){
   const text = input.value.trim();
 
   if(!text || !currentUser || !profile) return;
-
   input.disabled = true;
 
   try{
@@ -1929,7 +1907,6 @@ async function sendChat(){
       localTime:new Date().toLocaleString(),
       createdAt:serverTimestamp()
     });
-
     input.value = "";
   }catch(error){
     alert("Chat message could not be sent: "+(error.code || error.message));
@@ -1940,7 +1917,6 @@ async function sendChat(){
 }
 
 $("sendChatButton").onclick = sendChat;
-
 $("chatInput").addEventListener("keydown",event=>{
   if(event.key==="Enter"){
     event.preventDefault();
@@ -1970,7 +1946,6 @@ function renderLogs(){
    ========================================================= */
 function distributionHTML(items){
   if(!items.length) return `<div class="empty">No data.</div>`;
-
   const total = items.reduce((sum,item)=>sum+item.count,0) || 1;
 
   return items.map(item=>{
@@ -1995,15 +1970,11 @@ function countBy(field){
     const key = user[field] || "UNASSIGNED";
     map[key] = (map[key] || 0) + 1;
   });
-
-  return Object.entries(map)
-    .sort((a,b)=>b[1]-a[1])
-    .map(([label,count])=>({label,count}));
+  return Object.entries(map).sort((a,b)=>b[1]-a[1]).map(([label,count])=>({label,count}));
 }
 
 function renderStatistics(){
   const online = state.users.filter(isEffectivelyOnline).length;
-
   const stats = [
     ["Personnel",state.users.length],
     ["Online",online],
@@ -2027,8 +1998,8 @@ function renderStatistics(){
 
   const ops = {};
   state.operations.forEach(o=>{
-    const key=o.status || "UNKNOWN";
-    ops[key]=(ops[key]||0)+1;
+    const key = o.status || "UNKNOWN";
+    ops[key] = (ops[key]||0)+1;
   });
 
   $("operationStats").innerHTML = distributionHTML(
@@ -2051,7 +2022,6 @@ function renderAdmin(){
   $("adminOnline").textContent = online;
 
   const term = $("adminSearch").value.trim().toLowerCase();
-
   const users = term
     ? state.users.filter(u=>[
         u.name,u.rank,u.team,u.callsign,u.email
@@ -2084,16 +2054,8 @@ function renderAdmin(){
     : `<tr><td colspan="7"><div class="empty">No accounts found.</div></td></tr>`;
 }
 
-/* =========================================================
-   CREATE USER — profile only
-   Note: Firebase Auth cannot create another user's Auth account
-   from a normal client securely. This button therefore creates
-   a profile record if desired; direct Auth account provisioning
-   belongs in Admin SDK / Cloud Functions.
-   ========================================================= */
 function openCreateUserModal(){
   if(!isCommander()) return;
-
   openModal(
     "Create Personnel Profile",
     `
@@ -2117,13 +2079,9 @@ function openCreateUserModal(){
   );
 }
 
-/* =========================================================
-   MEMBER VIEW
-   ========================================================= */
 window.viewMember = function(uid){
   const user = state.users.find(u=>(u.uid || u.id)===uid);
   if(!user) return;
-
   openModal(
     "Personnel Profile",
     `
@@ -2138,12 +2096,8 @@ window.viewMember = function(uid){
   );
 };
 
-/* =========================================================
-   MEMBER EDIT
-   ========================================================= */
 window.editMember = function(uid){
   if(!isCommander()) return;
-
   const user = state.users.find(u=>(u.uid || u.id)===uid);
   if(!user) return;
 
@@ -2155,30 +2109,22 @@ window.editMember = function(uid){
           <label>NAME</label>
           <input id="editName" value="${escapeHTML(user.name)}">
         </div>
-
         <div class="field">
           <label>CALLSIGN</label>
           <input id="editCallsign" value="${escapeHTML(user.callsign)}">
         </div>
-
         <div class="field">
           <label>RANK</label>
           <select id="editRank">
-            ${RANKS.map(rank=>`
-              <option value="${escapeHTML(rank)}" ${user.rank===rank?"selected":""}>${escapeHTML(rank)}</option>
-            `).join("")}
+            ${RANKS.map(rank=>`<option value="${escapeHTML(rank)}" ${user.rank===rank?"selected":""}>${escapeHTML(rank)}</option>`).join("")}
           </select>
         </div>
-
         <div class="field">
           <label>TEAM</label>
           <select id="editTeam">
-            ${TEAMS.map(team=>`
-              <option value="${escapeHTML(team)}" ${user.team===team?"selected":""}>${escapeHTML(team)}</option>
-            `).join("")}
+            ${TEAMS.map(team=>`<option value="${escapeHTML(team)}" ${user.team===team?"selected":""}>${escapeHTML(team)}</option>`).join("")}
           </select>
         </div>
-
         <div class="field">
           <label>ACCOUNT STATE</label>
           <select id="editAccountState">
@@ -2186,7 +2132,6 @@ window.editMember = function(uid){
             <option value="SUSPENDED" ${user.accountState==="SUSPENDED"?"selected":""}>SUSPENDED</option>
           </select>
         </div>
-
         <div class="field">
           <label>DISPLAY STATUS</label>
           <select id="editStatus">
@@ -2205,9 +2150,7 @@ window.editMember = function(uid){
 
 window.saveMember = async function(uid){
   if(!isCommander()) return;
-
   const reference = doc(db,"users",uid);
-
   try{
     await updateDoc(reference,{
       name:$("editName").value.trim(),
@@ -2217,7 +2160,6 @@ window.saveMember = async function(uid){
       accountState:$("editAccountState").value,
       status:$("editStatus").value
     });
-
     await writeLog("Updated personnel profile",{targetUid:uid});
     closeModal();
   }catch(error){
@@ -2227,16 +2169,12 @@ window.saveMember = async function(uid){
 
 window.deleteMember = async function(uid){
   if(!isCommander() || uid===COMMANDER_UID) return;
-
   openModal(
     "Delete Member Profile",
     `
       <div class="confirm-box">
         <h3>Delete this Firestore profile?</h3>
-        <p class="muted small">
-          This removes the SWAT profile document. It does not delete the Firebase
-          Authentication account. Full Auth account deletion requires Admin SDK.
-        </p>
+        <p class="muted small">This removes the SWAT profile document.</p>
       </div>
     `,
     `
@@ -2256,12 +2194,8 @@ window.confirmDeleteMember = async function(uid){
   }
 };
 
-/* =========================================================
-   OPERATION MODAL
-   ========================================================= */
 function openOperationModal(){
   if(!canManage()) return;
-
   openModal(
     "New SWAT Operation",
     `
@@ -2270,7 +2204,6 @@ function openOperationModal(){
           <label>OPERATION NAME</label>
           <input id="operationTitle" placeholder="Operation name">
         </div>
-
         <div class="field">
           <label>TEAM</label>
           <select id="operationTeam">
@@ -2280,7 +2213,6 @@ function openOperationModal(){
             <option>CHARLIE</option>
           </select>
         </div>
-
         <div class="field">
           <label>STATUS</label>
           <select id="operationStatus">
@@ -2290,12 +2222,10 @@ function openOperationModal(){
             <option>CANCELLED</option>
           </select>
         </div>
-
         <div class="field form-full">
           <label>LEAD</label>
           <input id="operationLead" value="${escapeHTML(profile?.name || "")}">
         </div>
-
         <div class="field form-full">
           <label>DESCRIPTION</label>
           <textarea id="operationDescription" placeholder="RP operation description..."></textarea>
@@ -2311,12 +2241,8 @@ function openOperationModal(){
 
 window.saveOperation = async function(){
   if(!canManage()) return;
-
   const title = $("operationTitle").value.trim();
-  if(!title){
-    alert("Operation name is required.");
-    return;
-  }
+  if(!title){ alert("Operation name is required."); return; }
 
   try{
     await addDoc(collection(db,"operations"),{
@@ -2329,7 +2255,6 @@ window.saveOperation = async function(){
       createdByName:profile.name,
       createdAt:serverTimestamp()
     });
-
     await writeLog("Created operation",{title});
     closeModal();
   }catch(error){
@@ -2339,7 +2264,6 @@ window.saveOperation = async function(){
 
 window.editOperation = function(id){
   if(!canManage()) return;
-
   const operation = state.operations.find(o=>o.id===id);
   if(!operation) return;
 
@@ -2391,7 +2315,6 @@ window.saveOperationEdit = async function(id){
       updatedAt:serverTimestamp(),
       updatedBy:currentUser.uid
     });
-
     await writeLog("Updated operation",{operationId:id});
     closeModal();
   }catch(error){
@@ -2401,9 +2324,7 @@ window.saveOperationEdit = async function(id){
 
 window.deleteOperation = async function(id){
   if(!canManage()) return;
-
   if(!confirm("Delete this operation record?")) return;
-
   try{
     await deleteDoc(doc(db,"operations",id));
     await writeLog("Deleted operation",{operationId:id});
@@ -2412,9 +2333,6 @@ window.deleteOperation = async function(id){
   }
 };
 
-/* =========================================================
-   REPORT MODAL
-   ========================================================= */
 function openReportModal(){
   openModal(
     "New Report",
@@ -2424,14 +2342,12 @@ function openReportModal(){
           <label>TITLE</label>
           <input id="reportTitle" placeholder="Report title">
         </div>
-
         <div class="field">
           <label>TEAM</label>
           <select id="reportTeam">
             ${TEAMS.map(team=>`<option ${profile?.team===team?"selected":""}>${team}</option>`).join("")}
           </select>
         </div>
-
         <div class="field">
           <label>STATUS</label>
           <select id="reportStatus">
@@ -2440,12 +2356,10 @@ function openReportModal(){
             <option>CLOSED</option>
           </select>
         </div>
-
         <div class="field form-full">
           <label>DESCRIPTION</label>
           <textarea id="reportDescription" placeholder="Write the report..."></textarea>
         </div>
-
         <div class="field form-full">
           <label>OPTIONAL MEDIA URL</label>
           <input id="reportMediaUrl" placeholder="https://...">
@@ -2461,11 +2375,7 @@ function openReportModal(){
 
 window.saveReport = async function(){
   const title = $("reportTitle").value.trim();
-
-  if(!title){
-    alert("Report title is required.");
-    return;
-  }
+  if(!title){ alert("Report title is required."); return; }
 
   try{
     await addDoc(collection(db,"reports"),{
@@ -2478,7 +2388,6 @@ window.saveReport = async function(){
       authorName:profile.name,
       createdAt:serverTimestamp()
     });
-
     await writeLog("Submitted report",{title});
     closeModal();
   }catch(error){
@@ -2489,7 +2398,6 @@ window.saveReport = async function(){
 window.editReport = function(id){
   const report = state.reports.find(r=>r.id===id);
   if(!report) return;
-
   if(report.authorId!==currentUser.uid && !canManage()) return;
 
   openModal(
@@ -2539,7 +2447,6 @@ window.saveReportEdit = async function(id){
       mediaUrl:$("reportMediaUrl").value.trim(),
       updatedAt:serverTimestamp()
     });
-
     await writeLog("Updated report",{reportId:id});
     closeModal();
   }catch(error){
@@ -2551,7 +2458,6 @@ window.deleteReport = async function(id){
   const report = state.reports.find(r=>r.id===id);
   if(!report) return;
   if(report.authorId!==currentUser.uid && !canManage()) return;
-
   if(!confirm("Delete this report?")) return;
 
   try{
@@ -2562,12 +2468,8 @@ window.deleteReport = async function(id){
   }
 };
 
-/* =========================================================
-   TRAINING MODAL
-   ========================================================= */
 function openTrainingModal(){
   if(!canManageTraining()) return;
-
   openModal(
     "Add Training Record",
     `
@@ -2575,17 +2477,13 @@ function openTrainingModal(){
         <div class="field">
           <label>MEMBER</label>
           <select id="trainingMember">
-            ${state.users.map(user=>`
-              <option value="${escapeHTML(user.uid || user.id)}">${escapeHTML(user.name)}</option>
-            `).join("")}
+            ${state.users.map(user=>`<option value="${escapeHTML(user.uid \vert{}\vert{} user.id)}">${escapeHTML(user.name)}</option>`).join("")}
           </select>
         </div>
-
         <div class="field">
           <label>TRAINING</label>
           <input id="trainingName" placeholder="Training name">
         </div>
-
         <div class="field">
           <label>STATUS</label>
           <select id="trainingStatus">
@@ -2594,7 +2492,6 @@ function openTrainingModal(){
             <option>FAILED</option>
           </select>
         </div>
-
         <div class="field">
           <label>DATE</label>
           <input id="trainingDate" type="date">
@@ -2611,16 +2508,8 @@ function openTrainingModal(){
 window.saveTraining = async function(){
   const uid = $("trainingMember").value;
   const member = state.users.find(u=>(u.uid || u.id)===uid);
-
-  if(!member){
-    alert("Member not found.");
-    return;
-  }
-
-  if(!$("trainingName").value.trim()){
-    alert("Training name is required.");
-    return;
-  }
+  if(!member){ alert("Member not found."); return; }
+  if(!$("trainingName").value.trim()){ alert("Training name is required."); return; }
 
   try{
     await addDoc(collection(db,"training"),{
@@ -2633,7 +2522,6 @@ window.saveTraining = async function(){
       instructorName:profile.name,
       createdAt:serverTimestamp()
     });
-
     await writeLog("Added training record",{memberId:uid});
     closeModal();
   }catch(error){
@@ -2644,7 +2532,6 @@ window.saveTraining = async function(){
 window.deleteTraining = async function(id){
   if(!canManageTraining()) return;
   if(!confirm("Delete this training record?")) return;
-
   try{
     await deleteDoc(doc(db,"training",id));
     await writeLog("Deleted training record",{trainingId:id});
@@ -2653,12 +2540,8 @@ window.deleteTraining = async function(id){
   }
 };
 
-/* =========================================================
-   ANNOUNCEMENT MODAL
-   ========================================================= */
 function openAnnouncementModal(){
   if(!canManage()) return;
-
   openModal(
     "New Announcement",
     `
@@ -2666,7 +2549,6 @@ function openAnnouncementModal(){
         <label>TITLE</label>
         <input id="announcementTitle" placeholder="Announcement title">
       </div>
-
       <div class="field">
         <label>CONTENT</label>
         <textarea id="announcementContent" placeholder="Command message..."></textarea>
@@ -2682,11 +2564,7 @@ function openAnnouncementModal(){
 window.saveAnnouncement = async function(){
   const title = $("announcementTitle").value.trim();
   const content = $("announcementContent").value.trim();
-
-  if(!title || !content){
-    alert("Title and content are required.");
-    return;
-  }
+  if(!title || !content){ alert("Title and content are required."); return; }
 
   try{
     await addDoc(collection(db,"announcements"),{
@@ -2696,7 +2574,6 @@ window.saveAnnouncement = async function(){
       authorName:profile.name,
       createdAt:serverTimestamp()
     });
-
     await writeLog("Published announcement",{title});
     closeModal();
   }catch(error){
@@ -2707,7 +2584,6 @@ window.saveAnnouncement = async function(){
 window.deleteAnnouncement = async function(id){
   if(!canManage()) return;
   if(!confirm("Delete this announcement?")) return;
-
   try{
     await deleteDoc(doc(db,"announcements",id));
     await writeLog("Deleted announcement",{announcementId:id});
@@ -2716,12 +2592,8 @@ window.deleteAnnouncement = async function(id){
   }
 };
 
-/* =========================================================
-   DOCUMENT MODAL
-   ========================================================= */
 function openDocumentModal(){
   if(!isCommander()) return;
-
   openModal(
     "Add Document",
     `
@@ -2729,12 +2601,10 @@ function openDocumentModal(){
         <label>TITLE</label>
         <input id="documentTitle" placeholder="Document title">
       </div>
-
       <div class="field">
         <label>DESCRIPTION</label>
         <input id="documentDescription" placeholder="Short description">
       </div>
-
       <div class="field">
         <label>URL</label>
         <input id="documentUrl" placeholder="https://...">
@@ -2750,11 +2620,7 @@ function openDocumentModal(){
 window.saveDocument = async function(){
   const title = $("documentTitle").value.trim();
   const url = $("documentUrl").value.trim();
-
-  if(!title || !url){
-    alert("Title and URL are required.");
-    return;
-  }
+  if(!title || !url){ alert("Title and URL are required."); return; }
 
   try{
     await addDoc(collection(db,"documents"),{
@@ -2764,7 +2630,6 @@ window.saveDocument = async function(){
       createdBy:currentUser.uid,
       createdAt:serverTimestamp()
     });
-
     await writeLog("Added document",{title});
     closeModal();
   }catch(error){
@@ -2775,7 +2640,6 @@ window.saveDocument = async function(){
 window.deleteDocument = async function(id){
   if(!isCommander()) return;
   if(!confirm("Delete this document?")) return;
-
   try{
     await deleteDoc(doc(db,"documents",id));
     await writeLog("Deleted document",{documentId:id});
@@ -2784,12 +2648,8 @@ window.deleteDocument = async function(id){
   }
 };
 
-/* =========================================================
-   CHANGE OWN PASSWORD
-   ========================================================= */
 $("changePasswordButton").onclick = async () => {
   if(!currentUser) return;
-
   openModal(
     "Change Password",
     `
@@ -2797,12 +2657,10 @@ $("changePasswordButton").onclick = async () => {
         <label>CURRENT PASSWORD</label>
         <input id="currentPassword" type="password">
       </div>
-
       <div class="field">
         <label>NEW PASSWORD</label>
         <input id="newPassword" type="password" minlength="6">
       </div>
-
       <div class="field">
         <label>CONFIRM NEW PASSWORD</label>
         <input id="newPassword2" type="password" minlength="6">
@@ -2820,26 +2678,14 @@ window.savePassword = async function(){
   const next = $("newPassword").value;
   const confirmNext = $("newPassword2").value;
 
-  if(next.length < 6){
-    alert("New password must contain at least 6 characters.");
-    return;
-  }
-
-  if(next!==confirmNext){
-    alert("New passwords do not match.");
-    return;
-  }
+  if(next.length < 6){ alert("New password must contain at least 6 characters."); return; }
+  if(next!==confirmNext){ alert("New passwords do not match."); return; }
 
   try{
-    const credential = EmailAuthProvider.credential(
-      currentUser.email,
-      current
-    );
-
-    await reauthenticateWithCredential(currentUser,credential);
-    await updatePassword(currentUser,next);
+    const credential = EmailAuthProvider.credential(currentUser.email, current);
+    await reauthenticateWithCredential(currentUser, credential);
+    await updatePassword(currentUser, next);
     await writeLog("Changed own password");
-
     closeModal();
     alert("Password changed successfully.");
   }catch(error){
@@ -2847,22 +2693,15 @@ window.savePassword = async function(){
   }
 };
 
-/* =========================================================
-   GENERAL EVENTS
-   ========================================================= */
-$("mobileMenuButton").onclick = () => {
-  $("sidebar").classList.toggle("open");
-};
+$("mobileMenuButton").onclick = () => { $("sidebar").classList.toggle("open"); };
 
 $("signOutButton").onclick = async () => {
   try{
     await updatePresence("OFFLINE");
     await writeLog("Signed out");
   }catch{}
-
   stopPresence();
   clearListeners();
-
   await signOut(auth);
 };
 
@@ -2881,9 +2720,6 @@ $("openTrainingModal").onclick = openTrainingModal;
 $("openAnnouncementModal").onclick = openAnnouncementModal;
 $("openDocumentModal").onclick = openDocumentModal;
 
-/* =========================================================
-   RENDER ALL
-   ========================================================= */
 function renderAll(){
   applyAccessUI();
   renderProfile();
@@ -2901,16 +2737,12 @@ function renderAll(){
   renderAdmin();
 }
 
-/* =========================================================
-   FIREBASE AUTH STATE
-   ========================================================= */
 onAuthStateChanged(auth,async user=>{
   if(!user){
     currentUser = null;
     profile = null;
     stopPresence();
     clearListeners();
-
     $("authScreen").classList.remove("hidden");
     $("app").classList.add("hidden");
     return;
@@ -2919,17 +2751,9 @@ onAuthStateChanged(auth,async user=>{
   currentUser = user;
 
   try{
-    /*
-      This timeout is deliberate:
-      if Firestore/rules/network hangs, the user receives an
-      explicit message instead of being stuck forever at
-      "SIGNING IN...".
-    */
     await Promise.race([
       ensureUserProfile(user).then(()=>loadCurrentProfile()),
-      new Promise((_,reject)=>
-        setTimeout(()=>reject(new Error("PROFILE_LOAD_TIMEOUT")),12000)
-      )
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("PROFILE_LOAD_TIMEOUT")),12000))
     ]);
 
     $("authScreen").classList.add("hidden");
@@ -2942,37 +2766,24 @@ onAuthStateChanged(auth,async user=>{
 
   }catch(error){
     console.error("SWAT profile loading failed:",error);
-
     let message;
-
     if(error.message==="PROFILE_LOAD_TIMEOUT"){
-      message =
-        "Firebase Authentication succeeded, but Firestore did not respond. " +
-        "Check your Firestore Rules and internet connection.";
+      message = "Firebase Authentication succeeded, but Firestore did not respond. Check your Firestore Rules and internet connection.";
     }else if(error.code==="permission-denied"){
-      message =
-        "Login succeeded, but Firestore denied access to the SWAT profile. " +
-        "Update your Firestore Rules.";
+      message = "Login succeeded, but Firestore denied access to the SWAT profile. Update your Firestore Rules.";
     }else{
-      message =
-        "Login succeeded, but the SWAT profile could not be loaded: " +
-        (error.code || error.message || "Unknown error");
+      message = "Login succeeded, but the SWAT profile could not be loaded: "+(error.code || error.message || "Unknown error");
     }
 
     $("authScreen").classList.remove("hidden");
     $("app").classList.add("hidden");
     showMessage(message);
-
     await signOut(auth).catch(()=>{});
   }
 });
 
-/* =========================================================
-   VISIBILITY / PRESENCE
-   ========================================================= */
 document.addEventListener("visibilitychange",()=>{
   if(!currentUser) return;
-
   if(document.visibilityState==="visible"){
     updatePresence("ONLINE");
   }else{
@@ -2981,39 +2792,17 @@ document.addEventListener("visibilitychange",()=>{
 });
 
 window.addEventListener("beforeunload",()=>{
-  /*
-    Best-effort only. Firestore writes during unload are not
-    guaranteed, so the UI also treats old heartbeats as offline.
-  */
   if(currentUser){
     updatePresence("OFFLINE");
   }
 });
 
-/* =========================================================
-   ESC CLOSE MODAL
-   ========================================================= */
 document.addEventListener("keydown",event=>{
-  if(event.key==="Escape"){
-    closeModal();
-  }
+  if(event.key==="Escape"){ closeModal(); }
 });
 
 $("modal").addEventListener("click",event=>{
-  if(event.target === $("modal")){
-    closeModal();
-  }
-});
-
-/* =========================================================
-   GLOBAL SAFETY MESSAGE
-   ========================================================= */
-window.addEventListener("error",event=>{
-  console.error("Application error:",event.error || event.message);
-});
-
-window.addEventListener("unhandledrejection",event=>{
-  console.error("Unhandled promise rejection:",event.reason);
+  if(event.target === $("modal")){ closeModal(); }
 });
 </script>
 </body>
