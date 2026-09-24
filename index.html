@@ -47,9 +47,9 @@ a{color:inherit}
 .auth-shell{position:relative;width:min(455px,100%)}
 .auth-brand{text-align:center;margin-bottom:18px}
 .auth-emblem{
-  width:86px;height:86px;border:1px solid #637689;border-radius:50%;
-  display:grid;place-items:center;margin:0 auto 15px;color:#e7eef5;font-weight:900;font-size:15px;
-  background:radial-gradient(circle,#17222d,#080c12);
+  width:95px;height:95px;border:2px solid #5b9be8;border-radius:50%;
+  margin:0 auto 15px;background-size:cover;background-position:center;
+  box-shadow:0 0 20px rgba(91,155,232,0.3);
 }
 .auth-brand h1{font-size:25px;margin:0;font-weight:900}
 .auth-brand p{font-size:10px;color:#7f8d9d;letter-spacing:2.3px;margin:7px 0 0}
@@ -80,7 +80,8 @@ a{color:inherit}
 }
 .sidebar-brand{padding:5px 10px 18px;border-bottom:1px solid #1c2733;margin-bottom:12px}
 .sidebar-brand .mini{
-  width:37px;height:37px;border:1px solid #526477;border-radius:50%;display:grid;place-items:center;font-size:8px;font-weight:900;float:left;margin-right:10px;
+  width:42px;height:42px;border:1px solid #5b9be8;border-radius:50%;float:left;margin-right:10px;
+  background-size:cover;background-position:center;
 }
 .sidebar-brand strong{display:block;font-size:13px;padding-top:2px}
 .sidebar-brand span{display:block;color:#687789;font-size:8px;letter-spacing:1.2px;margin-top:3px}
@@ -109,7 +110,10 @@ a{color:inherit}
 }
 .page-title{font-weight:800;font-size:14px}
 .page-sub{font-size:9px;color:#617082;letter-spacing:1.2px;margin-top:3px}
-.avatar{width:36px;height:36px;border:1px solid #2b3a49;border-radius:9px;display:grid;place-items:center;background:#111a24;font-size:11px;font-weight:900}
+.avatar{
+  width:38px;height:38px;border:1px solid #5b9be8;border-radius:50%;
+  background-size:cover;background-position:center;
+}
 .content{padding:25px;max-width:1600px;margin:0 auto}
 .view{display:none}
 .view.active{display:block}
@@ -175,7 +179,7 @@ a{color:inherit}
 <section id="authScreen">
   <div class="auth-shell">
     <div class="auth-brand">
-      <div class="auth-emblem">SWAT</div>
+      <div class="auth-emblem" style="background-image: url('https://raw.githubusercontent.com/ss9923984-lang/swat.com/main/file_00000000ae448210b8bd56b5b1ce2ef6.png')"></div>
       <h1>LOS SANTOS SWAT</h1>
       <p>GHOST KARLOS COMMAND PORTAL</p>
     </div>
@@ -226,7 +230,7 @@ a{color:inherit}
 <section id="app" class="hidden">
   <aside class="sidebar">
     <div class="sidebar-brand">
-      <div class="mini">SWAT</div>
+      <div class="mini" style="background-image: url('https://raw.githubusercontent.com/ss9923984-lang/swat.com/main/file_00000000ae448210b8bd56b5b1ce2ef6.png')"></div>
       <strong>LOS SANTOS SWAT</strong>
       <span>GHOST KARLOS PORTAL</span>
       <div style="clear:both"></div>
@@ -259,7 +263,7 @@ a{color:inherit}
       </div>
       <div class="flex gap8" style="align-items:center">
         <span class="badge green" id="onlineIndicator">🟢 ONLINE</span>
-        <div id="topAvatar" class="avatar">GK</div>
+        <div id="topAvatar" class="avatar" style="background-image: url('https://raw.githubusercontent.com/ss9923984-lang/swat.com/main/file_00000000ae448210b8bd56b5b1ce2ef6.png')"></div>
       </div>
     </header>
 
@@ -274,7 +278,7 @@ a{color:inherit}
         </div>
         <div class="card">
           <h3>Welcome, KARLOS SEIFEDDINE (Ghost Karlos)</h3>
-          <p class="muted small">All 3 SWAT Teams (Alpha, Bravo, Charlie), Announcements, Wanted tracking, and Reports hub are fully operational.</p>
+          <p class="muted small">All 3 SWAT Teams (Alpha, Bravo, Charlie), Announcements, Wanted tracking, and Reports hub are fully operational with your official unit emblem.</p>
         </div>
       </section>
 
@@ -369,7 +373,6 @@ a{color:inherit}
 </div>
 
 <script>
-// Admin Credentials & State Definition
 const ADMIN_CREDENTIALS = {
   email: "admin@swat.ls",
   password: "OUSSAMA2010",
@@ -387,7 +390,6 @@ let db = {
   chat: JSON.parse(localStorage.getItem('swat_chat_karlos_v2')) || []
 };
 
-// Ensure Karlos is always present and updated as Commander
 let adminIndex = db.users.findIndex(u => u.email === ADMIN_CREDENTIALS.email || u.name === "KARLOS SEIFEDDINE");
 if (adminIndex >= 0) {
   db.users[adminIndex] = { ...db.users[adminIndex], ...ADMIN_CREDENTIALS };
@@ -408,7 +410,6 @@ function saveDb() {
 
 const $ = id => document.getElementById(id);
 
-// Auth UI Tabs
 $("tabLogin").onclick = () => {
   $("tabLogin").classList.add("active");
   $("tabRegister").classList.remove("active");
@@ -425,7 +426,6 @@ $("tabRegister").onclick = () => {
   $("authMessage").textContent = "";
 };
 
-// Login Logic
 $("loginForm").onsubmit = e => {
   e.preventDefault();
   const email = $("loginEmail").value.trim();
@@ -441,7 +441,6 @@ $("loginForm").onsubmit = e => {
   }
 };
 
-// Register Logic
 $("registerForm").onsubmit = e => {
   e.preventDefault();
   const name = $("registerName").value.trim();
@@ -469,7 +468,6 @@ $("signOutButton").onclick = () => {
   $("authScreen").classList.remove("hidden");
 };
 
-// Navigation
 document.querySelectorAll(".nav-btn").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
@@ -484,33 +482,25 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
   };
 });
 
-// Rank Hierarchy Weight Helper
 function getRankWeight(rank, team) {
   if (rank === "SWAT COMMANDER") return 1;
   if (rank === "SWAT DEPUTY COMMANDER") return 2;
   if (rank === "SWAT SUPERVISOR") return 3;
   
-  // Teams sorting: Alpha Team, Bravo Team, Charlie Team
   let teamWeight = 4;
   if (team === "BRAVO TEAM") teamWeight = 7;
   if (team === "CHARLIE TEAM") teamWeight = 10;
 
   if (rank === "TEAM LEADER") return teamWeight;
   if (rank === "DEPUTY TEAM LEADER") return teamWeight + 1;
-  return teamWeight + 2; // SWAT OPERATOR / RECRUIT
+  return teamWeight + 2;
 }
 
-// App Initialization
 function initApp() {
-  if (!currentUser) {
-    $("authScreen").classList.add("hidden");
-    $("app").classList.remove("hidden"); // fallback or stay
-    return;
-  }
+  if (!currentUser) return;
   $("authScreen").classList.add("hidden");
   $("app").classList.remove("hidden");
 
-  // Check if current user is Karlos Seifeddine (Commander)
   const isKarlos = currentUser.name === "KARLOS SEIFEDDINE";
   if (isKarlos) {
     $("navAdmin").classList.remove("hidden");
@@ -518,7 +508,6 @@ function initApp() {
     $("navAdmin").classList.add("hidden");
   }
 
-  // Check if user can post announcements (Commander, Deputy, Supervisor)
   const canPostAnn = isKarlos || currentUser.rank === "SWAT DEPUTY COMMANDER" || currentUser.rank === "SWAT SUPERVISOR";
   if (canPostAnn) {
     $("openAnnModal").classList.remove("hidden");
@@ -528,7 +517,6 @@ function initApp() {
 
   $("sideUserName").textContent = currentUser.name;
   $("sideUserRank").textContent = currentUser.rank + " · " + (currentUser.team || "COMMAND");
-  $("topAvatar").textContent = currentUser.name.slice(0, 2).toUpperCase();
 
   renderAll();
 }
@@ -538,12 +526,10 @@ function renderAll() {
   $("statOps").textContent = db.operations.length;
   $("statWanted").textContent = db.wanted.length;
 
-  // Sorted Personnel according to strict hierarchy
   let sortedUsers = [...db.users].sort((a, b) => {
     return getRankWeight(a.rank, a.team) - getRankWeight(b.rank, b.team);
   });
 
-  // Personnel Table
   $("personnelTable").innerHTML = sortedUsers.map(u => `
     <tr>
       <td><b>${u.name}</b></td>
@@ -554,7 +540,6 @@ function renderAll() {
     </tr>
   `).join("");
 
-  // Admin Management Table
   if (currentUser && currentUser.name === "KARLOS SEIFEDDINE") {
     $("adminTable").innerHTML = db.users.map((u, idx) => `
       <tr>
@@ -583,7 +568,6 @@ function renderAll() {
     `).join("");
   }
 
-  // Operations List
   $("operationsList").innerHTML = db.operations.length ? db.operations.map((o, idx) => `
     <div class="card" style="margin-bottom:10px">
       <div class="flex-between"><b>${o.title}</b> <span class="badge green">${o.status}</span></div>
@@ -592,7 +576,6 @@ function renderAll() {
     </div>
   `).join("") : `<div class="empty">No operations found.</div>`;
 
-  // Announcements List
   $("announcementsList").innerHTML = db.announcements.length ? db.announcements.map((a, idx) => `
     <div class="notice" style="margin-bottom:10px">
       <div class="flex-between"><b>${a.title}</b> <span class="badge blue">${a.author}</span></div>
@@ -602,13 +585,9 @@ function renderAll() {
     </div>
   `).join("") : `<div class="empty">No announcements published yet.</div>`;
 
-  // Wanted List Render with filter
   renderWantedGrid();
-
-  // Reports Hub Render with filter
   renderReportsList();
 
-  // Chat
   $("chatWindow").innerHTML = db.chat.map(c => `
     <div class="chat-message ${c.name === currentUser.name ? 'mine' : ''}">
       <div class="tiny muted"><b>${c.name}</b> · ${c.time}</div>
@@ -629,7 +608,6 @@ window.changeTeam = (idx, newTeam) => {
   renderAll();
 };
 
-// Wanted Search & Grid
 $("wantedSearch").oninput = renderWantedGrid;
 
 function renderWantedGrid() {
@@ -649,7 +627,6 @@ function renderWantedGrid() {
   `).join("") : `<div class="empty" style="grid-column:1/-1">No wanted suspects found.</div>`;
 }
 
-// Reports Search & List
 $("reportSearch").oninput = renderReportsList;
 
 function renderReportsList() {
@@ -671,7 +648,6 @@ function renderReportsList() {
   `).join("") : `<div class="empty">No reports found matching your search.</div>`;
 }
 
-// Modals & Actions
 function closeModal() { $("modal").classList.remove("show"); }
 
 $("openOpModal").onclick = () => {
@@ -700,7 +676,6 @@ window.deleteOp = idx => {
   renderAll();
 };
 
-// Announcement Modal
 $("openAnnModal").onclick = () => {
   $("modalBox").innerHTML = `
     <div class="modal-head"><h3>New Announcement</h3><button class="close-btn" onclick="closeModal()">×</button></div>
@@ -727,7 +702,6 @@ window.deleteAnn = idx => {
   renderAll();
 };
 
-// Wanted Modal
 $("openWantedModal").onclick = () => {
   $("modalBox").innerHTML = `
     <div class="modal-head"><h3>Add Wanted Suspect</h3><button class="close-btn" onclick="closeModal()">×</button></div>
@@ -756,7 +730,6 @@ window.deleteWanted = idx => {
   renderAll();
 };
 
-// Report Modal
 $("openRepModal").onclick = () => {
   $("modalBox").innerHTML = `
     <div class="modal-head"><h3>New Report</h3><button class="close-btn" onclick="closeModal()">×</button></div>
@@ -770,7 +743,7 @@ $("openRepModal").onclick = () => {
 
 window.saveRep = () => {
   const title = $("repTitle").value.trim();
-  const client = $("repClient").value.trim();
+  const client = $("repClient5" || "repClient").value.trim(); // fallback
   const content = $("repContent").value.trim();
   if(!title || !client) return;
   db.reports.push({ title, client, content, author: currentUser.name });
@@ -785,7 +758,6 @@ window.deleteRep = idx => {
   renderAll();
 };
 
-// Chat Send
 $("sendChat").onclick = () => {
   const text = $("chatInput").value.trim();
   if(!text) return;
@@ -801,7 +773,6 @@ $("sendChat").onclick = () => {
   cw.scrollTop = cw.scrollHeight;
 };
 
-// Run on load
 if(currentUser) initApp();
 </script>
 </body>
