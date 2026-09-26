@@ -3,42 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWAT - Command & Control Center</title>
+    <title>SWAT - SPECIAL WEAPONS AND TACTICS (LOS SANTOS)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; }
+    </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans antialiased">
+<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
 
-    <!-- 🔐 قسم الدخول وإنشاء الحساب -->
-    <div id="auth-section" class="flex items-center justify-center h-screen">
-        <div class="bg-zinc-900 border border-zinc-800 p-8 rounded-xl w-96 shadow-2xl">
+    <!-- 🔐 قسم تسجيل الدخول وإنشاء الحساب (تصميم احترافي متجاوب) -->
+    <div id="auth-section" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-zinc-950 via-zinc-900 to-black">
+        <div class="bg-zinc-900/90 border border-zinc-800 p-6 md:p-8 rounded-2xl w-full max-w-md shadow-2xl backdrop-blur-md">
             <div class="text-center mb-6">
-                <i class="fa-solid fa-shield-halved text-red-600 text-4xl mb-2"></i>
-                <h1 id="auth-title" class="text-2xl font-bold tracking-wider text-red-600">تسجيل الدخول</h1>
-                <p id="auth-subtitle" class="text-zinc-400 text-sm mt-1">لوحة قيادة فرقة SWAT</p>
+                <!-- شعار SWAT اللي طلبته -->
+                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" alt="SWAT Logo" class="w-28 h-28 mx-auto mb-3 object-contain drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                <h1 id="auth-title" class="text-xl md:text-2xl font-black tracking-wider text-red-600">SPECIAL WEAPONS AND TACTICS</h1>
+                <p id="auth-subtitle" class="text-zinc-400 text-xs md:text-sm mt-1">LOS SANTOS - لوحة القيادة والعمليات</p>
             </div>
             
             <form id="auth-form" class="space-y-4">
                 <div id="name-field-container" class="hidden">
-                    <label class="block text-sm text-zinc-400 mb-1">الاسم الكامل / الـ Callsign</label>
-                    <input type="text" id="signup-name" placeholder="مثال: S-01 Ghost" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
+                    <label class="block text-xs text-zinc-400 mb-1">الاسم الكامل / الـ Callsign</label>
+                    <input type="text" id="signup-name" placeholder="مثال: S-01 Ghost" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm text-zinc-400 mb-1">البريد الإلكتروني</label>
-                    <input type="email" id="auth-email" required class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
+                    <label class="block text-xs text-zinc-400 mb-1">البريد الإلكتروني</label>
+                    <input type="email" id="auth-email" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm text-zinc-400 mb-1">كلمة المرور</label>
-                    <input type="password" id="auth-password" required class="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
+                    <label class="block text-xs text-zinc-400 mb-1">كلمة المرور</label>
+                    <input type="password" id="auth-password" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 focus:outline-none focus:border-red-600 text-zinc-100 text-sm">
                 </div>
-                <button type="submit" id="auth-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg transition text-sm">دخول للوحة التحكم</button>
+                <button type="submit" id="auth-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl transition text-sm shadow-lg shadow-red-600/20">دخول للوحة التحكم</button>
             </form>
 
             <p id="auth-error" class="text-red-500 text-xs text-center mt-4"></p>
 
-            <div class="text-center mt-6 border-t border-zinc-800 pt-4">
+            <div class="text-center mt-6 border-t border-zinc-800/80 pt-4">
                 <button id="toggle-auth-mode" class="text-xs text-zinc-400 hover:text-red-500 transition">
                     ليس لديك حساب؟ <span class="text-red-500 font-bold">أنشئ حساباً جديداً</span>
                 </button>
@@ -46,80 +51,189 @@
         </div>
     </div>
 
-    <!-- 📊 لوحة التحكم الرئيسية -->
-    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden">
+    <!-- 📊 لوحة التحكم الرئيسية (متجاوبة للهاتف والكمبيوتر) -->
+    <div id="dashboard-section" class="hidden flex flex-col md:flex-row h-screen overflow-hidden">
         
-        <!-- القائمة الجانبية -->
-        <aside class="w-64 bg-zinc-900 border-r border-zinc-800 p-5 flex flex-col justify-between">
+        <!-- زر القائمة للهواتف -->
+        <div class="md:hidden bg-zinc-900 border-b border-zinc-800 p-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-8 h-8 object-contain">
+                <span class="font-bold text-sm text-red-600">SWAT LOS SANTOS</span>
+            </div>
+            <button onclick="toggleMobileMenu()" class="text-zinc-400 hover:text-white text-lg"><i class="fa-solid fa-bars"></i></button>
+        </div>
+
+        <!-- القائمة الجانبية (Sidebar) -->
+        <aside id="sidebar" class="w-64 bg-zinc-900 border-r border-zinc-800 p-5 flex flex-col justify-between absolute md:relative z-50 h-full md:h-auto -translate-x-full md:translate-x-0 transition-transform duration-300">
             <div>
                 <div class="flex items-center gap-3 mb-8">
-                    <i class="fa-solid fa-shield-halved text-red-600 text-xl"></i>
-                    <h1 class="font-bold tracking-wider text-base">SWAT PANEL</h1>
+                    <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-10 h-10 object-contain">
+                    <div>
+                        <h1 class="font-bold tracking-wider text-sm leading-tight">SWAT COMMAND</h1>
+                        <span class="text-[10px] text-zinc-500">LOS SANTOS DIVISION</span>
+                    </div>
                 </div>
-                <nav class="space-y-1">
-                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-red-600/10 text-red-500 font-medium text-sm">
-                        <i class="fa-solid fa-users w-5"></i> إدارة الأعضاء
-                    </a>
+                <nav class="space-y-1 text-sm">
+                    <a href="#personnel" onclick="switchTab('personnel')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl bg-red-600/10 text-red-500 font-medium"><i class="fa-solid fa-users w-5"></i> Personnel</a>
+                    <a href="#reports" onclick="switchTab('reports')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-file-shield w-5"></i> Reports & Wanted</a>
+                    <a href="#gangs" onclick="switchTab('gangs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-skull-crossbones w-5"></i> Gangs Intelligence</a>
+                    <a href="#operations" onclick="switchTab('operations')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-triangle-exclamation w-5"></i> Operations</a>
+                    <a href="#training" onclick="switchTab('training')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-graduation-cap w-5"></i> Training</a>
+                    <a href="#announcements" onclick="switchTab('announcements')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-bullhorn w-5"></i> Announcements</a>
+                    <a href="#documents" onclick="switchTab('documents')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-folder-open w-5"></i> Documents</a>
+                    <a href="#chat" onclick="switchTab('chat')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-comments w-5"></i> Chat</a>
+                    <a href="#logs" onclick="switchTab('logs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-clipboard-list w-5"></i> Activity Logs</a>
                 </nav>
             </div>
-            <button id="logout-btn" class="w-full flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white py-2 rounded-lg text-sm transition font-medium border border-red-600/30">
+            <button id="logout-btn" class="w-full flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white py-2.5 rounded-xl text-sm transition font-medium border border-red-600/30 mt-4">
                 <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج
             </button>
         </aside>
 
         <!-- المحتوى الرئيسي -->
-        <main class="flex-1 p-8 overflow-y-auto">
-            <header class="flex justify-between items-center mb-8 pb-4 border-b border-zinc-800">
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-4 border-b border-zinc-800 gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold" id="panel-heading">لوحة التحكم</h2>
-                    <p class="text-zinc-400 text-sm">إدارة عناصر العمليات والوحدات الميدانية عبر Firestore</p>
+                    <h2 class="text-xl md:text-2xl font-black" id="panel-heading">إدارة الأفراد والوحدات (Personnel)</h2>
+                    <p class="text-zinc-400 text-xs md:text-sm">نظام إدارة العمليات والفرق الهرمية لفرقة SWAT Los Santos</p>
                 </div>
-                <span id="role-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> متصل
+                <span id="role-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> جاري التحقق...
                 </span>
             </header>
 
-            <!-- نموذج إضافة عنصر (يظهر فقط للقائد) -->
-            <div id="commander-actions" class="hidden bg-zinc-900 border border-zinc-800 p-6 rounded-xl mb-8">
-                <h3 class="text-base font-semibold mb-4 text-red-500 flex items-center gap-2">
-                    <i class="fa-solid fa-user-plus"></i> إضافة عنصر للقاعدة
-                </h3>
-                <form id="add-member-form" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <input type="text" id="fullName" placeholder="الاسم الكامل" required class="bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600">
-                    <input type="text" id="callsign" placeholder="Callsign (مثل: S-01)" required class="bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600">
-                    <input type="text" id="rank" placeholder="الرتبة (مثل: Captain)" required class="bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600">
-                    <input type="text" id="team" placeholder="الفريق (مثل: Alpha)" required class="bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-red-600">
-                    <button type="submit" class="md:col-span-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-medium transition text-sm">حفظ في القاعدة</button>
-                </form>
+            <!-- 1. قسم Personnel -->
+            <div id="tab-personnel" class="tab-content">
+                <div id="commander-actions" class="hidden bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl mb-6 shadow-xl">
+                    <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 flex items-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> إضافة عنصر جديد للقاعدة (خاص بالقيادة)
+                    </h3>
+                    <form id="add-member-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <input type="text" id="fullName" placeholder="الاسم الكامل" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        <input type="text" id="callsign" placeholder="Callsign (مثل: S-01)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        <select id="rank" class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600 text-zinc-300">
+                            <option value="SWAT Commander">SWAT Commander</option>
+                            <option value="SWAT Deputy Commander">SWAT Deputy Commander</option>
+                            <option value="SWAT Supervisor">SWAT Supervisor</option>
+                            <option value="Alpha Commander">Alpha Commander</option>
+                            <option value="Alpha Deputy Commander">Alpha Deputy Commander</option>
+                            <option value="Alpha SWAT Member">Alpha SWAT Member</option>
+                            <option value="Bravo Commander">Bravo Commander</option>
+                            <option value="Bravo Deputy Commander">Bravo Deputy Commander</option>
+                            <option value="Bravo SWAT Member">Bravo SWAT Member</option>
+                            <option value="Charlie Commander">Charlie Commander</option>
+                            <option value="Charlie Deputy Commander">Charlie Deputy Commander</option>
+                            <option value="Charlie SWAT Member">Charlie SWAT Member</option>
+                        </select>
+                        <select id="team" class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600 text-zinc-300">
+                            <option value="Command">Command</option>
+                            <option value="Alpha">Alpha</option>
+                            <option value="Bravo">Bravo</option>
+                            <option value="Charlie">Charlie</option>
+                        </select>
+                        <button type="submit" class="sm:col-span-2 lg:col-span-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold transition text-sm">حفظ العنصر في القاعدة</button>
+                    </form>
+                </div>
+
+                <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="p-4 border-b border-zinc-800 font-bold text-xs md:text-sm text-zinc-300 flex justify-between items-center">
+                        <span>قائمة العناصر والفرق الميدانية (ترتيب هرمي)</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse min-w-[600px]">
+                            <thead>
+                                <tr class="border-b border-zinc-800 text-zinc-400 text-xs bg-zinc-950/50">
+                                    <th class="p-4">الاسم</th>
+                                    <th class="p-4">Callsign</th>
+                                    <th class="p-4">الرتبة الهرمية</th>
+                                    <th class="p-4">الفريق</th>
+                                    <th class="p-4">الحالة</th>
+                                    <th class="p-4" id="actions-header">إجراءات القيادة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="members-table" class="divide-y divide-zinc-800 text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <!-- جدول الأعضاء -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-lg">
-                <div class="p-4 border-b border-zinc-800 font-semibold text-sm text-zinc-300">قائمة العناصر المسجلة</div>
-                <table class="w-full text-right border-collapse">
-                    <thead>
-                        <tr class="border-b border-zinc-800 text-zinc-400 text-xs bg-zinc-950/50">
-                            <th class="p-4">الاسم</th>
-                            <th class="p-4">Callsign</th>
-                            <th class="p-4">الرتبة</th>
-                            <th class="p-4">الفريق</th>
-                            <th class="p-4">الحالة</th>
-                            <th class="p-4" id="actions-header">إجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="members-table" class="divide-y divide-zinc-800 text-sm">
-                        <!-- سيتم جلب الأعضاء هنا برمجياً -->
-                    </tbody>
-                </table>
+            <!-- 2. قسم Reports & Wanted (مع الصور والترتيب الميداني) -->
+            <div id="tab-reports" class="tab-content hidden space-y-6">
+                <div class="bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-base font-bold mb-4 text-red-500 flex items-center gap-2">
+                        <i class="fa-solid fa-file-shield"></i> إنشاء تقرير ميداني أو إضافة مطلوب
+                    </h3>
+                    <form id="report-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="report-title" placeholder="عنوان التقرير أو اسم المطلوب (مثال: مطلوب رئيس عصابة Vagos)" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="url" id="report-image" placeholder="رابط صورة المطلوب أو مسرح الجريمة (Image URL)" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        </div>
+                        <textarea id="report-text" placeholder="تفاصيل التقرير الميداني، الجرائم، أو معلومات القبض..." required rows="4" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600"></textarea>
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm transition font-bold shadow-lg shadow-red-600/20">نشر التقرير الميداني</button>
+                    </form>
+                </div>
+
+                <div class="bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-base font-bold mb-4 text-zinc-200">📁 أرشيف التقارير والمطلوبين الميداني</h3>
+                    <div id="reports-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </div>
+            </div>
+
+            <!-- 3. قسم Gangs Intelligence (مخطط العصابات الجديد) -->
+            <div id="tab-gangs" class="tab-content hidden space-y-6">
+                <!-- إضافة عصابة (للقيادة فقط) -->
+                <div id="gang-action-box" class="hidden bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-base font-bold mb-4 text-red-500 flex items-center gap-2">
+                        <i class="fa-solid fa-skull-crossbones"></i> إنشاء مخطط عصابة جديد (Intelligence)
+                    </h3>
+                    <form id="gang-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" id="gang-name" placeholder="اسم العصابة (مثال: The Families)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="url" id="gang-logo" placeholder="رابط شعار العصابة (Logo URL)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-territory" placeholder="المنطقة / النفوذ (مثال: Davis / Grove St)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="gang-activity" placeholder="النشاط الاجرامي (مثال: تجارة مخدرات، سطو مسلح)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-members" placeholder="أفراد العصابة (أبناء العصابة مفصولين بفاصلة ,)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        </div>
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition shadow-lg shadow-red-600/20">حفظ مخطط العصابة</button>
+                    </form>
+                </div>
+
+                <div class="bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
+                    <h3 class="text-base font-bold mb-4 text-zinc-200">🗂️ ملفات استخبارات العصابات في Los Santos</h3>
+                    <div id="gangs-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- بقية الأقسام -->
+            <div id="tab-operations" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم العمليات الجارية (مخصص للقيادة فقط).</div></div>
+            <div id="tab-training" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم التدريبات والاختبارات (مخصص للقيادة فقط).</div></div>
+            <div id="tab-announcements" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم الإعلانات الرسمية (مخصص للقيادة فقط).</div></div>
+            <div id="tab-documents" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم المستندات والبروتوكولات (مخصص للقيادة فقط).</div></div>
+            <div id="tab-logs" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم سجلات النشاط (مخصص للقيادة فقط).</div></div>
+
+            <!-- 7. قسم Chat (متاح للجميع) -->
+            <div id="tab-chat" class="tab-content hidden">
+                <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 md:p-6 flex flex-col h-[70vh] shadow-xl">
+                    <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 border-b border-zinc-800 pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i> غرفة عمليات الدردشة المباشرة للفرقة
+                    </h3>
+                    <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 mb-4 pr-2"></div>
+                    <form id="chat-form" class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="اكتب رسالتك التشغيلية هنا..." required class="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition">إرسال</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>
 
-    <!-- ⚡ كود البرمجة والربط -->
+    <!-- ⚡ كود البرمجة والمنطق -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCCme2UV_t_VYbE6KybmV53JyU5QBM4sQw",
@@ -131,7 +245,6 @@
             measurementId: "G-NSNZ06CDSJ"
         };
 
-        // 🛑 إيميلك الخاص محدد كقائد رسمي للنظام
         const COMMANDER_EMAIL = "karlosoussama7@gmail.com"; 
 
         const app = initializeApp(firebaseConfig);
@@ -151,51 +264,90 @@
         const logoutBtn = document.getElementById("logout-btn");
         const addMemberForm = document.getElementById("add-member-form");
         const commanderActions = document.getElementById("commander-actions");
+        const gangActionBox = document.getElementById("gang-action-box");
         const membersTable = document.getElementById("members-table");
-        const panelHeading = document.getElementById("panel-heading");
         const roleBadge = document.getElementById("role-badge");
         const actionsHeader = document.getElementById("actions-header");
 
         let isSignUpMode = false;
+        let currentUserEmail = "";
+
+        // القائمة للجوال
+        window.toggleMobileMenu = function() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        }
+
+        // التنقل بين الأقسام
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('bg-red-600/10', 'text-red-500', 'font-medium');
+                el.classList.add('hover:bg-zinc-800', 'text-zinc-400');
+            });
+            event.currentTarget.classList.remove('hover:bg-zinc-800', 'text-zinc-400');
+            event.currentTarget.classList.add('bg-red-600/10', 'text-red-500', 'font-medium');
+            
+            if(window.innerWidth < 768) {
+                document.getElementById("sidebar").classList.add("-translate-x-full");
+            }
+        }
 
         toggleAuthModeBtn.addEventListener("click", () => {
             isSignUpMode = !isSignUpMode;
             authError.textContent = "";
             if (isSignUpMode) {
                 authTitle.textContent = "إنشاء حساب جديد";
-                authSubtitle.textContent = "سجل حسابك الخاص بالفرقة مباشرة";
+                authSubtitle.textContent = "انضم لفرقة SWAT Los Santos";
                 authBtn.textContent = "إتمام التسجيل";
                 nameFieldContainer.classList.remove("hidden");
                 toggleAuthModeBtn.innerHTML = 'لديك حساب بالفعل؟ <span class="text-red-500 font-bold">تسجيل الدخول</span>';
             } else {
-                authTitle.textContent = "تسجيل الدخول";
-                authSubtitle.textContent = "لوحة قيادة فرقة SWAT";
+                authTitle.textContent = "SPECIAL WEAPONS AND TACTICS";
+                authSubtitle.textContent = "LOS SANTOS - لوحة القيادة والعمليات";
                 authBtn.textContent = "دخول للوحة التحكم";
                 nameFieldContainer.classList.add("hidden");
                 toggleAuthModeBtn.innerHTML = 'ليس لديك حساب؟ <span class="text-red-500 font-bold">أنشئ حساباً جديداً</span>';
             }
         });
 
-        // مراقبة حالة الدخول وتحديد الصلاحيات
-        onAuthStateChanged(auth, (user) => {
+        function checkIsLeadership(email, rank = "") {
+            if (email.toLowerCase() === COMMANDER_EMAIL.toLowerCase()) return true;
+            if (rank.includes("Commander") || rank.includes("Supervisor") || rank.includes("Deputy")) return true;
+            return false;
+        }
+
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
+                currentUserEmail = user.email;
                 authSection.classList.add("hidden");
                 dashboardSection.classList.remove("hidden");
 
-                if (user.email.toLowerCase() === COMMANDER_EMAIL.toLowerCase()) {
-                    panelHeading.textContent = "لوحة تحكم القائد (Commander Panel)";
-                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> متصل كقائد`;
-                    roleBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20";
+                const querySnapshot = await getDocs(collection(db, "members"));
+                let userRank = "";
+                querySnapshot.forEach(doc => {
+                    if(doc.data().email === user.email) userRank = doc.data().rank;
+                });
+
+                const isLeadership = checkIsLeadership(user.email, userRank);
+
+                if (isLeadership) {
+                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> القيادة العليا (Command)`;
                     commanderActions.classList.remove("hidden");
+                    gangActionBox.classList.remove("hidden");
                     actionsHeader.style.display = "table-cell";
                 } else {
-                    panelHeading.textContent = "لوحة الأعضاء (Personnel View)";
-                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> متصل كعضو`;
-                    roleBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> عضو ميداني`;
                     commanderActions.classList.add("hidden");
+                    gangActionBox.classList.add("hidden");
                     actionsHeader.style.display = "none";
                 }
-                loadMembers(user.email.toLowerCase() === COMMANDER_EMAIL.toLowerCase());
+
+                loadMembers(isLeadership);
+                loadReports();
+                loadGangs(isLeadership);
+                loadChat();
             } else {
                 dashboardSection.classList.add("hidden");
                 authSection.classList.remove("hidden");
@@ -214,17 +366,18 @@
                     await createUserWithEmailAndPassword(auth, email, password);
                     
                     await addDoc(collection(db, "members"), {
+                        email: email,
                         fullName: fullName,
-                        callsign: "غير محدد",
-                        rank: "Officer",
-                        team: "General",
+                        callsign: "S-New",
+                        rank: "Alpha SWAT Member",
+                        team: "Alpha",
                         status: "Active"
                     });
                 } else {
                     await signInWithEmailAndPassword(auth, email, password);
                 }
             } catch (error) {
-                authError.textContent = "حدث خطأ: تأكد من صحة البريد أو كلمة المرور (6 أحرف على الأقل).";
+                authError.textContent = "خطأ في تسجيل الدخول: تأكد من صحة البريد وكلمة المرور (6 أحرف على الأقل).";
             }
         });
 
@@ -241,55 +394,205 @@
                 const team = document.getElementById("team").value;
 
                 try {
-                    await addDoc(collection(db, "members"), {
-                        fullName, callsign, rank, team, status: "Active"
-                    });
+                    await addDoc(collection(db, "members"), { fullName, callsign, rank, team, status: "Active" });
                     addMemberForm.reset();
                     loadMembers(true);
-                } catch (err) {
-                    console.error(err);
-                }
+                } catch (err) { console.error(err); }
             });
         }
 
-        async function loadMembers(isCommander) {
+        async function loadMembers(isLeadership) {
             membersTable.innerHTML = "";
             try {
                 const querySnapshot = await getDocs(collection(db, "members"));
-                querySnapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
+                let members = [];
+                querySnapshot.forEach((docSnap) => { members.push({ id: docSnap.id, ...docSnap.data() }); });
+
+                const rankOrder = {
+                    "SWAT Commander": 1, "SWAT Deputy Commander": 2, "SWAT Supervisor": 3,
+                    "Alpha Commander": 4, "Alpha Deputy Commander": 5, "Alpha SWAT Member": 6,
+                    "Bravo Commander": 7, "Bravo Deputy Commander": 8, "Bravo SWAT Member": 9,
+                    "Charlie Commander": 10, "Charlie Deputy Commander": 11, "Charlie SWAT Member": 12
+                };
+                members.sort((a, b) => (rankOrder[a.rank] || 99) - (rankOrder[b.rank] || 99));
+
+                members.forEach((data) => {
                     const row = document.createElement("tr");
                     row.className = "hover:bg-zinc-900/50 transition";
                     
-                    let actionTd = isCommander ? `
-                        <td class="p-4">
-                            <button onclick="deleteMember('${docSnap.id}')" class="text-red-400 hover:text-red-300 text-xs bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-3 py-1.5 rounded-lg transition">حذف</button>
+                    let teamBadgeClass = "bg-zinc-800 text-zinc-300";
+                    if (data.team === "Alpha") teamBadgeClass = "bg-blue-600/20 text-blue-400 border border-blue-600/30";
+                    else if (data.team === "Bravo") teamBadgeClass = "bg-amber-600/20 text-amber-400 border border-amber-600/30";
+                    else if (data.team === "Charlie") teamBadgeClass = "bg-emerald-600/20 text-emerald-400 border border-emerald-600/30";
+                    else if (data.team === "Command") teamBadgeClass = "bg-red-600/20 text-red-400 border border-red-600/30";
+
+                    let actionTd = isLeadership ? `
+                        <td class="p-4 flex items-center gap-2">
+                            <button onclick="editMember('${data.id}', '${data.rank}', '${data.team}', '${data.status}')" class="text-blue-400 hover:text-blue-300 text-xs bg-blue-500/15 border border-blue-500/20 px-2.5 py-1 rounded transition">تعديل</button>
+                            <button onclick="deleteMember('${data.id}')" class="text-red-400 hover:text-red-300 text-xs bg-red-500/15 border border-red-500/20 px-2.5 py-1 rounded transition">حذف</button>
                         </td>` : '';
 
                     row.innerHTML = `
                         <td class="p-4 font-medium">${data.fullName}</td>
-                        <td class="p-4 text-red-500 font-bold">${data.callsign}</td>
-                        <td class="p-4 text-zinc-300">${data.rank}</td>
-                        <td class="p-4 text-zinc-300">${data.team}</td>
-                        <td class="p-4"><span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs">${data.status}</span></td>
-                        ${actionTd}
+                        <td class="p-4 text-red-500 font-bold">${data.callsign || 'N/A'}</td>
+                        <td class="p-4 text-zinc-300 font-semibold text-xs">${data.rank}</td>
+                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${teamBadgeClass}">${data.team}</span></td>
+                        <td class="p-4"><span class="px-2.5 py-1 ${data.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'} border rounded-full text-xs">${data.status || 'Active'}</span></td>
+                        ${isLeadership ? actionTd : ''}
                     `;
                     membersTable.appendChild(row);
                 });
-            } catch (err) {
-                console.error(err);
-            }
+            } catch (err) { console.error(err); }
+        }
+
+        window.editMember = async function(id, currentRank, currentTeam, currentStatus) {
+            const newRank = prompt("أدخل الرتبة الهرمية الجديدة:", currentRank);
+            if (!newRank) return;
+            const newTeam = prompt("أدخل الفريق (Command, Alpha, Bravo, Charlie):", currentTeam);
+            if (!newTeam) return;
+            const newStatus = prompt("الحالة (Active / Suspended):", currentStatus || "Active");
+            if (!newStatus) return;
+
+            try {
+                await updateDoc(doc(db, "members", id), { rank: newRank, team: newTeam, status: newStatus });
+                alert("تم التحديث بنجاح!");
+                loadMembers(true);
+            } catch (err) { console.error(err); }
         }
 
         window.deleteMember = async function(id) {
-            if (confirm("هل أنت متأكد من حذف هذا العضو؟")) {
-                try {
-                    await deleteDoc(doc(db, "members", id));
-                    loadMembers(true);
-                } catch (err) {
-                    console.error(err);
-                }
+            if (confirm("هل أنت متأكد من الحذف؟")) {
+                try { await deleteDoc(doc(db, "members", id)); loadMembers(true); } catch (err) { console.error(err); }
             }
+        }
+
+        // قسم التقارير والمطلوبين مع الصور
+        const reportForm = document.getElementById("report-form");
+        reportForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("report-title").value;
+            const image = document.getElementById("report-image").value;
+            const text = document.getElementById("report-text").value;
+
+            try {
+                await addDoc(collection(db, "reports"), { title, image, text, author: currentUserEmail, date: new Date().toLocaleString() });
+                reportForm.reset();
+                loadReports();
+            } catch(err) { console.error(err); }
+        });
+
+        async function loadReports() {
+            const reportsList = document.getElementById("reports-list");
+            reportsList.innerHTML = "";
+            try {
+                const querySnapshot = await getDocs(collection(db, "reports"));
+                querySnapshot.forEach(docSnap => {
+                    const r = docSnap.data();
+                    const div = document.createElement("div");
+                    div.className = "bg-zinc-950 border border-zinc-800/80 p-4 rounded-xl flex flex-col justify-between";
+                    div.innerHTML = `
+                        <div>
+                            ${r.image ? `<img src="${r.image}" class="w-full h-40 object-cover rounded-lg mb-3 border border-zinc-800" onerror="this.style.display='none'">` : ''}
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-red-500 text-sm md:text-base">${r.title}</h4>
+                                <span class="text-[10px] text-zinc-500">${r.date}</span>
+                            </div>
+                            <p class="text-zinc-300 text-xs md:text-sm mb-3 whitespace-pre-line">${r.text}</p>
+                        </div>
+                        <span class="text-[10px] text-zinc-500 border-t border-zinc-900 pt-2">بواسطة: ${r.author}</span>
+                    `;
+                    reportsList.appendChild(div);
+                });
+            } catch(err) { console.error(err); }
+        }
+
+        // قسم مخطط العصابات (Gangs Intelligence)
+        const gangForm = document.getElementById("gang-form");
+        if(gangForm) {
+            gangForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const name = document.getElementById("gang-name").value;
+                const logo = document.getElementById("gang-logo").value;
+                const territory = document.getElementById("gang-territory").value;
+                const activity = document.getElementById("gang-activity").value;
+                const members = document.getElementById("gang-members").value;
+
+                try {
+                    await addDoc(collection(db, "gangs"), { name, logo, territory, activity, members });
+                    gangForm.reset();
+                    loadGangs(true);
+                } catch(err) { console.error(err); }
+            });
+        }
+
+        async function loadGangs(isLeadership) {
+            const gangsList = document.getElementById("gangs-list");
+            gangsList.innerHTML = "";
+            try {
+                const querySnapshot = await getDocs(collection(db, "gangs"));
+                querySnapshot.forEach(docSnap => {
+                    const g = docSnap.data();
+                    const div = document.createElement("div");
+                    div.className = "bg-zinc-950 border border-zinc-800 p-5 rounded-xl flex flex-col justify-between";
+                    div.innerHTML = `
+                        <div>
+                            <div class="flex items-center gap-3 mb-3">
+                                <img src="${g.logo}" class="w-14 h-14 object-cover rounded-xl border border-zinc-800" onerror="this.src='https://via.placeholder.com/150'">
+                                <div>
+                                    <h4 class="font-bold text-red-500 text-base">${g.name}</h4>
+                                    <span class="text-xs text-zinc-400"><i class="fa-solid fa-map-pin text-red-600"></i> ${g.territory}</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-300 mb-2"><strong>النشاط:</strong> ${g.activity}</p>
+                            <p class="text-xs text-zinc-400 mb-4"><strong>الأفراد:</strong> ${g.members}</p>
+                        </div>
+                        ${isLeadership ? `<button onclick="deleteGang('${docSnap.id}')" class="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs transition text-center">حذف ملف العصابة</button>` : ''}
+                    `;
+                    gangsList.appendChild(div);
+                });
+            } catch(err) { console.error(err); }
+        }
+
+        window.deleteGang = async function(id) {
+            if(confirm("هل أنت متأكد من حذف مخطط هذه العصابة؟")) {
+                try { await deleteDoc(doc(db, "gangs", id)); loadGangs(true); } catch(err){console.error(err);}
+            }
+        }
+
+        // قسم Chat
+        const chatForm = document.getElementById("chat-form");
+        chatForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const input = document.getElementById("chat-input");
+            const message = input.value;
+            if(!message.trim()) return;
+
+            try {
+                await addDoc(collection(db, "chat"), { message, sender: currentUserEmail, time: new Date().toLocaleTimeString() });
+                input.value = "";
+            } catch(err) { console.error(err); }
+        });
+
+        function loadChat() {
+            const chatBox = document.getElementById("chat-messages");
+            const q = query(collection(db, "chat"));
+            onSnapshot(q, (snapshot) => {
+                chatBox.innerHTML = "";
+                snapshot.forEach(docSnap => {
+                    const c = docSnap.data();
+                    const msgDiv = document.createElement("div");
+                    msgDiv.className = "bg-zinc-950 border border-zinc-800/60 p-3 rounded-xl text-sm";
+                    msgDiv.innerHTML = `
+                        <div class="flex justify-between items-center mb-1 text-[10px] text-zinc-500">
+                            <span class="font-bold text-red-400">${c.sender}</span>
+                            <span>${c.time}</span>
+                        </div>
+                        <p class="text-zinc-200 text-xs md:text-sm">${c.message}</p>
+                    `;
+                    chatBox.appendChild(msgBox = msgDiv);
+                });
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
         }
     </script>
 </body>
