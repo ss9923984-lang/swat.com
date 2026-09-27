@@ -15,6 +15,46 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
 
+    <!-- 🌟 نافذة الترحيب والتعريف بالـ SWAT (تظهر عند الدخول الأول أو الضغط) -->
+    <div id="welcome-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="bg-zinc-900 border-2 border-red-600/50 rounded-2xl max-w-2xl w-full p-6 md:p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div class="text-center mb-6 border-b border-zinc-800 pb-4">
+                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-20 h-20 mx-auto mb-2 object-contain" onerror="this.src='https://via.placeholder.com/150'">
+                <h2 class="text-xl md:text-2xl font-black text-red-600">SPECIAL WEAPONS AND TACTICS</h2>
+                <p class="text-xs text-zinc-400 mt-1">القائد العام للفرقة: <span class="text-zinc-100 font-bold">KARLOS SEIFEDDINE</span></p>
+            </div>
+
+            <div class="space-y-4 text-xs md:text-sm text-zinc-300">
+                <div>
+                    <h3 class="font-bold text-red-500 mb-1 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> المهام الأساسية:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                        <li>الاستجابة للحالات عالية الخطورة داخل المدينة والتعامل مع المشتبه بهم المسلحين.</li>
+                        <li>تنفيذ عمليات إنقاذ الرهائن وتأمين المواقع والشخصيات المهمة.</li>
+                        <li>دعم وحدات الشرطة وإخلاء المدنيين وتأمين المناطق الخطرة.</li>
+                        <li>التخطيط للعمليات الخاصة، إعداد التقارير، والمشاركة في التدريبات.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-red-500 mb-1 flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> الصلاحيات الممنوحة:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-zinc-400">
+                        <li>الانتقال لمواقع الخطورة العالية وفرض طوق أمني وتوقيف المشتبه بهم.</li>
+                        <li>استخدام مركبات ومعدات SWAT المخصصة وطلب دعم الوحدات الأمنية.</li>
+                        <li>إنشاء التقارير الميدانية ورفعها للقيادة العليا.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-950/30 border border-red-600/30 p-3 rounded-xl text-[11px] text-red-300">
+                    <strong>⚠️ حدود الصلاحيات:</strong> فرقة SWAT تعمل تحت قيادة <strong>SWAT Command (KARLOS SEIFEDDINE)</strong> وتلتزم بقوانين المدينة، ولا تمنح العضوية صلاحية تجاوز القانون أو استخدام القوة دون مبرر.
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="closeWelcomeModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-2.5 rounded-xl text-sm transition shadow-lg shadow-red-600/30">فهمت التعليمات - دخول المقر</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 🔐 قسم تسجيل الدخول وإنشاء الحساب -->
     <div id="auth-section" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-zinc-950 via-zinc-900 to-black">
         <div class="bg-zinc-900/90 border border-zinc-800 p-6 md:p-8 rounded-2xl w-full max-w-md shadow-2xl backdrop-blur-md">
@@ -90,7 +130,7 @@
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-4 border-b border-zinc-800 gap-4">
                 <div>
                     <h2 class="text-xl md:text-2xl font-black" id="panel-heading">إدارة الأفراد والوحدات (Personnel)</h2>
-                    <p class="text-zinc-400 text-xs md:text-sm">نظام إدارة العمليات والفرق الهرمية لفرقة SWAT Los Santos</p>
+                    <p class="text-zinc-400 text-xs md:text-sm">القائد العام: KARLOS SEIFEDDINE | فرقة SWAT Los Santos</p>
                 </div>
                 <span id="role-badge" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20">
                     <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> جاري التحقق...
@@ -101,7 +141,7 @@
             <div id="tab-personnel" class="tab-content">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl">
                     <div class="p-4 border-b border-zinc-800 font-bold text-xs md:text-sm text-zinc-300">
-                        <span>قائمة العناصر والفرق (مرتبة هرمياً تلقائياً)</span>
+                        <span>قائمة العناصر والفرق (مرتبة هرمياً تلقائياً تحت إشراف KARLOS SEIFEDDINE)</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right border-collapse min-w-[600px]">
@@ -121,7 +161,7 @@
                 </div>
             </div>
 
-            <!-- 2. قسم Reports (الورقة البيضاء مع الشعار في الأعلى) -->
+            <!-- 2. قسم Reports (الورقة البيضاء مع الشعار) -->
             <div id="tab-reports" class="tab-content hidden space-y-6">
                 <div class="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-4 rounded-2xl shadow-lg">
                     <span class="text-sm font-bold text-zinc-300"><i class="fa-solid fa-file-lines text-red-500 mr-2"></i> سجل التقارير الأمنية والقضايا</span>
@@ -130,14 +170,14 @@
                     </button>
                 </div>
 
-                <!-- نموذج إنشاء تقرير (ورقة بيضاء رسمية مع الشعار) -->
+                <!-- نموذج إنشاء تقرير -->
                 <div id="report-form-container" class="hidden bg-white text-zinc-900 p-6 md:p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto border-4 border-zinc-300 relative">
                     <div class="flex items-center justify-between border-b border-zinc-300 pb-4 mb-4">
                         <div class="flex items-center gap-3">
                             <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-12 h-12 object-contain" onerror="this.src='https://via.placeholder.com/150'">
                             <div>
                                 <h3 class="text-base md:text-lg font-black text-red-700 tracking-wider">LOS SANTOS POLICE DEPARTMENT</h3>
-                                <p class="text-[10px] text-zinc-500 font-bold">SWAT DIVISION - OFFICIAL REPORT FORM</p>
+                                <p class="text-[10px] text-zinc-500 font-bold">SWAT DIVISION - COMMANDED BY KARLOS SEIFEDDINE</p>
                             </div>
                         </div>
                         <span class="text-[10px] font-mono text-zinc-400 border border-zinc-300 px-2 py-1 rounded">CONFIDENTIAL</span>
@@ -163,7 +203,6 @@
                             <textarea id="rep-text" rows="5" placeholder="اكتب تفاصيل العملية بالكامل..." required class="w-full bg-zinc-100 border border-zinc-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-red-600"></textarea>
                         </div>
                         
-                        <!-- التوقيع والمنصب التلقائي -->
                         <div class="bg-zinc-100 p-4 rounded-xl border border-zinc-300 flex justify-between items-center text-xs">
                             <div>
                                 <span class="font-bold text-zinc-500 block">توقيع المُبلغ:</span>
@@ -182,13 +221,11 @@
                     </form>
                 </div>
 
-                <!-- خانة البحث في التقارير -->
                 <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl flex items-center gap-3">
                     <i class="fa-solid fa-search text-zinc-500"></i>
                     <input type="text" id="search-report-input" oninput="filterReports()" placeholder="ابحث باسم التقرير أو اسم كاتب التقرير..." class="w-full bg-transparent text-sm focus:outline-none text-zinc-200">
                 </div>
 
-                <!-- قائمة التقارير الأرشيفية -->
                 <div id="reports-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
@@ -225,7 +262,7 @@
             <div id="tab-documents" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم المستندات.</div></div>
             <div id="tab-logs" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم السجلات.</div></div>
 
-            <!-- 7. قسم Chat -->
+            <!-- 7. قسم Chat المصلح 100% -->
             <div id="tab-chat" class="tab-content hidden">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 md:p-6 flex flex-col h-[70vh] shadow-xl">
                     <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 border-b border-zinc-800 pb-3 flex items-center gap-2">
@@ -241,7 +278,7 @@
         </main>
     </div>
 
-    <!-- ⚡ كود البرمجة -->
+    <!-- ⚡ كود البرمجة والمنطق المتكامل -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -278,6 +315,7 @@
         const membersTable = document.getElementById("members-table");
         const roleBadge = document.getElementById("role-badge");
         const actionsHeader = document.getElementById("actions-header");
+        const welcomeModal = document.getElementById("welcome-modal");
 
         let isSignUpMode = false;
         let currentUserEmail = "";
@@ -292,6 +330,10 @@
         window.toggleReportForm = function() {
             const formContainer = document.getElementById("report-form-container");
             formContainer.classList.toggle("hidden");
+        }
+
+        window.closeWelcomeModal = function() {
+            welcomeModal.classList.add("hidden");
         }
 
         window.switchTab = function(tabName) {
@@ -314,7 +356,7 @@
             authError.textContent = "";
             if (isSignUpMode) {
                 authTitle.textContent = "إنشاء حساب جديد";
-                authSubtitle.textContent = "انضم لفرقة SWAT Los Santos";
+                authSubtitle.textContent = "انضم لفرقة SWAT تحت إامرة Karlos Seifeddine";
                 authBtn.textContent = "إتمام التسجيل";
                 nameFieldContainer.classList.remove("hidden");
                 toggleAuthModeBtn.innerHTML = 'لديك حساب بالفعل؟ <span class="text-red-500 font-bold">تسجيل الدخول</span>';
@@ -338,6 +380,9 @@
                 currentUserEmail = user.email;
                 authSection.classList.add("hidden");
                 dashboardSection.classList.remove("hidden");
+
+                // إظهار نافذة الترحيب عند الدخول
+                welcomeModal.classList.remove("hidden");
 
                 const querySnapshot = await getDocs(collection(db, "members"));
                 let found = false;
@@ -366,7 +411,7 @@
                 const isLeadership = checkIsLeadership(user.email, currentUserRank);
 
                 if (isLeadership) {
-                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> القيادة العليا (Command)`;
+                    roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> القائد العام: Karlos Seifeddine`;
                     gangActionBox.classList.remove("hidden");
                     actionsHeader.style.display = "table-cell";
                 } else {
@@ -479,7 +524,7 @@
             }
         }
 
-        // تقارير ميدانية تشبه الورقة البيضاء مع شعار SWAT في الأعلى
+        // تقارير ميدانية
         const reportForm = document.getElementById("report-form");
         reportForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -620,7 +665,7 @@
             }
         }
 
-        // شات نشط 100%
+        // شات نشط ومصلح
         const chatForm = document.getElementById("chat-form");
         chatForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -639,9 +684,6 @@
             const q = query(collection(db, "chat"));
             onSnapshot(q, (snapshot) => {
                 chatBox.innerHTML = "";
-                snapshot.docChanges().forEach((change) => {
-                    // or regular snapshot loop
-                });
                 snapshot.forEach(docSnap => {
                     const c = docSnap.data();
                     const msgDiv = document.createElement("div");
