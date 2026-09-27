@@ -15,13 +15,12 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
 
-    <!-- 🔐 قسم تسجيل الدخول وإنشاء الحساب (تصميم احترافي متجاوب) -->
+    <!-- 🔐 قسم تسجيل الدخول وإنشاء الحساب -->
     <div id="auth-section" class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-zinc-950 via-zinc-900 to-black">
         <div class="bg-zinc-900/90 border border-zinc-800 p-6 md:p-8 rounded-2xl w-full max-w-md shadow-2xl backdrop-blur-md">
             <div class="text-center mb-6">
-                <!-- شعار SWAT اللي طلبته -->
-                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" alt="SWAT Logo" class="w-28 h-28 mx-auto mb-3 object-contain drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                <h1 id="auth-title" class="text-xl md:text-2xl font-black tracking-wider text-red-600">SPECIAL WEAPONS AND TACTICS</h1>
+                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" alt="SWAT Logo" class="w-24 h-24 mx-auto mb-3 object-contain drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" onerror="this.src='https://via.placeholder.com/150'">
+                <h1 id="auth-title" class="text-lg md:text-xl font-black tracking-wider text-red-600">SPECIAL WEAPONS AND TACTICS</h1>
                 <p id="auth-subtitle" class="text-zinc-400 text-xs md:text-sm mt-1">LOS SANTOS - لوحة القيادة والعمليات</p>
             </div>
             
@@ -51,29 +50,25 @@
         </div>
     </div>
 
-    <!-- 📊 لوحة التحكم الرئيسية (متجاوبة للهاتف والكمبيوتر) -->
-    <div id="dashboard-section" class="hidden flex flex-col md:flex-row h-screen overflow-hidden">
+    <!-- 📊 لوحة التحكم الرئيسية المتجاوبة -->
+    <div id="dashboard-section" class="hidden flex h-screen overflow-hidden relative">
         
-        <!-- زر القائمة للهواتف -->
-        <div class="md:hidden bg-zinc-900 border-b border-zinc-800 p-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-8 h-8 object-contain">
-                <span class="font-bold text-sm text-red-600">SWAT LOS SANTOS</span>
-            </div>
-            <button onclick="toggleMobileMenu()" class="text-zinc-400 hover:text-white text-lg"><i class="fa-solid fa-bars"></i></button>
+        <!-- زر القائمة للهواتف (Overlay Toggle) -->
+        <div class="md:hidden absolute top-3 left-3 z-50">
+            <button onclick="toggleMobileMenu()" class="bg-zinc-900 border border-zinc-800 text-zinc-200 p-2.5 rounded-xl shadow-lg"><i class="fa-solid fa-bars text-lg"></i></button>
         </div>
 
         <!-- القائمة الجانبية (Sidebar) -->
-        <aside id="sidebar" class="w-64 bg-zinc-900 border-r border-zinc-800 p-5 flex flex-col justify-between absolute md:relative z-50 h-full md:h-auto -translate-x-full md:translate-x-0 transition-transform duration-300">
+        <aside id="sidebar" class="w-64 bg-zinc-900 border-r border-zinc-800 p-5 flex flex-col justify-between absolute md:relative z-40 h-full -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl">
             <div>
-                <div class="flex items-center gap-3 mb-8">
-                    <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-10 h-10 object-contain">
+                <div class="flex items-center gap-3 mb-8 pt-2 md:pt-0">
+                    <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-9 h-9 object-contain" onerror="this.src='https://via.placeholder.com/150'">
                     <div>
-                        <h1 class="font-bold tracking-wider text-sm leading-tight">SWAT COMMAND</h1>
+                        <h1 class="font-bold tracking-wider text-xs leading-tight text-red-500">SWAT COMMAND</h1>
                         <span class="text-[10px] text-zinc-500">LOS SANTOS DIVISION</span>
                     </div>
                 </div>
-                <nav class="space-y-1 text-sm">
+                <nav class="space-y-1.5 text-sm">
                     <a href="#personnel" onclick="switchTab('personnel')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl bg-red-600/10 text-red-500 font-medium"><i class="fa-solid fa-users w-5"></i> Personnel</a>
                     <a href="#reports" onclick="switchTab('reports')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-file-shield w-5"></i> Reports & Wanted</a>
                     <a href="#gangs" onclick="switchTab('gangs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-skull-crossbones w-5"></i> Gangs Intelligence</a>
@@ -91,7 +86,7 @@
         </aside>
 
         <!-- المحتوى الرئيسي -->
-        <main class="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto w-full pt-14 md:pt-8">
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-4 border-b border-zinc-800 gap-4">
                 <div>
                     <h2 class="text-xl md:text-2xl font-black" id="panel-heading">إدارة الأفراد والوحدات (Personnel)</h2>
@@ -104,40 +99,9 @@
 
             <!-- 1. قسم Personnel -->
             <div id="tab-personnel" class="tab-content">
-                <div id="commander-actions" class="hidden bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl mb-6 shadow-xl">
-                    <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 flex items-center gap-2">
-                        <i class="fa-solid fa-user-plus"></i> إضافة عنصر جديد للقاعدة (خاص بالقيادة)
-                    </h3>
-                    <form id="add-member-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                        <input type="text" id="fullName" placeholder="الاسم الكامل" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
-                        <input type="text" id="callsign" placeholder="Callsign (مثل: S-01)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
-                        <select id="rank" class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600 text-zinc-300">
-                            <option value="SWAT Commander">SWAT Commander</option>
-                            <option value="SWAT Deputy Commander">SWAT Deputy Commander</option>
-                            <option value="SWAT Supervisor">SWAT Supervisor</option>
-                            <option value="Alpha Commander">Alpha Commander</option>
-                            <option value="Alpha Deputy Commander">Alpha Deputy Commander</option>
-                            <option value="Alpha SWAT Member">Alpha SWAT Member</option>
-                            <option value="Bravo Commander">Bravo Commander</option>
-                            <option value="Bravo Deputy Commander">Bravo Deputy Commander</option>
-                            <option value="Bravo SWAT Member">Bravo SWAT Member</option>
-                            <option value="Charlie Commander">Charlie Commander</option>
-                            <option value="Charlie Deputy Commander">Charlie Deputy Commander</option>
-                            <option value="Charlie SWAT Member">Charlie SWAT Member</option>
-                        </select>
-                        <select id="team" class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600 text-zinc-300">
-                            <option value="Command">Command</option>
-                            <option value="Alpha">Alpha</option>
-                            <option value="Bravo">Bravo</option>
-                            <option value="Charlie">Charlie</option>
-                        </select>
-                        <button type="submit" class="sm:col-span-2 lg:col-span-4 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold transition text-sm">حفظ العنصر في القاعدة</button>
-                    </form>
-                </div>
-
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl">
-                    <div class="p-4 border-b border-zinc-800 font-bold text-xs md:text-sm text-zinc-300 flex justify-between items-center">
-                        <span>قائمة العناصر والفرق الميدانية (ترتيب هرمي)</span>
+                    <div class="p-4 border-b border-zinc-800 font-bold text-xs md:text-sm text-zinc-300">
+                        <span>قائمة العناصر والفرق (مرتبة هرمياً تلقائياً)</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right border-collapse min-w-[600px]">
@@ -157,46 +121,94 @@
                 </div>
             </div>
 
-            <!-- 2. قسم Reports & Wanted (مع الصور والترتيب الميداني) -->
+            <!-- 2. قسم Reports (الورقة البيضاء مع الشعار في الأعلى) -->
             <div id="tab-reports" class="tab-content hidden space-y-6">
-                <div class="bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
-                    <h3 class="text-base font-bold mb-4 text-red-500 flex items-center gap-2">
-                        <i class="fa-solid fa-file-shield"></i> إنشاء تقرير ميداني أو إضافة مطلوب
-                    </h3>
-                    <form id="report-form" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="report-title" placeholder="عنوان التقرير أو اسم المطلوب (مثال: مطلوب رئيس عصابة Vagos)" required class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
-                            <input type="url" id="report-image" placeholder="رابط صورة المطلوب أو مسرح الجريمة (Image URL)" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                <div class="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-4 rounded-2xl shadow-lg">
+                    <span class="text-sm font-bold text-zinc-300"><i class="fa-solid fa-file-lines text-red-500 mr-2"></i> سجل التقارير الأمنية والقضايا</span>
+                    <button onclick="toggleReportForm()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md">
+                        <i class="fa-solid fa-plus mr-1"></i> إنشاء تقرير ميداني جديد
+                    </button>
+                </div>
+
+                <!-- نموذج إنشاء تقرير (ورقة بيضاء رسمية مع الشعار) -->
+                <div id="report-form-container" class="hidden bg-white text-zinc-900 p-6 md:p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto border-4 border-zinc-300 relative">
+                    <div class="flex items-center justify-between border-b border-zinc-300 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-12 h-12 object-contain" onerror="this.src='https://via.placeholder.com/150'">
+                            <div>
+                                <h3 class="text-base md:text-lg font-black text-red-700 tracking-wider">LOS SANTOS POLICE DEPARTMENT</h3>
+                                <p class="text-[10px] text-zinc-500 font-bold">SWAT DIVISION - OFFICIAL REPORT FORM</p>
+                            </div>
                         </div>
-                        <textarea id="report-text" placeholder="تفاصيل التقرير الميداني، الجرائم، أو معلومات القبض..." required rows="4" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600"></textarea>
-                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm transition font-bold shadow-lg shadow-red-600/20">نشر التقرير الميداني</button>
+                        <span class="text-[10px] font-mono text-zinc-400 border border-zinc-300 px-2 py-1 rounded">CONFIDENTIAL</span>
+                    </div>
+
+                    <form id="report-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-700 mb-1">اسم القضية / عنوان التقرير</label>
+                            <input type="text" id="rep-title" placeholder="مثال: اقتحام بنك اللوتس الرئيسي" required class="w-full bg-zinc-100 border border-zinc-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-red-600">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-700 mb-1">العناصر المشاركون بالحالة</label>
+                                <input type="text" id="rep-participants" placeholder="أسماء أو كودات العناصر المشاركة" required class="w-full bg-zinc-100 border border-zinc-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-red-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-700 mb-1">روابط الصور أو الدلائل (افصل بفاصلة ,)</label>
+                                <input type="text" id="rep-images" placeholder="https://img1.com, https://img2.com" class="w-full bg-zinc-100 border border-zinc-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-red-600">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-700 mb-1">تفاصيل التقرير والأحداث الميدانية</label>
+                            <textarea id="rep-text" rows="5" placeholder="اكتب تفاصيل العملية بالكامل..." required class="w-full bg-zinc-100 border border-zinc-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-red-600"></textarea>
+                        </div>
+                        
+                        <!-- التوقيع والمنصب التلقائي -->
+                        <div class="bg-zinc-100 p-4 rounded-xl border border-zinc-300 flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-bold text-zinc-500 block">توقيع المُبلغ:</span>
+                                <span id="rep-author-sign" class="font-bold text-zinc-900 text-sm">اسم العضو</span>
+                            </div>
+                            <div>
+                                <span class="font-bold text-zinc-500 block">المنصب / الرتبة:</span>
+                                <span id="rep-author-rank" class="font-bold text-red-600 text-sm">الرتبة</span>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-2 pt-2">
+                            <button type="button" onclick="toggleReportForm()" class="bg-zinc-300 hover:bg-zinc-400 text-zinc-800 px-5 py-2 rounded-xl text-xs font-bold">إلغاء</button>
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl text-xs font-bold shadow">حفظ ونشر التقرير</button>
+                        </div>
                     </form>
                 </div>
 
-                <div class="bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
-                    <h3 class="text-base font-bold mb-4 text-zinc-200">📁 أرشيف التقارير والمطلوبين الميداني</h3>
-                    <div id="reports-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                <!-- خانة البحث في التقارير -->
+                <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl flex items-center gap-3">
+                    <i class="fa-solid fa-search text-zinc-500"></i>
+                    <input type="text" id="search-report-input" oninput="filterReports()" placeholder="ابحث باسم التقرير أو اسم كاتب التقرير..." class="w-full bg-transparent text-sm focus:outline-none text-zinc-200">
                 </div>
+
+                <!-- قائمة التقارير الأرشيفية -->
+                <div id="reports-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- 3. قسم Gangs Intelligence (مخطط العصابات الجديد) -->
+            <!-- 3. قسم Gangs Intelligence -->
             <div id="tab-gangs" class="tab-content hidden space-y-6">
-                <!-- إضافة عصابة (للقيادة فقط) -->
                 <div id="gang-action-box" class="hidden bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl shadow-xl">
                     <h3 class="text-base font-bold mb-4 text-red-500 flex items-center gap-2">
                         <i class="fa-solid fa-skull-crossbones"></i> إنشاء مخطط عصابة جديد (Intelligence)
                     </h3>
                     <form id="gang-form" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <input type="text" id="gang-name" placeholder="اسم العصابة (مثال: The Families)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-name" placeholder="اسم العصابة" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
                             <input type="url" id="gang-logo" placeholder="رابط شعار العصابة (Logo URL)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
-                            <input type="text" id="gang-territory" placeholder="المنطقة / النفوذ (مثال: Davis / Grove St)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-territory" placeholder="منطقة النفوذ" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" id="gang-activity" placeholder="النشاط الاجرامي (مثال: تجارة مخدرات، سطو مسلح)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
-                            <input type="text" id="gang-members" placeholder="أفراد العصابة (أبناء العصابة مفصولين بفاصلة ,)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-activity" placeholder="النشاط الإجرامي" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
+                            <input type="text" id="gang-members" placeholder="أفراد العصابة (مفصولين بفاصلة ,)" required class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-red-600">
                         </div>
-                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition shadow-lg shadow-red-600/20">حفظ مخطط العصابة</button>
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-xl text-sm font-bold transition">حفظ مخطط العصابة</button>
                     </form>
                 </div>
 
@@ -207,13 +219,13 @@
             </div>
 
             <!-- بقية الأقسام -->
-            <div id="tab-operations" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم العمليات الجارية (مخصص للقيادة فقط).</div></div>
-            <div id="tab-training" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم التدريبات والاختبارات (مخصص للقيادة فقط).</div></div>
-            <div id="tab-announcements" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم الإعلانات الرسمية (مخصص للقيادة فقط).</div></div>
-            <div id="tab-documents" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم المستندات والبروتوكولات (مخصص للقيادة فقط).</div></div>
-            <div id="tab-logs" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم سجلات النشاط (مخصص للقيادة فقط).</div></div>
+            <div id="tab-operations" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم العمليات الجارية.</div></div>
+            <div id="tab-training" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم التدريبات.</div></div>
+            <div id="tab-announcements" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم الإعلانات.</div></div>
+            <div id="tab-documents" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم المستندات.</div></div>
+            <div id="tab-logs" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم السجلات.</div></div>
 
-            <!-- 7. قسم Chat (متاح للجميع) -->
+            <!-- 7. قسم Chat -->
             <div id="tab-chat" class="tab-content hidden">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 md:p-6 flex flex-col h-[70vh] shadow-xl">
                     <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 border-b border-zinc-800 pb-3 flex items-center gap-2">
@@ -229,7 +241,7 @@
         </main>
     </div>
 
-    <!-- ⚡ كود البرمجة والمنطق -->
+    <!-- ⚡ كود البرمجة -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -262,8 +274,6 @@
         const nameFieldContainer = document.getElementById("name-field-container");
         
         const logoutBtn = document.getElementById("logout-btn");
-        const addMemberForm = document.getElementById("add-member-form");
-        const commanderActions = document.getElementById("commander-actions");
         const gangActionBox = document.getElementById("gang-action-box");
         const membersTable = document.getElementById("members-table");
         const roleBadge = document.getElementById("role-badge");
@@ -271,14 +281,19 @@
 
         let isSignUpMode = false;
         let currentUserEmail = "";
+        let currentUserRank = "Alpha SWAT Member";
+        let allReportsCache = [];
 
-        // القائمة للجوال
         window.toggleMobileMenu = function() {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("-translate-x-full");
         }
 
-        // التنقل بين الأقسام
+        window.toggleReportForm = function() {
+            const formContainer = document.getElementById("report-form-container");
+            formContainer.classList.toggle("hidden");
+        }
+
         window.switchTab = function(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tab-' + tabName).classList.remove('hidden');
@@ -325,21 +340,37 @@
                 dashboardSection.classList.remove("hidden");
 
                 const querySnapshot = await getDocs(collection(db, "members"));
-                let userRank = "";
-                querySnapshot.forEach(doc => {
-                    if(doc.data().email === user.email) userRank = doc.data().rank;
+                let found = false;
+                querySnapshot.forEach(docSnap => {
+                    if(docSnap.data().email === user.email) {
+                        currentUserRank = docSnap.data().rank;
+                        found = true;
+                    }
                 });
 
-                const isLeadership = checkIsLeadership(user.email, userRank);
+                if(!found) {
+                    await addDoc(collection(db, "members"), {
+                        email: user.email,
+                        fullName: user.email.split('@')[0],
+                        callsign: "S-New",
+                        rank: "Alpha SWAT Member",
+                        team: "Alpha",
+                        status: "Active"
+                    });
+                    currentUserRank = "Alpha SWAT Member";
+                }
+
+                document.getElementById("rep-author-sign").textContent = user.email;
+                document.getElementById("rep-author-rank").textContent = currentUserRank;
+
+                const isLeadership = checkIsLeadership(user.email, currentUserRank);
 
                 if (isLeadership) {
                     roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> القيادة العليا (Command)`;
-                    commanderActions.classList.remove("hidden");
                     gangActionBox.classList.remove("hidden");
                     actionsHeader.style.display = "table-cell";
                 } else {
                     roleBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> عضو ميداني`;
-                    commanderActions.classList.add("hidden");
                     gangActionBox.classList.add("hidden");
                     actionsHeader.style.display = "none";
                 }
@@ -364,7 +395,6 @@
                 if (isSignUpMode) {
                     const fullName = document.getElementById("signup-name").value || "عضو جديد";
                     await createUserWithEmailAndPassword(auth, email, password);
-                    
                     await addDoc(collection(db, "members"), {
                         email: email,
                         fullName: fullName,
@@ -377,29 +407,11 @@
                     await signInWithEmailAndPassword(auth, email, password);
                 }
             } catch (error) {
-                authError.textContent = "خطأ في تسجيل الدخول: تأكد من صحة البريد وكلمة المرور (6 أحرف على الأقل).";
+                authError.textContent = "خطأ: تأكد من صحة البريد وكلمة المرور.";
             }
         });
 
-        logoutBtn.addEventListener("click", async () => {
-            await signOut(auth);
-        });
-
-        if (addMemberForm) {
-            addMemberForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const fullName = document.getElementById("fullName").value;
-                const callsign = document.getElementById("callsign").value;
-                const rank = document.getElementById("rank").value;
-                const team = document.getElementById("team").value;
-
-                try {
-                    await addDoc(collection(db, "members"), { fullName, callsign, rank, team, status: "Active" });
-                    addMemberForm.reset();
-                    loadMembers(true);
-                } catch (err) { console.error(err); }
-            });
-        }
+        logoutBtn.addEventListener("click", async () => { await signOut(auth); });
 
         async function loadMembers(isLeadership) {
             membersTable.innerHTML = "";
@@ -412,7 +424,8 @@
                     "SWAT Commander": 1, "SWAT Deputy Commander": 2, "SWAT Supervisor": 3,
                     "Alpha Commander": 4, "Alpha Deputy Commander": 5, "Alpha SWAT Member": 6,
                     "Bravo Commander": 7, "Bravo Deputy Commander": 8, "Bravo SWAT Member": 9,
-                    "Charlie Commander": 10, "Charlie Deputy Commander": 11, "Charlie SWAT Member": 12
+                    "Charlie Commander": 10, "Charlie Deputy Commander": 11, "Charlie SWAT Member": 12,
+                    "عضو جديد": 13
                 };
                 members.sort((a, b) => (rankOrder[a.rank] || 99) - (rankOrder[b.rank] || 99));
 
@@ -428,8 +441,8 @@
 
                     let actionTd = isLeadership ? `
                         <td class="p-4 flex items-center gap-2">
-                            <button onclick="editMember('${data.id}', '${data.rank}', '${data.team}', '${data.status}')" class="text-blue-400 hover:text-blue-300 text-xs bg-blue-500/15 border border-blue-500/20 px-2.5 py-1 rounded transition">تعديل</button>
-                            <button onclick="deleteMember('${data.id}')" class="text-red-400 hover:text-red-300 text-xs bg-red-500/15 border border-red-500/20 px-2.5 py-1 rounded transition">حذف</button>
+                            <button onclick="editMember('${data.id}', '${data.rank}', '${data.team}', '${data.status}')" class="text-blue-400 bg-blue-500/15 border border-blue-500/20 px-2.5 py-1 rounded text-xs">ترتيب وتعديل</button>
+                            <button onclick="deleteMember('${data.id}')" class="text-red-400 bg-red-500/15 border border-red-500/20 px-2.5 py-1 rounded text-xs">حذف</button>
                         </td>` : '';
 
                     row.innerHTML = `
@@ -437,7 +450,7 @@
                         <td class="p-4 text-red-500 font-bold">${data.callsign || 'N/A'}</td>
                         <td class="p-4 text-zinc-300 font-semibold text-xs">${data.rank}</td>
                         <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${teamBadgeClass}">${data.team}</span></td>
-                        <td class="p-4"><span class="px-2.5 py-1 ${data.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'} border rounded-full text-xs">${data.status || 'Active'}</span></td>
+                        <td class="p-4"><span class="px-2.5 py-1 ${data.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'} border rounded-full text-xs">${data.status || 'Active'}</span></td>
                         ${isLeadership ? actionTd : ''}
                     `;
                     membersTable.appendChild(row);
@@ -446,7 +459,7 @@
         }
 
         window.editMember = async function(id, currentRank, currentTeam, currentStatus) {
-            const newRank = prompt("أدخل الرتبة الهرمية الجديدة:", currentRank);
+            const newRank = prompt("أدخل الرتبة الهرمية الجديدة:\n(SWAT Commander, Alpha Commander, Alpha SWAT Member, Bravo SWAT Member, Charlie SWAT Member... etc)", currentRank);
             if (!newRank) return;
             const newTeam = prompt("أدخل الفريق (Command, Alpha, Bravo, Charlie):", currentTeam);
             if (!newTeam) return;
@@ -455,28 +468,37 @@
 
             try {
                 await updateDoc(doc(db, "members", id), { rank: newRank, team: newTeam, status: newStatus });
-                alert("تم التحديث بنجاح!");
-                loadMembers(true);
+                alert("تم تحديث رتبة العضو وترتيبه بنجاح!");
+                location.reload();
             } catch (err) { console.error(err); }
         }
 
         window.deleteMember = async function(id) {
             if (confirm("هل أنت متأكد من الحذف؟")) {
-                try { await deleteDoc(doc(db, "members", id)); loadMembers(true); } catch (err) { console.error(err); }
+                try { await deleteDoc(doc(db, "members", id)); location.reload(); } catch (err) { console.error(err); }
             }
         }
 
-        // قسم التقارير والمطلوبين مع الصور
+        // تقارير ميدانية تشبه الورقة البيضاء مع شعار SWAT في الأعلى
         const reportForm = document.getElementById("report-form");
         reportForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const title = document.getElementById("report-title").value;
-            const image = document.getElementById("report-image").value;
-            const text = document.getElementById("report-text").value;
+            const title = document.getElementById("rep-title").value;
+            const participants = document.getElementById("rep-participants").value;
+            const imagesRaw = document.getElementById("rep-images").value;
+            const text = document.getElementById("rep-text").value;
+
+            const images = imagesRaw ? imagesRaw.split(',').map(s => s.trim()) : [];
 
             try {
-                await addDoc(collection(db, "reports"), { title, image, text, author: currentUserEmail, date: new Date().toLocaleString() });
+                await addDoc(collection(db, "reports"), {
+                    title, participants, images, text,
+                    author: currentUserEmail,
+                    rank: currentUserRank,
+                    date: new Date().toLocaleString()
+                });
                 reportForm.reset();
+                toggleReportForm();
                 loadReports();
             } catch(err) { console.error(err); }
         });
@@ -486,27 +508,66 @@
             reportsList.innerHTML = "";
             try {
                 const querySnapshot = await getDocs(collection(db, "reports"));
+                allReportsCache = [];
                 querySnapshot.forEach(docSnap => {
-                    const r = docSnap.data();
-                    const div = document.createElement("div");
-                    div.className = "bg-zinc-950 border border-zinc-800/80 p-4 rounded-xl flex flex-col justify-between";
-                    div.innerHTML = `
-                        <div>
-                            ${r.image ? `<img src="${r.image}" class="w-full h-40 object-cover rounded-lg mb-3 border border-zinc-800" onerror="this.style.display='none'">` : ''}
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-red-500 text-sm md:text-base">${r.title}</h4>
-                                <span class="text-[10px] text-zinc-500">${r.date}</span>
-                            </div>
-                            <p class="text-zinc-300 text-xs md:text-sm mb-3 whitespace-pre-line">${r.text}</p>
-                        </div>
-                        <span class="text-[10px] text-zinc-500 border-t border-zinc-900 pt-2">بواسطة: ${r.author}</span>
-                    `;
-                    reportsList.appendChild(div);
+                    allReportsCache.push(docSnap.data());
                 });
+                renderReports(allReportsCache);
             } catch(err) { console.error(err); }
         }
 
-        // قسم مخطط العصابات (Gangs Intelligence)
+        function renderReports(reports) {
+            const reportsList = document.getElementById("reports-list");
+            reportsList.innerHTML = "";
+            reports.forEach(r => {
+                let imagesHtml = '';
+                if(r.images && r.images.length > 0) {
+                    imagesHtml = `<div class="grid grid-cols-2 gap-2 my-2">`;
+                    r.images.forEach(img => {
+                        imagesHtml += `<img src="${img}" class="w-full h-32 object-cover rounded border border-zinc-300" onerror="this.style.display='none'">`;
+                    });
+                    imagesHtml += `</div>`;
+                }
+
+                const div = document.createElement("div");
+                div.className = "bg-white text-zinc-900 border-2 border-zinc-300 p-5 rounded-2xl shadow-lg flex flex-col justify-between relative";
+                div.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between border-b border-zinc-200 pb-3 mb-3">
+                            <div class="flex items-center gap-2">
+                                <img src="file_00000000ae448210b8bd56b5b1ce2ef6.png" class="w-9 h-9 object-contain" onerror="this.src='https://via.placeholder.com/150'">
+                                <h4 class="font-black text-red-600 text-sm md:text-base">${r.title}</h4>
+                            </div>
+                            <span class="text-[10px] text-zinc-500 font-mono">${r.date}</span>
+                        </div>
+                        <p class="text-xs text-zinc-700 mb-2"><strong>المشاركون بالحالة:</strong> ${r.participants}</p>
+                        <p class="text-zinc-800 text-xs md:text-sm mb-4 whitespace-pre-line leading-relaxed">${r.text}</p>
+                        ${imagesHtml}
+                    </div>
+                    <div class="border-t border-zinc-200 pt-3 mt-4 flex justify-between items-end text-[11px]">
+                        <div>
+                            <span class="text-zinc-500 block">المُبلغ:</span>
+                            <span class="font-bold text-zinc-900">${r.author}</span>
+                        </div>
+                        <div class="text-left">
+                            <span class="text-zinc-500 block">المنصب:</span>
+                            <span class="font-bold text-red-600">${r.rank}</span>
+                        </div>
+                    </div>
+                `;
+                reportsList.appendChild(div);
+            });
+        }
+
+        window.filterReports = function() {
+            const queryVal = document.getElementById("search-report-input").value.toLowerCase();
+            const filtered = allReportsCache.filter(r => 
+                r.title.toLowerCase().includes(queryVal) || r.author.toLowerCase().includes(queryVal)
+            );
+            renderReports(filtered);
+        }
+
+        // مخطط العصابات
         const gangForm = document.getElementById("gang-form");
         if(gangForm) {
             gangForm.addEventListener("submit", async (e) => {
@@ -537,7 +598,7 @@
                     div.innerHTML = `
                         <div>
                             <div class="flex items-center gap-3 mb-3">
-                                <img src="${g.logo}" class="w-14 h-14 object-cover rounded-xl border border-zinc-800" onerror="this.src='https://via.placeholder.com/150'">
+                                <img src="${g.logo}" class="w-14 h-14 object-cover rounded-xl border border-zinc-850" onerror="this.src='https://via.placeholder.com/150'">
                                 <div>
                                     <h4 class="font-bold text-red-500 text-base">${g.name}</h4>
                                     <span class="text-xs text-zinc-400"><i class="fa-solid fa-map-pin text-red-600"></i> ${g.territory}</span>
@@ -546,7 +607,7 @@
                             <p class="text-xs text-zinc-300 mb-2"><strong>النشاط:</strong> ${g.activity}</p>
                             <p class="text-xs text-zinc-400 mb-4"><strong>الأفراد:</strong> ${g.members}</p>
                         </div>
-                        ${isLeadership ? `<button onclick="deleteGang('${docSnap.id}')" class="text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs transition text-center">حذف ملف العصابة</button>` : ''}
+                        ${isLeadership ? `<button onclick="deleteGang('${docSnap.id}')" class="text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs transition text-center">حذف مخطط العصابة</button>` : ''}
                     `;
                     gangsList.appendChild(div);
                 });
@@ -559,7 +620,7 @@
             }
         }
 
-        // قسم Chat
+        // شات نشط 100%
         const chatForm = document.getElementById("chat-form");
         chatForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -578,6 +639,9 @@
             const q = query(collection(db, "chat"));
             onSnapshot(q, (snapshot) => {
                 chatBox.innerHTML = "";
+                snapshot.docChanges().forEach((change) => {
+                    // or regular snapshot loop
+                });
                 snapshot.forEach(docSnap => {
                     const c = docSnap.data();
                     const msgDiv = document.createElement("div");
@@ -589,7 +653,7 @@
                         </div>
                         <p class="text-zinc-200 text-xs md:text-sm">${c.message}</p>
                     `;
-                    chatBox.appendChild(msgBox = msgDiv);
+                    chatBox.appendChild(msgDiv);
                 });
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
