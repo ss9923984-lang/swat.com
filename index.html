@@ -15,7 +15,7 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-red-600 selection:text-white">
 
-    <!-- 🌟 نافذة الترحيب والتعريف بالـ SWAT (تظهر عند الدخول الأول أو الضغط) -->
+    <!-- 🌟 نافذة الترحيب والتعريف بالـ SWAT -->
     <div id="welcome-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="bg-zinc-900 border-2 border-red-600/50 rounded-2xl max-w-2xl w-full p-6 md:p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
             <div class="text-center mb-6 border-b border-zinc-800 pb-4">
@@ -50,7 +50,7 @@
             </div>
 
             <div class="mt-6 text-center">
-                <button onclick="closeWelcomeModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-2.5 rounded-xl text-sm transition shadow-lg shadow-red-600/30">فهمت التعليمات - دخول المقر</button>
+                <button onclick="closeWelcomeModal()" type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-2.5 rounded-xl text-sm transition shadow-lg shadow-red-600/30">فهمت التعليمات - دخول المقر</button>
             </div>
         </div>
     </div>
@@ -83,22 +83,20 @@
             <p id="auth-error" class="text-red-500 text-xs text-center mt-4"></p>
 
             <div class="text-center mt-6 border-t border-zinc-800/80 pt-4">
-                <button id="toggle-auth-mode" class="text-xs text-zinc-400 hover:text-red-500 transition">
+                <button id="toggle-auth-mode" type="button" class="text-xs text-zinc-400 hover:text-red-500 transition">
                     ليس لديك حساب؟ <span class="text-red-500 font-bold">أنشئ حساباً جديداً</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 📊 لوحة التحكم الرئيسية المتجاوبة -->
+    <!-- 📊 لوحة التحكم الرئيسية -->
     <div id="dashboard-section" class="hidden flex h-screen overflow-hidden relative">
         
-        <!-- زر القائمة للهواتف (Overlay Toggle) -->
         <div class="md:hidden absolute top-3 left-3 z-50">
-            <button onclick="toggleMobileMenu()" class="bg-zinc-900 border border-zinc-800 text-zinc-200 p-2.5 rounded-xl shadow-lg"><i class="fa-solid fa-bars text-lg"></i></button>
+            <button onclick="toggleMobileMenu()" type="button" class="bg-zinc-900 border border-zinc-800 text-zinc-200 p-2.5 rounded-xl shadow-lg"><i class="fa-solid fa-bars text-lg"></i></button>
         </div>
 
-        <!-- القائمة الجانبية (Sidebar) -->
         <aside id="sidebar" class="w-64 bg-zinc-900 border-r border-zinc-800 p-5 flex flex-col justify-between absolute md:relative z-40 h-full -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl">
             <div>
                 <div class="flex items-center gap-3 mb-8 pt-2 md:pt-0">
@@ -109,18 +107,18 @@
                     </div>
                 </div>
                 <nav class="space-y-1.5 text-sm">
-                    <a href="#personnel" onclick="switchTab('personnel')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl bg-red-600/10 text-red-500 font-medium"><i class="fa-solid fa-users w-5"></i> Personnel</a>
-                    <a href="#reports" onclick="switchTab('reports')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-file-shield w-5"></i> Reports & Wanted</a>
-                    <a href="#gangs" onclick="switchTab('gangs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-skull-crossbones w-5"></i> Gangs Intelligence</a>
-                    <a href="#operations" onclick="switchTab('operations')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-triangle-exclamation w-5"></i> Operations</a>
-                    <a href="#training" onclick="switchTab('training')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-graduation-cap w-5"></i> Training</a>
-                    <a href="#announcements" onclick="switchTab('announcements')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-bullhorn w-5"></i> Announcements</a>
-                    <a href="#documents" onclick="switchTab('documents')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-folder-open w-5"></i> Documents</a>
-                    <a href="#chat" onclick="switchTab('chat')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-comments w-5"></i> Chat</a>
-                    <a href="#logs" onclick="switchTab('logs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-clipboard-list w-5"></i> Activity Logs</a>
+                    <a href="#personnel" onclick="switchTab(event, 'personnel')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl bg-red-600/10 text-red-500 font-medium"><i class="fa-solid fa-users w-5"></i> Personnel</a>
+                    <a href="#reports" onclick="switchTab(event, 'reports')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-file-shield w-5"></i> Reports & Wanted</a>
+                    <a href="#gangs" onclick="switchTab(event, 'gangs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-skull-crossbones w-5"></i> Gangs Intelligence</a>
+                    <a href="#operations" onclick="switchTab(event, 'operations')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-triangle-exclamation w-5"></i> Operations</a>
+                    <a href="#training" onclick="switchTab(event, 'training')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-graduation-cap w-5"></i> Training</a>
+                    <a href="#announcements" onclick="switchTab(event, 'announcements')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-bullhorn w-5"></i> Announcements</a>
+                    <a href="#documents" onclick="switchTab(event, 'documents')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-folder-open w-5"></i> Documents</a>
+                    <a href="#chat" onclick="switchTab(event, 'chat')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-comments w-5"></i> Chat</a>
+                    <a href="#logs" onclick="switchTab(event, 'logs')" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-zinc-800 text-zinc-400"><i class="fa-solid fa-clipboard-list w-5"></i> Activity Logs</a>
                 </nav>
             </div>
-            <button id="logout-btn" class="w-full flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white py-2.5 rounded-xl text-sm transition font-medium border border-red-600/30 mt-4">
+            <button id="logout-btn" type="button" class="w-full flex items-center justify-center gap-2 bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white py-2.5 rounded-xl text-sm transition font-medium border border-red-600/30 mt-4">
                 <i class="fa-solid fa-right-from-bracket"></i> تسجيل خروج
             </button>
         </aside>
@@ -141,7 +139,7 @@
             <div id="tab-personnel" class="tab-content">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl">
                     <div class="p-4 border-b border-zinc-800 font-bold text-xs md:text-sm text-zinc-300">
-                        <span>قائمة العناصر والفرق (مرتبة هرمياً تلقائياً تحت إشراف KARLOS SEIFEDDINE)</span>
+                        <span>قائمة العناصر والفرق (تحت إشراف القائد العام KARLOS SEIFEDDINE)</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-right border-collapse min-w-[600px]">
@@ -161,16 +159,15 @@
                 </div>
             </div>
 
-            <!-- 2. قسم Reports (الورقة البيضاء مع الشعار) -->
+            <!-- 2. قسم Reports -->
             <div id="tab-reports" class="tab-content hidden space-y-6">
                 <div class="flex justify-between items-center bg-zinc-900 border border-zinc-800 p-4 rounded-2xl shadow-lg">
                     <span class="text-sm font-bold text-zinc-300"><i class="fa-solid fa-file-lines text-red-500 mr-2"></i> سجل التقارير الأمنية والقضايا</span>
-                    <button onclick="toggleReportForm()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md">
+                    <button onclick="toggleReportForm()" type="button" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md">
                         <i class="fa-solid fa-plus mr-1"></i> إنشاء تقرير ميداني جديد
                     </button>
                 </div>
 
-                <!-- نموذج إنشاء تقرير -->
                 <div id="report-form-container" class="hidden bg-white text-zinc-900 p-6 md:p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto border-4 border-zinc-300 relative">
                     <div class="flex items-center justify-between border-b border-zinc-300 pb-4 mb-4">
                         <div class="flex items-center gap-3">
@@ -262,7 +259,7 @@
             <div id="tab-documents" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم المستندات.</div></div>
             <div id="tab-logs" class="tab-content hidden"><div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl text-zinc-400">قسم السجلات.</div></div>
 
-            <!-- 7. قسم Chat المصلح 100% -->
+            <!-- 7. قسم Chat -->
             <div id="tab-chat" class="tab-content hidden">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 md:p-6 flex flex-col h-[70vh] shadow-xl">
                     <h3 class="text-sm md:text-base font-bold mb-4 text-red-500 border-b border-zinc-800 pb-3 flex items-center gap-2">
@@ -336,15 +333,15 @@
             welcomeModal.classList.add("hidden");
         }
 
-        window.switchTab = function(tabName) {
+        window.switchTab = function(e, tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tab-' + tabName).classList.remove('hidden');
             document.querySelectorAll('.nav-link').forEach(el => {
                 el.classList.remove('bg-red-600/10', 'text-red-500', 'font-medium');
                 el.classList.add('hover:bg-zinc-800', 'text-zinc-400');
             });
-            event.currentTarget.classList.remove('hover:bg-zinc-800', 'text-zinc-400');
-            event.currentTarget.classList.add('bg-red-600/10', 'text-red-500', 'font-medium');
+            e.currentTarget.classList.remove('hover:bg-zinc-800', 'text-zinc-400');
+            e.currentTarget.classList.add('bg-red-600/10', 'text-red-500', 'font-medium');
             
             if(window.innerWidth < 768) {
                 document.getElementById("sidebar").classList.add("-translate-x-full");
@@ -356,7 +353,7 @@
             authError.textContent = "";
             if (isSignUpMode) {
                 authTitle.textContent = "إنشاء حساب جديد";
-                authSubtitle.textContent = "انضم لفرقة SWAT تحت إامرة Karlos Seifeddine";
+                authSubtitle.textContent = "انضم لفرقة SWAT تحت إمرة Karlos Seifeddine";
                 authBtn.textContent = "إتمام التسجيل";
                 nameFieldContainer.classList.remove("hidden");
                 toggleAuthModeBtn.innerHTML = 'لديك حساب بالفعل؟ <span class="text-red-500 font-bold">تسجيل الدخول</span>';
@@ -380,29 +377,31 @@
                 currentUserEmail = user.email;
                 authSection.classList.add("hidden");
                 dashboardSection.classList.remove("hidden");
-
-                // إظهار نافذة الترحيب عند الدخول
                 welcomeModal.classList.remove("hidden");
 
-                const querySnapshot = await getDocs(collection(db, "members"));
-                let found = false;
-                querySnapshot.forEach(docSnap => {
-                    if(docSnap.data().email === user.email) {
-                        currentUserRank = docSnap.data().rank;
-                        found = true;
-                    }
-                });
-
-                if(!found) {
-                    await addDoc(collection(db, "members"), {
-                        email: user.email,
-                        fullName: user.email.split('@')[0],
-                        callsign: "S-New",
-                        rank: "Alpha SWAT Member",
-                        team: "Alpha",
-                        status: "Active"
+                try {
+                    const querySnapshot = await getDocs(collection(db, "members"));
+                    let found = false;
+                    querySnapshot.forEach(docSnap => {
+                        if(docSnap.data().email === user.email) {
+                            currentUserRank = docSnap.data().rank;
+                            found = true;
+                        }
                     });
-                    currentUserRank = "Alpha SWAT Member";
+
+                    if(!found) {
+                        await addDoc(collection(db, "members"), {
+                            email: user.email,
+                            fullName: user.email.split('@')[0],
+                            callsign: "S-New",
+                            rank: "Alpha SWAT Member",
+                            team: "Alpha",
+                            status: "Active"
+                        });
+                        currentUserRank = "Alpha SWAT Member";
+                    }
+                } catch(e) {
+                    console.error("Error checking members:", e);
                 }
 
                 document.getElementById("rep-author-sign").textContent = user.email;
@@ -452,11 +451,17 @@
                     await signInWithEmailAndPassword(auth, email, password);
                 }
             } catch (error) {
-                authError.textContent = "خطأ: تأكد من صحة البريد وكلمة المرور.";
+                authError.textContent = "خطأ: تأكد من صحة البريد وكلمة المرور أو أن الحساب موجود مسبقاً.";
             }
         });
 
-        logoutBtn.addEventListener("click", async () => { await signOut(auth); });
+        logoutBtn.addEventListener("click", async () => { 
+            try {
+                await signOut(auth);
+            } catch (err) {
+                console.error(err);
+            }
+        });
 
         async function loadMembers(isLeadership) {
             membersTable.innerHTML = "";
@@ -486,25 +491,25 @@
 
                     let actionTd = isLeadership ? `
                         <td class="p-4 flex items-center gap-2">
-                            <button onclick="editMember('${data.id}', '${data.rank}', '${data.team}', '${data.status}')" class="text-blue-400 bg-blue-500/15 border border-blue-500/20 px-2.5 py-1 rounded text-xs">ترتيب وتعديل</button>
-                            <button onclick="deleteMember('${data.id}')" class="text-red-400 bg-red-500/15 border border-red-500/20 px-2.5 py-1 rounded text-xs">حذف</button>
+                            <button onclick="editMember('${data.id}', '${data.rank}', '${data.team}', '${data.status}')" type="button" class="text-blue-400 bg-blue-500/15 border border-blue-500/20 px-2.5 py-1 rounded text-xs">ترتيب وتعديل</button>
+                            <button onclick="deleteMember('${data.id}')" type="button" class="text-red-400 bg-red-500/15 border border-red-500/20 px-2.5 py-1 rounded text-xs">حذف</button>
                         </td>` : '';
 
                     row.innerHTML = `
-                        <td class="p-4 font-medium">${data.fullName}</td>
+                        <td class="p-4 font-medium">${data.fullName || data.email}</td>
                         <td class="p-4 text-red-500 font-bold">${data.callsign || 'N/A'}</td>
-                        <td class="p-4 text-zinc-300 font-semibold text-xs">${data.rank}</td>
-                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${teamBadgeClass}">${data.team}</span></td>
+                        <td class="p-4 text-zinc-300 font-semibold text-xs">${data.rank || 'Alpha SWAT Member'}</td>
+                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${teamBadgeClass}">${data.team || 'Alpha'}</span></td>
                         <td class="p-4"><span class="px-2.5 py-1 ${data.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'} border rounded-full text-xs">${data.status || 'Active'}</span></td>
                         ${isLeadership ? actionTd : ''}
                     `;
                     membersTable.appendChild(row);
                 });
-            } catch (err) { console.error(err); }
+            } catch (err) { console.error("Error loading members:", err); }
         }
 
         window.editMember = async function(id, currentRank, currentTeam, currentStatus) {
-            const newRank = prompt("أدخل الرتبة الهرمية الجديدة:\n(SWAT Commander, Alpha Commander, Alpha SWAT Member, Bravo SWAT Member, Charlie SWAT Member... etc)", currentRank);
+            const newRank = prompt("أدخل الرتبة الهرمية الجديدة:", currentRank);
             if (!newRank) return;
             const newTeam = prompt("أدخل الفريق (Command, Alpha, Bravo, Charlie):", currentTeam);
             if (!newTeam) return;
@@ -513,14 +518,17 @@
 
             try {
                 await updateDoc(doc(db, "members", id), { rank: newRank, team: newTeam, status: newStatus });
-                alert("تم تحديث رتبة العضو وترتيبه بنجاح!");
+                alert("تم تحديث بيانات العضو بنجاح!");
                 location.reload();
             } catch (err) { console.error(err); }
         }
 
         window.deleteMember = async function(id) {
             if (confirm("هل أنت متأكد من الحذف؟")) {
-                try { await deleteDoc(doc(db, "members", id)); location.reload(); } catch (err) { console.error(err); }
+                try { 
+                    await deleteDoc(doc(db, "members", id)); 
+                    location.reload(); 
+                } catch (err) { console.error(err); }
             }
         }
 
@@ -652,7 +660,7 @@
                             <p class="text-xs text-zinc-300 mb-2"><strong>النشاط:</strong> ${g.activity}</p>
                             <p class="text-xs text-zinc-400 mb-4"><strong>الأفراد:</strong> ${g.members}</p>
                         </div>
-                        ${isLeadership ? `<button onclick="deleteGang('${docSnap.id}')" class="text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs transition text-center">حذف مخطط العصابة</button>` : ''}
+                        ${isLeadership ? `<button onclick="deleteGang('${docSnap.id}')" type="button" class="text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs transition text-center">حذف مخطط العصابة</button>` : ''}
                     `;
                     gangsList.appendChild(div);
                 });
@@ -665,7 +673,7 @@
             }
         }
 
-        // شات نشط ومصلح
+        // شات نشط
         const chatForm = document.getElementById("chat-form");
         chatForm.addEventListener("submit", async (e) => {
             e.preventDefault();
